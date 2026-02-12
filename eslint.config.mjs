@@ -29,4 +29,8 @@ export default tseslint.config(
     files: ['**/*.mjs', '**/*.js'],
     ...tseslint.configs.disableTypeChecked,
   },
+  {
+    files: ['packages/engine/src/__tests__/**/*.test.ts'],
+    ...tseslint.configs.disableTypeChecked,
+  },
 );
