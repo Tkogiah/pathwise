@@ -13,8 +13,6 @@ interface RoadmapSummary {
   templateName: string;
 }
 
-const LOCAL_STORAGE_KEY = 'pathwise-demo-user-id';
-
 export function ClientRoadmapShell({
   roadmaps,
   initialRoadmap,
@@ -29,7 +27,8 @@ export function ClientRoadmapShell({
     null,
   );
 
-  // Initialize demo user from localStorage
+  const LOCAL_STORAGE_KEY = 'pathwise-demo-user-id';
+
   useEffect(() => {
     const savedUserId = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (savedUserId) {
@@ -39,7 +38,6 @@ export function ClientRoadmapShell({
     }
   }, []);
 
-  // Persist demo user to localStorage
   useEffect(() => {
     if (currentDemoUserId) {
       localStorage.setItem(LOCAL_STORAGE_KEY, currentDemoUserId);

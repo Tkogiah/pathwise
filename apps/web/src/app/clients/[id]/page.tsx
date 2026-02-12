@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { apiFetch } from '@/lib/api';
 import { RoadmapVM } from '@/lib/types';
 import { ClientRoadmapShell } from '@/components/ClientRoadmapShell';
+import { EmptyState } from '@/components/EmptyState'; // Import EmptyState
 
 interface RoadmapSummary {
   roadmapId: string;
@@ -45,9 +46,9 @@ export default async function ClientDetailPage({
       </h1>
 
       {!roadmap ? (
-        <p className="mt-6 text-sm text-gray-500">
-          No active roadmaps for this client.
-        </p>
+        <section className="mt-6">
+          <EmptyState message="This client has no roadmaps assigned to them." />
+        </section>
       ) : (
         <section className="mt-6">
           <ClientRoadmapShell

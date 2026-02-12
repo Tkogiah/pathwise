@@ -21,7 +21,7 @@ export function RoadmapView({
   initialRoadmap: RoadmapVM;
   currentDemoUserId: string | null;
 }) {
-  const [roadmap, setRoadmap] = useState(initialRoadmap);
+  const [currentRoadmap, setCurrentRoadmap] = useState(initialRoadmap);
   const [selectedStageId, setSelectedStageId] = useState(() =>
     getDefaultStageId(initialRoadmap),
   );
@@ -40,8 +40,8 @@ export function RoadmapView({
   }, [selectedTask]);
 
   const refreshRoadmap = useCallback(async () => {
-    const updated = await apiFetch<RoadmapVM>(`/roadmaps/${roadmap.id}`);
-    setRoadmap(updated);
+    const updated = await apiFetch<RoadmapVM>(`/roadmaps/${currentRoadmap.id}`);
+    setCurrentRoadmap(updated);
     // Update selected task with fresh data if drawer is open
     if (selectedTask) {
       const freshTask = updated.stages
@@ -49,7 +49,7 @@ export function RoadmapView({
         .find((t) => t.id === selectedTask.id);
       setSelectedTask(freshTask ?? null);
     }
-  }, [roadmap.id, selectedTask]);
+  }, [currentRoadmap.id, selectedTask]);
 
   const handleSelectTask = (task: TaskVM) => {
     setSelectedTask(task);
@@ -59,7 +59,9 @@ export function RoadmapView({
     setSelectedTask(null);
   };
 
-  const selectedStage = roadmap.stages.find((s) => s.id === selectedStageId);
+  const selectedStage = currentRoadmap.stages.find(
+    (s) => s.id === selectedStageId,
+  );
 
   const filteredTasks =
     selectedStage && taskFilter === 'mine'
@@ -72,7 +74,7 @@ export function RoadmapView({
     <>
       <div className="space-y-4">
         <RoadmapBar
-          stages={roadmap.stages}
+          stages={currentRoadmap.stages}
           selectedStageId={selectedStageId}
           onSelectStage={setSelectedStageId}
         />
