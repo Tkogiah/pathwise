@@ -1,0 +1,140 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// --- Enums ---
+
+enum UserRole {
+  CASE_MANAGER
+}
+
+enum TaskStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  BLOCKED
+  COMPLETE
+}
+
+enum BlockerType {
+  INTERNAL
+  EXTERNAL
+  UNKNOWN
+}
+
+// --- Users & Clients ---
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  role      UserRole @default(CASE_MANAGER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  taskInstances TaskInstance[]
+}
+
+model Client {
+  id         String   @id @default(cuid())
+  firstName  String
+  lastName   String
+  externalId String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  programInstances ClientProgramInstance[]
+}
+
+// --- Templates (immutable blueprints) ---
+
+model ProgramTemplate {
+  id          String  @id @default(cuid())
+  name        String
+  description String?
+  isActive    Boolean @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  stages           TemplateStage[]
+  programInstances ClientProgramInstance[]
+}
+
+model TemplateStage {
+  id                     String  @id @default(cuid())
+  templateId             String
+  title                  String
+  orderIndex             Int
+  iconName               String
+  recommendedDurationDays Int?
+
+  template       ProgramTemplate @relation(fields: [templateId], references: [id])
+  tasks          TemplateTask[]
+  stageInstances StageInstance[]
+}
+
+model TemplateTask {
+  id              String  @id @default(cuid())
+  stageId         String
+  title           String
+  description     String?
+  isRequired      Boolean @default(true)
+  dependsOnTaskId String?
+  orderIndex      Int
+
+  stage         TemplateStage  @relation(fields: [stageId], references: [id])
+  dependsOnTask TemplateTask?  @relation("TaskDependency", fields: [dependsOnTaskId], references: [id])
+  dependentTasks TemplateTask[] @relation("TaskDependency")
+  taskInstances TaskInstance[]
+}
+
+// --- Instances (per-client runtime data) ---
+
+model ClientProgramInstance {
+  id         String   @id @default(cuid())
+  clientId   String
+  templateId String
+  startDate  DateTime
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  client         Client          @relation(fields: [clientId], references: [id])
+  template       ProgramTemplate @relation(fields: [templateId], references: [id])
+  stageInstances StageInstance[]
+}
+
+model StageInstance {
+  id                String    @id @default(cuid())
+  programInstanceId String
+  templateStageId   String
+  activatedAt       DateTime?
+  completedAt       DateTime?
+  handoffSummary    String?
+
+  programInstance ClientProgramInstance @relation(fields: [programInstanceId], references: [id])
+  templateStage   TemplateStage         @relation(fields: [templateStageId], references: [id])
+  taskInstances   TaskInstance[]
+}
+
+model TaskInstance {
+  id              String      @id @default(cuid())
+  stageInstanceId String
+  templateTaskId  String
+  status          TaskStatus  @default(NOT_STARTED)
+  assignedUserId  String?
+  dueDate         DateTime?
+  blockerType     BlockerType?
+  blockerNote     String?
+  completedAt     DateTime?
+  isNa            Boolean     @default(false)
+  naReason        String?
+
+  stageInstance StageInstance @relation(fields: [stageInstanceId], references: [id])
+  templateTask  TemplateTask  @relation(fields: [templateTaskId], references: [id])
+  assignedUser  User?         @relation(fields: [assignedUserId], references: [id])
+}

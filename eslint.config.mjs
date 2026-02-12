@@ -1,0 +1,32 @@
+import tseslint from 'typescript-eslint';
+import eslintConfigPrettier from 'eslint-config-prettier';
+
+export default tseslint.config(
+  {
+    ignores: ['**/dist/', '**/node_modules/', '**/.next/', '**/*.tsbuildinfo'],
+  },
+  ...tseslint.configs.recommendedTypeChecked,
+  eslintConfigPrettier,
+  {
+    languageOptions: {
+      parserOptions: {
+        projectService: {
+          allowDefaultProject: [
+            'eslint.config.mjs',
+            'apps/web/next.config.mjs',
+            'apps/web/postcss.config.mjs',
+            'apps/api/prisma/seed.ts',
+            'packages/engine/vitest.config.ts',
+            'apps/api/prisma.config.ts',
+            'packages/engine/src/__tests__/*.test.ts',
+          ],
+        },
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+  },
+  {
+    files: ['**/*.mjs', '**/*.js'],
+    ...tseslint.configs.disableTypeChecked,
+  },
+);
