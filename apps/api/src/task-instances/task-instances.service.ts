@@ -118,7 +118,10 @@ export class TaskInstancesService {
     }
 
     if (dto.assignedUserId !== undefined) {
-      updateData.assignedUserId = dto.assignedUserId;
+      updateData.assignedUser =
+        dto.assignedUserId === null
+          ? { disconnect: true }
+          : { connect: { id: dto.assignedUserId } };
     }
 
     if (dto.dueDate !== undefined) {
