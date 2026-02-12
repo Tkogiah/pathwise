@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { apiFetch } from '@/lib/api';
 import { RoadmapVM } from '@/lib/types';
-import { RoadmapView } from '@/components/RoadmapView';
+import { ClientRoadmapShell } from '@/components/ClientRoadmapShell';
 
 interface RoadmapSummary {
   roadmapId: string;
@@ -50,7 +50,10 @@ export default async function ClientDetailPage({
         </p>
       ) : (
         <section className="mt-6">
-          <RoadmapView initialRoadmap={roadmap} />
+          <ClientRoadmapShell
+            roadmaps={client.roadmaps}
+            initialRoadmap={roadmap}
+          />
         </section>
       )}
     </div>
