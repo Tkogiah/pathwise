@@ -97,6 +97,13 @@ export function TaskDrawer({
             </button>
           </div>
           <div className="mt-6 space-y-6">
+            {task.isLocked && (
+              <div className="rounded-md border border-gray-200 bg-gray-50 px-3 py-2 text-xs text-gray-500">
+                This task is locked because a required dependency is not yet
+                complete.
+              </div>
+            )}
+
             <p className="text-sm text-gray-600">
               {task.description || 'No description provided.'}
             </p>
