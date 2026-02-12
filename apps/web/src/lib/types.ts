@@ -39,3 +39,8 @@ export interface RoadmapVM {
   isActive: boolean;
   stages: StageVM[];
 }
+
+export interface DemoUser {
+  id: string;
+  name: string;
+}
