@@ -40,17 +40,18 @@ export class TaskInstancesService {
     // Load the task with its template task and the full program instance context
     const taskInstance: TaskInstanceWithContext | null =
       await this.prisma.taskInstance.findUnique({
-      where: { id },
-      include: {
-        templateTask: true,
-        stageInstance: {
-          include: {
-            programInstance: {
-              include: {
-                stageInstances: {
-                  include: {
-                    taskInstances: {
-                      include: { templateTask: true },
+        where: { id },
+        include: {
+          templateTask: true,
+          stageInstance: {
+            include: {
+              programInstance: {
+                include: {
+                  stageInstances: {
+                    include: {
+                      taskInstances: {
+                        include: { templateTask: true },
+                      },
                     },
                   },
                 },
@@ -58,8 +59,7 @@ export class TaskInstancesService {
             },
           },
         },
-      },
-    });
+      });
 
     if (!taskInstance) {
       throw new NotFoundException(`Task instance ${id} not found`);
