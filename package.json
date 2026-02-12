@@ -14,6 +14,7 @@
     "format:fix": "prettier --write .",
     "typecheck": "tsc -b",
     "test": "npm exec -w @pathwise/engine -- vitest run",
+    "prisma:generate": "npm --workspace @pathwise/api exec -- prisma generate",
     "db:up": "docker compose -f infra/compose/docker-compose.yml up -d",
     "db:down": "docker compose -f infra/compose/docker-compose.yml down",
     "dev:api": "npm run dev -w @pathwise/api",

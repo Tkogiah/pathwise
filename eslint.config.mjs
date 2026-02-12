@@ -33,4 +33,8 @@ export default tseslint.config(
     files: ['packages/engine/src/__tests__/**/*.test.ts'],
     ...tseslint.configs.disableTypeChecked,
   },
+  {
+    files: ['apps/api/prisma/seed.ts'],
+    ...tseslint.configs.disableTypeChecked,
+  },
 );
