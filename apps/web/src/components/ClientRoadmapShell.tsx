@@ -62,7 +62,7 @@ export function ClientRoadmapShell({
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <RoadmapTabs
           roadmaps={roadmaps}
           selectedRoadmapId={selectedRoadmapId}
@@ -75,17 +75,23 @@ export function ClientRoadmapShell({
         />
       </div>
 
-      {loading ? (
-        <div className="flex h-32 items-center justify-center">
-          <p className="text-sm text-gray-500">Loading roadmap...</p>
-        </div>
-      ) : (
-        <RoadmapView
-          key={selectedRoadmapId}
-          initialRoadmap={roadmapData}
-          currentDemoUserId={currentDemoUserId}
-        />
-      )}
+      <div
+        id={`roadmap-panel-${selectedRoadmapId}`}
+        role="tabpanel"
+        aria-labelledby={`roadmap-tab-${selectedRoadmapId}`}
+      >
+        {loading ? (
+          <div className="flex h-32 items-center justify-center">
+            <p className="text-sm text-gray-500">Loading roadmap...</p>
+          </div>
+        ) : (
+          <RoadmapView
+            key={selectedRoadmapId}
+            initialRoadmap={roadmapData}
+            currentDemoUserId={currentDemoUserId}
+          />
+        )}
+      </div>
     </div>
   );
 }

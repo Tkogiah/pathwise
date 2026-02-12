@@ -23,13 +23,15 @@ export default function RootLayout({
         className={`${plex.className} bg-gray-50 text-gray-900 antialiased`}
       >
         <header className="border-b border-gray-200 bg-white">
-          <div className="mx-auto max-w-3xl px-4 py-3">
+          <div className="mx-auto max-w-3xl px-4 py-3 lg:max-w-5xl">
             <span className="text-sm font-semibold tracking-wide text-gray-500 uppercase">
               Program Roadmap
             </span>
           </div>
         </header>
-        <main className="mx-auto max-w-3xl px-4 py-6">{children}</main>
+        <main className="mx-auto max-w-3xl px-4 py-6 lg:max-w-5xl">
+          {children}
+        </main>
       </body>
     </html>
   );

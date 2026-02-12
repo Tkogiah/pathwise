@@ -64,7 +64,7 @@ export function TaskDrawer({
 
   const drawerStyles = `
     fixed z-20 bg-white shadow-lg transition-transform duration-300 ease-in-out
-    w-full max-w-full md:max-w-md
+    w-full max-w-full md:max-w-md lg:max-w-lg
     bottom-0 md:top-0 md:right-0 md:bottom-auto
     h-4/5 md:h-full
     translate-y-0 md:translate-x-0
@@ -121,6 +121,7 @@ export function TaskDrawer({
                     <select
                       value={task.status}
                       disabled={updating}
+                      aria-label="Task status"
                       onChange={(e) => void handleStatusChange(e.target.value)}
                       className="rounded border border-gray-300 bg-white px-2 py-1 text-sm text-gray-900 disabled:opacity-50"
                     >

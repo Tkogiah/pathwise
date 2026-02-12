@@ -17,20 +17,35 @@ export function RoadmapTabs({
   if (roadmaps.length <= 1) return null;
 
   return (
-    <div className="flex gap-1 border-b border-gray-200">
-      {roadmaps.map((rm) => (
-        <button
-          key={rm.roadmapId}
-          onClick={() => onSelectRoadmap(rm.roadmapId)}
-          className={`px-4 py-2 text-sm font-medium transition-colors ${
-            selectedRoadmapId === rm.roadmapId
-              ? 'border-b-2 border-gray-900 text-gray-900'
-              : 'text-gray-500 hover:text-gray-700'
-          }`}
-        >
-          {rm.templateName}
-        </button>
-      ))}
+    <div
+      role="tablist"
+      aria-label="Client roadmaps"
+      className="flex gap-1 border-b border-gray-200"
+    >
+      {roadmaps.map((rm) => {
+        const isSelected = selectedRoadmapId === rm.roadmapId;
+        const tabId = `roadmap-tab-${rm.roadmapId}`;
+        const panelId = `roadmap-panel-${rm.roadmapId}`;
+        return (
+          <button
+            key={rm.roadmapId}
+            id={tabId}
+            role="tab"
+            aria-selected={isSelected}
+            aria-controls={panelId}
+            tabIndex={isSelected ? 0 : -1}
+            type="button"
+            onClick={() => onSelectRoadmap(rm.roadmapId)}
+            className={`px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 ${
+              isSelected
+                ? 'border-b-2 border-gray-900 text-gray-900'
+                : 'text-gray-500 hover:text-gray-700'
+            }`}
+          >
+            {rm.templateName}
+          </button>
+        );
+      })}
     </div>
   );
 }
