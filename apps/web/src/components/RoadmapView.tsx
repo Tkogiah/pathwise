@@ -9,6 +9,7 @@ import { StageDetailList } from './StageDetailList';
 import { TaskDrawer } from './TaskDrawer';
 import { DemoUserSelector } from './DemoUserSelector';
 import { HandoffSummary } from './HandoffSummary';
+import { TaskFilterToggle, TaskFilter } from './TaskFilterToggle';
 
 const LOCAL_STORAGE_KEY = 'pathwise-demo-user-id';
 
@@ -26,6 +27,7 @@ export function RoadmapView({ initialRoadmap }: { initialRoadmap: RoadmapVM }) {
   const [currentDemoUserId, setCurrentDemoUserId] = useState<string | null>(
     null,
   );
+  const [taskFilter, setTaskFilter] = useState<TaskFilter>('all');
 
   // Initialize from localStorage
   useEffect(() => {
@@ -77,6 +79,13 @@ export function RoadmapView({ initialRoadmap }: { initialRoadmap: RoadmapVM }) {
 
   const selectedStage = roadmap.stages.find((s) => s.id === selectedStageId);
 
+  const filteredTasks =
+    selectedStage && taskFilter === 'mine'
+      ? selectedStage.tasks.filter(
+          (t) => t.assignedUser?.id === currentDemoUserId,
+        )
+      : (selectedStage?.tasks ?? []);
+
   return (
     <>
       <div className="space-y-4">
@@ -111,9 +120,21 @@ export function RoadmapView({ initialRoadmap }: { initialRoadmap: RoadmapVM }) {
               />
             </section>
 
+            <div className="flex items-center justify-between">
+              <TaskFilterToggle
+                filter={taskFilter}
+                onChangeFilter={setTaskFilter}
+              />
+            </div>
+
             <StageDetailList
-              tasks={selectedStage.tasks}
+              tasks={filteredTasks}
               onSelectTask={handleSelectTask}
+              emptyMessage={
+                taskFilter === 'mine'
+                  ? 'No tasks assigned to you in this stage.'
+                  : undefined
+              }
             />
           </div>
         )}
