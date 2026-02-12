@@ -50,7 +50,7 @@ export default async function ClientDetailPage({
         </p>
       ) : (
         <section className="mt-6">
-          <RoadmapView roadmap={roadmap} />
+          <RoadmapView initialRoadmap={roadmap} />
         </section>
       )}
     </div>

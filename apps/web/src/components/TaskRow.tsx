@@ -26,10 +26,14 @@ export function TaskRow({
         ${isMuted ? 'text-gray-400' : 'text-gray-800'}
       `}
     >
-      <div className={`h-3 w-3 shrink-0 rounded-full ${statusStyles[task.color]}`} />
-      
+      <div
+        className={`h-3 w-3 shrink-0 rounded-full ${statusStyles[task.color]}`}
+      />
+
       <div className="flex-1 truncate">
-        <p className={`truncate text-sm font-medium ${isMuted ? '' : 'text-gray-900'}`}>
+        <p
+          className={`truncate text-sm font-medium ${isMuted ? '' : 'text-gray-900'}`}
+        >
           {task.title}
         </p>
       </div>
