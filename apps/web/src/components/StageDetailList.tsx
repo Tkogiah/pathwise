@@ -2,7 +2,13 @@
 import { TaskVM } from '@/lib/types';
 import { TaskRow } from './TaskRow';
 
-export function StageDetailList({ tasks }: { tasks: TaskVM[] }) {
+export function StageDetailList({
+  tasks,
+  onSelectTask,
+}: {
+  tasks: TaskVM[];
+  onSelectTask: (task: TaskVM) => void;
+}) {
   if (!tasks || tasks.length === 0) {
     return (
       <div className="flex h-24 items-center justify-center rounded-md border-2 border-dashed border-gray-200 bg-white">
@@ -14,7 +20,7 @@ export function StageDetailList({ tasks }: { tasks: TaskVM[] }) {
   return (
     <div className="space-y-2">
       {tasks.map((task) => (
-        <TaskRow key={task.id} task={task} />
+        <TaskRow key={task.id} task={task} onSelectTask={onSelectTask} />
       ))}
     </div>
   );

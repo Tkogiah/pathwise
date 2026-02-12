@@ -7,13 +7,21 @@ const statusStyles = {
   red: 'bg-red-500',
 };
 
-export function TaskRow({ task }: { task: TaskVM }) {
+export function TaskRow({
+  task,
+  onSelectTask,
+}: {
+  task: TaskVM;
+  onSelectTask: (task: TaskVM) => void;
+}) {
   const isMuted = task.isNa || task.isLocked;
 
   return (
     <div
+      onClick={() => onSelectTask(task)}
       className={`
-        flex items-center space-x-3 rounded-md border p-2
+        flex cursor-pointer items-center space-x-3 rounded-md border p-2
+        hover:bg-gray-50
         ${task.isOverdue ? 'border-red-200 bg-red-50' : 'border-gray-200 bg-white'}
         ${isMuted ? 'text-gray-400' : 'text-gray-800'}
       `}
