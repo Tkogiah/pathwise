@@ -7,6 +7,30 @@ import { PrismaService } from '../prisma/prisma.service';
 import { TaskInput, TaskStatus } from '@pathwise/types';
 import { isTaskLocked } from '@pathwise/engine';
 import { UpdateTaskInstanceDto } from './dto/update-task-instance.dto';
+import {
+  Prisma,
+  TaskStatus as PrismaTaskStatus,
+  BlockerType as PrismaBlockerType,
+} from '@prisma/client';
+
+type TaskInstanceWithContext = Prisma.TaskInstanceGetPayload<{
+  include: {
+    templateTask: true;
+    stageInstance: {
+      include: {
+        programInstance: {
+          include: {
+            stageInstances: {
+              include: {
+                taskInstances: { include: { templateTask: true } };
+              };
+            };
+          };
+        };
+      };
+    };
+  };
+}>;
 
 @Injectable()
 export class TaskInstancesService {
@@ -14,7 +38,8 @@ export class TaskInstancesService {
 
   async update(id: string, dto: UpdateTaskInstanceDto) {
     // Load the task with its template task and the full program instance context
-    const taskInstance = await this.prisma.taskInstance.findUnique({
+    const taskInstance: TaskInstanceWithContext | null =
+      await this.prisma.taskInstance.findUnique({
       where: { id },
       include: {
         templateTask: true,
@@ -69,10 +94,10 @@ export class TaskInstancesService {
     }
 
     // Build the Prisma update data with side effects
-    const updateData: Record<string, unknown> = {};
+    const updateData: Prisma.TaskInstanceUpdateInput = {};
 
     if (dto.status !== undefined) {
-      updateData.status = dto.status;
+      updateData.status = dto.status as PrismaTaskStatus;
 
       // Side effect: completedAt
       if (dto.status === 'COMPLETE') {
@@ -101,7 +126,7 @@ export class TaskInstancesService {
     }
 
     if (dto.blockerType !== undefined) {
-      updateData.blockerType = dto.blockerType;
+      updateData.blockerType = dto.blockerType as PrismaBlockerType | null;
       // Clear blocker note when blocker type is cleared
       if (dto.blockerType === null && dto.blockerNote === undefined) {
         updateData.blockerNote = null;
