@@ -18,7 +18,8 @@
     "build": "tsc -b",
     "dev": "node -r ts-node/register src/main.ts",
     "start": "node dist/main.js",
-    "seed": "npx prisma db seed"
+    "seed": "npx prisma db seed",
+    "prisma:generate": "prisma generate"
   },
   "devDependencies": {
     "prisma": "6.19.2",
