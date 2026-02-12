@@ -20,9 +20,9 @@ interface ClientDetail {
 export default async function ClientDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: { id: string } | Promise<{ id: string }>;
 }) {
-  const { id } = params;
+  const { id } = await Promise.resolve(params);
   const client = await apiFetch<ClientDetail>(`/clients/${id}`);
 
   // Fetch the first roadmap's full data for the roadmap bar
