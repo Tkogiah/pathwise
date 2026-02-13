@@ -1,6 +1,7 @@
 'use client';
 
 import { StageVM } from '@/lib/types';
+import { slugify } from '@/lib/utils';
 
 const STATUS_DOT: Record<StageVM['status'], string> = {
   GREEN: 'bg-emerald-500',
@@ -36,6 +37,7 @@ export function StageNode({
   const { completed, total } = stage.progress;
   const icon = ICON_MAP[stage.iconName] ?? '\u{1F4CC}';
   const statusLabel = STATUS_LABEL[stage.status];
+  const slug = slugify(stage.title);
 
   return (
     <button
@@ -44,6 +46,7 @@ export function StageNode({
       title={`${completed} of ${total} tasks complete`}
       aria-label={`${stage.title} — ${statusLabel}, ${completed} of ${total} complete`}
       aria-current={selected ? 'true' : undefined}
+      data-testid={`stage-node-${slug}`}
       className={`relative flex w-20 shrink-0 flex-col items-center rounded-lg border px-2 py-2.5 text-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 md:w-24 ${
         selected
           ? 'border-gray-400 bg-white ring-2 ring-gray-300'
@@ -61,7 +64,10 @@ export function StageNode({
       <span className="mt-1 line-clamp-1 text-[11px] font-medium leading-tight text-gray-700 md:text-xs">
         {stage.title}
       </span>
-      <span className="mt-0.5 text-[10px] text-gray-400 md:text-xs">
+      <span
+        className="mt-0.5 text-[10px] text-gray-400 md:text-xs"
+        data-testid={`stage-progress-${slug}`}
+      >
         {completed}/{total}
       </span>
       {stage.redTaskCount > 0 && (

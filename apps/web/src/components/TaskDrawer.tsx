@@ -82,10 +82,15 @@ export function TaskDrawer({
         aria-modal="true"
         aria-labelledby={titleId}
         className={drawerStyles}
+        data-testid="task-drawer"
       >
         <div className="flex h-full flex-col overflow-y-auto p-6">
           <div className="flex items-start justify-between">
-            <h2 id={titleId} className="text-lg font-semibold text-gray-900">
+            <h2
+              id={titleId}
+              className="text-lg font-semibold text-gray-900"
+              data-testid="task-drawer-title"
+            >
               {task.title}
             </h2>
             <button
@@ -124,6 +129,7 @@ export function TaskDrawer({
                       aria-label="Task status"
                       onChange={(e) => void handleStatusChange(e.target.value)}
                       className="rounded border border-gray-300 bg-white px-2 py-1 text-sm text-gray-900 disabled:opacity-50"
+                      data-testid="task-status-select"
                     >
                       {STATUSES.map((s) => (
                         <option key={s} value={s}>

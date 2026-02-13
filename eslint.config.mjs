@@ -19,6 +19,9 @@ export default tseslint.config(
             'packages/engine/vitest.config.ts',
             'apps/api/prisma.config.ts',
             'packages/engine/src/__tests__/*.test.ts',
+            'playwright.config.ts',
+            'vitest.config.ts',
+            'e2e/*.spec.ts',
           ],
         },
         tsconfigRootDir: import.meta.dirname,
@@ -35,6 +38,10 @@ export default tseslint.config(
   },
   {
     files: ['apps/api/prisma/seed.ts'],
+    ...tseslint.configs.disableTypeChecked,
+  },
+  {
+    files: ['e2e/**/*.spec.ts', 'playwright.config.ts', 'vitest.config.ts'],
     ...tseslint.configs.disableTypeChecked,
   },
 );

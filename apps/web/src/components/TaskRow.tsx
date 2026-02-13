@@ -1,4 +1,5 @@
 import { TaskVM } from '@/lib/types';
+import { slugify } from '@/lib/utils';
 
 const statusStyles = {
   gray: 'bg-gray-200',
@@ -26,12 +27,14 @@ export function TaskRow({
 }) {
   const isMuted = task.isNa || task.isLocked;
   const statusLabel = getTaskStatusLabel(task);
+  const slug = slugify(task.title);
 
   return (
     <button
       type="button"
       onClick={() => onSelectTask(task)}
       aria-label={`${task.title} — ${statusLabel}`}
+      data-testid={`task-row-${slug}`}
       className={`
         flex w-full cursor-pointer items-center space-x-3 rounded-md border p-2 text-left
         hover:bg-gray-50
@@ -44,7 +47,9 @@ export function TaskRow({
         className={`h-3 w-3 shrink-0 rounded-full ${statusStyles[task.color]}`}
         aria-hidden="true"
       />
-      <span className="sr-only">{statusLabel}</span>
+      <span className="sr-only" data-testid={`task-status-label-${slug}`}>
+        {statusLabel}
+      </span>
 
       <div className="flex-1 truncate">
         <p

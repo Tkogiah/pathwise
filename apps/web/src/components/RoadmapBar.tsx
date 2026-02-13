@@ -13,7 +13,7 @@ export function RoadmapBar({
   onSelectStage: (id: string) => void;
 }) {
   return (
-    <div className="flex gap-2 overflow-x-auto pb-2">
+    <div className="flex gap-2 overflow-x-auto pb-2" data-testid="roadmap-bar">
       {stages.map((stage) => (
         <StageNode
           key={stage.id}
