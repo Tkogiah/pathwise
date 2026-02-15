@@ -9,7 +9,7 @@ export function RoadmapBar({
   onSelectStage,
 }: {
   stages: StageVM[];
-  selectedStageId: string;
+  selectedStageId: string | null;
   onSelectStage: (id: string) => void;
 }) {
   return (

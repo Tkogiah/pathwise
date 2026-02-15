@@ -49,6 +49,9 @@ test.describe('Pathwise Smoke Tests', () => {
     // Navigate to Marcus Rivera (simple roadmap, predictable state)
     await navigateToClient(page, 'Rivera');
 
+    // Click a stage to enter zoom-in view (tasks not visible in overview)
+    await page.locator('[data-testid="roadmap-bar"] button').first().click();
+
     // Click the "Collect ID documents" task row
     const taskRow = page.locator(
       '[data-testid="task-row-collect-id-documents"]',
@@ -73,6 +76,9 @@ test.describe('Pathwise Smoke Tests', () => {
   }) => {
     // Navigate to Marcus Rivera
     await navigateToClient(page, 'Rivera');
+
+    // Click a stage to enter zoom-in view (tasks not visible in overview)
+    await page.locator('[data-testid="roadmap-bar"] button').first().click();
 
     // Capture initial stage progress for "Intake & Assessment"
     const stageProgress = page.locator(

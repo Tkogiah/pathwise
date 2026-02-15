@@ -9,11 +9,6 @@ import { TaskDrawer } from './TaskDrawer';
 import { HandoffSummary } from './HandoffSummary';
 import { TaskFilterToggle, TaskFilter } from './TaskFilterToggle';
 
-function getDefaultStageId(roadmap: RoadmapVM): string {
-  const firstActivated = roadmap.stages.find((s) => s.activatedAt !== null);
-  return firstActivated?.id ?? roadmap.stages[0].id;
-}
-
 export function RoadmapView({
   initialRoadmap,
   currentDemoUserId,
@@ -22,9 +17,7 @@ export function RoadmapView({
   currentDemoUserId: string | null;
 }) {
   const [currentRoadmap, setCurrentRoadmap] = useState(initialRoadmap);
-  const [selectedStageId, setSelectedStageId] = useState(() =>
-    getDefaultStageId(initialRoadmap),
-  );
+  const [selectedStageId, setSelectedStageId] = useState<string | null>(null);
   const [selectedTask, setSelectedTask] = useState<TaskVM | null>(null);
   const [taskFilter, setTaskFilter] = useState<TaskFilter>('all');
 
@@ -51,6 +44,21 @@ export function RoadmapView({
     }
   }, [currentRoadmap.id, selectedTask]);
 
+  const handleSelectStage = (id: string) => {
+    setSelectedStageId((prev) => {
+      if (prev === id) {
+        setSelectedTask(null);
+        return null;
+      }
+      return id;
+    });
+  };
+
+  const handleBackToOverview = () => {
+    setSelectedStageId(null);
+    setSelectedTask(null);
+  };
+
   const handleSelectTask = (task: TaskVM) => {
     setSelectedTask(task);
   };
@@ -76,16 +84,32 @@ export function RoadmapView({
         <RoadmapBar
           stages={currentRoadmap.stages}
           selectedStageId={selectedStageId}
-          onSelectStage={setSelectedStageId}
+          onSelectStage={handleSelectStage}
         />
+
+        {!selectedStage && (
+          <div className="flex h-24 items-center justify-center rounded-md border-2 border-dashed border-edge">
+            <p className="text-sm text-content-muted">
+              Select a stage to view tasks
+            </p>
+          </div>
+        )}
 
         {selectedStage && (
           <div className="mt-4 space-y-4">
-            <section className="rounded-lg border border-gray-200 bg-white px-4 py-3">
-              <h2 className="text-sm font-semibold text-gray-900">
+            <button
+              type="button"
+              onClick={handleBackToOverview}
+              className="text-sm text-content-muted hover:text-content-secondary"
+            >
+              &larr; Overview
+            </button>
+
+            <section className="rounded-lg border border-edge bg-surface-elevated px-4 py-3">
+              <h2 className="text-sm font-semibold text-content-primary">
                 {selectedStage.title}
               </h2>
-              <p className="mt-1 text-xs text-gray-500">
+              <p className="mt-1 text-xs text-content-muted">
                 {selectedStage.progress.completed} of{' '}
                 {selectedStage.progress.total} tasks complete
               </p>
