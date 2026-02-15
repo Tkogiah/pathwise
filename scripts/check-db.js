@@ -2,7 +2,8 @@
 
 const net = require('net');
 
-const DEFAULT_URL = 'postgresql://pathwise:pathwise@localhost:5432/pathwise_dev';
+const DEFAULT_URL =
+  'postgresql://pathwise:pathwise@localhost:5432/pathwise_dev';
 const dbUrl = process.env.DATABASE_URL || DEFAULT_URL;
 
 let host = 'localhost';
