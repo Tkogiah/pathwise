@@ -20,11 +20,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${plex.className} bg-gray-50 text-gray-900 antialiased`}
+        className={`${plex.className} bg-surface-primary text-content-primary antialiased`}
       >
-        <header className="border-b border-gray-200 bg-white">
+        <header className="border-b border-edge bg-surface-elevated">
           <div className="mx-auto max-w-3xl px-4 py-3 lg:max-w-5xl">
-            <span className="text-sm font-semibold tracking-wide text-gray-500 uppercase">
+            <span className="text-sm font-semibold tracking-wide text-content-secondary uppercase">
               Program Roadmap
             </span>
           </div>

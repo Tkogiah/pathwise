@@ -13,16 +13,16 @@ export function TaskFilterToggle({
     <div
       role="group"
       aria-label="Task filter"
-      className="flex gap-1 rounded-lg border border-gray-200 bg-white p-1"
+      className="flex gap-1 rounded-lg border border-edge bg-surface-elevated p-1"
     >
       <button
         type="button"
         onClick={() => onChangeFilter('all')}
         aria-pressed={filter === 'all'}
-        className={`rounded-md px-3 py-1 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 ${
+        className={`rounded-md px-3 py-1 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
           filter === 'all'
-            ? 'bg-gray-900 text-white'
-            : 'text-gray-600 hover:bg-gray-100'
+            ? 'bg-accent text-white'
+            : 'text-content-secondary hover:bg-surface-card'
         }`}
       >
         All Tasks
@@ -31,10 +31,10 @@ export function TaskFilterToggle({
         type="button"
         onClick={() => onChangeFilter('mine')}
         aria-pressed={filter === 'mine'}
-        className={`rounded-md px-3 py-1 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 ${
+        className={`rounded-md px-3 py-1 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
           filter === 'mine'
-            ? 'bg-gray-900 text-white'
-            : 'text-gray-600 hover:bg-gray-100'
+            ? 'bg-accent text-white'
+            : 'text-content-secondary hover:bg-surface-card'
         }`}
       >
         My Tasks

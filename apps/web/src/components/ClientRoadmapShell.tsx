@@ -80,7 +80,7 @@ export function ClientRoadmapShell({
       >
         {loading ? (
           <div className="flex h-32 items-center justify-center">
-            <p className="text-sm text-gray-500">Loading roadmap...</p>
+            <p className="text-sm text-content-muted">Loading roadmap...</p>
           </div>
         ) : (
           <RoadmapView

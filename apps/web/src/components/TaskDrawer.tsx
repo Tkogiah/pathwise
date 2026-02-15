@@ -63,7 +63,7 @@ export function TaskDrawer({
   };
 
   const drawerStyles = `
-    fixed z-20 bg-white shadow-lg transition-transform duration-300 ease-in-out
+    fixed z-20 bg-surface-elevated shadow-lg transition-transform duration-300 ease-in-out
     w-full max-w-full md:max-w-md lg:max-w-lg
     bottom-0 md:top-0 md:right-0 md:bottom-auto
     h-4/5 md:h-full
@@ -73,7 +73,7 @@ export function TaskDrawer({
   return (
     <>
       <div
-        className="fixed inset-0 z-10 bg-gray-900 bg-opacity-50"
+        className="fixed inset-0 z-10 bg-overlay/40 backdrop-blur-[2px]"
         onClick={onClose}
       />
 
@@ -88,14 +88,14 @@ export function TaskDrawer({
           <div className="flex items-start justify-between">
             <h2
               id={titleId}
-              className="text-lg font-semibold text-gray-900"
+              className="text-lg font-semibold text-content-primary"
               data-testid="task-drawer-title"
             >
               {task.title}
             </h2>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-500"
+              className="text-content-muted hover:text-content-secondary"
               aria-label="Close panel"
             >
               &times;
@@ -103,22 +103,22 @@ export function TaskDrawer({
           </div>
           <div className="mt-6 space-y-6">
             {task.isLocked && (
-              <div className="rounded-md border border-gray-200 bg-gray-50 px-3 py-2 text-xs text-gray-500">
+              <div className="rounded-md border border-status-inactive-border bg-status-inactive-bg px-3 py-2 text-xs text-content-muted">
                 This task is locked because a required dependency is not yet
                 complete.
               </div>
             )}
 
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-content-secondary">
               {task.description || 'No description provided.'}
             </p>
 
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
-                <dt className="font-medium text-gray-500">Status</dt>
+                <dt className="font-medium text-content-muted">Status</dt>
                 <dd className="mt-1">
                   {task.isLocked ? (
-                    <span className="text-gray-400">
+                    <span className="text-content-muted">
                       {STATUS_LABELS[task.status] ?? task.status}
                       <span className="ml-1 text-xs">(locked)</span>
                     </span>
@@ -128,7 +128,7 @@ export function TaskDrawer({
                       disabled={updating}
                       aria-label="Task status"
                       onChange={(e) => void handleStatusChange(e.target.value)}
-                      className="rounded border border-gray-300 bg-white px-2 py-1 text-sm text-gray-900 disabled:opacity-50"
+                      className="rounded border border-edge bg-surface-elevated px-2 py-1 text-sm text-content-primary disabled:opacity-50"
                       data-testid="task-status-select"
                     >
                       {STATUSES.map((s) => (
@@ -141,14 +141,14 @@ export function TaskDrawer({
                 </dd>
               </div>
               <div>
-                <dt className="font-medium text-gray-500">Due Date</dt>
-                <dd className="mt-1 text-gray-900">
+                <dt className="font-medium text-content-muted">Due Date</dt>
+                <dd className="mt-1 text-content-primary">
                   {formatDate(task.dueDate)}
                 </dd>
               </div>
               <div className="col-span-2">
-                <dt className="font-medium text-gray-500">Assignee</dt>
-                <dd className="mt-1 text-gray-900">
+                <dt className="font-medium text-content-muted">Assignee</dt>
+                <dd className="mt-1 text-content-primary">
                   {task.assignedUser?.name || 'Unassigned'}
                 </dd>
               </div>
@@ -156,8 +156,8 @@ export function TaskDrawer({
 
             {task.status === 'BLOCKED' && (
               <div>
-                <dt className="font-medium text-gray-500">Blocker</dt>
-                <dd className="mt-1 text-gray-700">
+                <dt className="font-medium text-content-muted">Blocker</dt>
+                <dd className="mt-1 text-content-secondary">
                   {task.blockerType ? `${task.blockerType}: ` : ''}
                   {task.blockerNote || 'No details'}
                 </dd>
@@ -166,8 +166,10 @@ export function TaskDrawer({
 
             {task.isNa && (
               <div>
-                <dt className="font-medium text-gray-500">Not Applicable</dt>
-                <dd className="mt-1 text-gray-700">
+                <dt className="font-medium text-content-muted">
+                  Not Applicable
+                </dt>
+                <dd className="mt-1 text-content-secondary">
                   {task.naReason || 'No reason provided'}
                 </dd>
               </div>

@@ -1,1 +1,44 @@
 @import 'tailwindcss';
+@import '../styles/tokens.css';
+
+@theme {
+  /* Surfaces */
+  --color-surface-primary: var(--background-primary);
+  --color-surface-card: var(--surface-card);
+  --color-surface-elevated: var(--surface-elevated);
+
+  /* Border */
+  --color-edge: var(--border);
+
+  /* Text */
+  --color-content-primary: var(--text-primary);
+  --color-content-secondary: var(--text-secondary);
+  --color-content-muted: var(--text-muted);
+
+  /* Accent */
+  --color-accent: var(--accent-primary);
+  --color-accent-hover: var(--accent-hover);
+
+  /* Status — success */
+  --color-status-success: var(--semantic-success);
+  --color-status-success-bg: var(--semantic-success-bg);
+  --color-status-success-border: var(--semantic-success-border);
+
+  /* Status — warning */
+  --color-status-warning: var(--semantic-warning);
+  --color-status-warning-bg: var(--semantic-warning-bg);
+  --color-status-warning-border: var(--semantic-warning-border);
+
+  /* Status — error */
+  --color-status-error: var(--semantic-error);
+  --color-status-error-bg: var(--semantic-error-bg);
+  --color-status-error-border: var(--semantic-error-border);
+
+  /* Status — inactive */
+  --color-status-inactive: var(--semantic-inactive);
+  --color-status-inactive-bg: var(--semantic-inactive-bg);
+  --color-status-inactive-border: var(--semantic-inactive-border);
+
+  /* Overlay */
+  --color-overlay: var(--overlay);
+}

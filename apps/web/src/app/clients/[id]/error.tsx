@@ -16,12 +16,14 @@ export default function Error({
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center p-6 text-center">
-      <h2 className="text-xl font-semibold text-red-600">
+      <h2 className="text-xl font-semibold text-status-error">
         Something went wrong!
       </h2>
-      <p className="mt-2 text-gray-700">We couldn't load the client data.</p>
+      <p className="mt-2 text-content-secondary">
+        We couldn&apos;t load the client data.
+      </p>
       <button
-        className="mt-4 rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+        className="mt-4 rounded-md bg-accent px-4 py-2 text-white hover:bg-accent-hover focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
         onClick={
           // Attempt to recover by trying to re-render the segment
           () => reset()

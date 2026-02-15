@@ -43,7 +43,7 @@ export function HandoffSummary({
   if (editing) {
     return (
       <div className="mt-3 space-y-2">
-        <label className="text-xs font-medium text-gray-500">
+        <label className="text-xs font-medium text-content-muted">
           Handoff Summary
         </label>
         <textarea
@@ -52,7 +52,7 @@ export function HandoffSummary({
           onChange={(e) => setDraft(e.target.value)}
           maxLength={2000}
           rows={3}
-          className="w-full rounded border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus:outline-none"
+          className="w-full rounded border border-edge px-3 py-2 text-sm text-content-primary placeholder:text-content-muted focus:border-accent focus:outline-none"
           placeholder="Write a handoff summary for this stage..."
         />
         <div className="flex gap-2">
@@ -60,7 +60,7 @@ export function HandoffSummary({
             aria-label="Save handoff summary"
             onClick={() => void handleSave()}
             disabled={saving}
-            className="rounded bg-gray-900 px-3 py-1 text-xs font-medium text-white hover:bg-gray-800 disabled:opacity-50"
+            className="rounded bg-accent px-3 py-1 text-xs font-medium text-white hover:bg-accent-hover disabled:opacity-50"
           >
             {saving ? 'Saving...' : 'Save'}
           </button>
@@ -68,7 +68,7 @@ export function HandoffSummary({
             aria-label="Cancel editing"
             onClick={handleCancel}
             disabled={saving}
-            className="rounded border border-gray-300 px-3 py-1 text-xs font-medium text-gray-600 hover:bg-gray-50 disabled:opacity-50"
+            className="rounded border border-edge px-3 py-1 text-xs font-medium text-content-secondary hover:bg-surface-card disabled:opacity-50"
           >
             Cancel
           </button>
@@ -80,19 +80,19 @@ export function HandoffSummary({
   return (
     <div className="mt-3">
       <div className="flex items-center gap-2">
-        <span className="text-xs font-medium text-gray-500">
+        <span className="text-xs font-medium text-content-muted">
           Handoff Summary
         </span>
         <button
           onClick={handleEdit}
-          className="text-xs text-gray-400 hover:text-gray-600"
+          className="text-xs text-content-muted hover:text-content-secondary"
         >
           Edit
         </button>
       </div>
-      <p className="mt-1 text-sm text-gray-600">
+      <p className="mt-1 text-sm text-content-secondary">
         {summary || (
-          <span className="italic text-gray-400">No handoff summary</span>
+          <span className="italic text-content-muted">No handoff summary</span>
         )}
       </p>
     </div>

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { apiFetch } from '@/lib/api';
 import { RoadmapVM } from '@/lib/types';
 import { ClientRoadmapShell } from '@/components/ClientRoadmapShell';
-import { EmptyState } from '@/components/EmptyState'; // Import EmptyState
+import { EmptyState } from '@/components/EmptyState';
 
 interface RoadmapSummary {
   roadmapId: string;
@@ -36,12 +36,12 @@ export default async function ClientDetailPage({
     <div>
       <Link
         href="/clients"
-        className="text-sm text-gray-500 hover:text-gray-700"
+        className="text-sm text-content-muted hover:text-content-secondary"
       >
         &larr; All clients
       </Link>
 
-      <h1 className="mt-3 text-xl font-semibold text-gray-900">
+      <h1 className="mt-3 text-xl font-semibold text-content-primary">
         {client.firstName} {client.lastName}
       </h1>
 

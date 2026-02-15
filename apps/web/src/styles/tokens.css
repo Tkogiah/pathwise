@@ -1,0 +1,87 @@
+/* -------------------------------------------------------
+   Pathwise Design Tokens
+   Single source of truth — mapped into Tailwind via @theme.
+   No hard-coded hex values in component files.
+   ------------------------------------------------------- */
+
+/* ---------- Light Mode (default) ---------- */
+:root {
+  /* Base surfaces */
+  --background-primary: #f4f1ec;
+  --surface-card: #eae6df;
+  --surface-elevated: #ffffff;
+  --border: #d6d1c8;
+
+  /* Text */
+  --text-primary: #2c2a27;
+  --text-secondary: #6f6a62;
+  --text-muted: #9b948a;
+
+  /* Accent */
+  --accent-primary: #3e5873;
+  --accent-hover: #32485f;
+
+  /* Semantic — Complete / On Track */
+  --semantic-success: #2f7a63;
+  --semantic-success-bg: #e3f1ec;
+  --semantic-success-border: #a9d3c5;
+
+  /* Semantic — In Progress */
+  --semantic-warning: #c28a00;
+  --semantic-warning-bg: #fff3d6;
+  --semantic-warning-border: #e6c36a;
+
+  /* Semantic — Blocked / Overdue */
+  --semantic-error: #b54848;
+  --semantic-error-bg: #fdecec;
+  --semantic-error-border: #e4a4a4;
+
+  /* Semantic — Locked / Inactive */
+  --semantic-inactive: #9c978e;
+  --semantic-inactive-bg: #f1eee9;
+  --semantic-inactive-border: #d4cfc6;
+
+  /* Overlay */
+  --overlay: #2c2a27;
+}
+
+/* ---------- Dark Mode ---------- */
+.theme-dark {
+  /* Base surfaces */
+  --background-primary: #1f2430;
+  --surface-card: #2a3040;
+  --surface-elevated: #32384a;
+  --border: #3e4558;
+
+  /* Text */
+  --text-primary: #e6e2da;
+  --text-secondary: #b8b2a8;
+  --text-muted: #8c879f;
+
+  /* Accent */
+  --accent-primary: #5c7a9b;
+  --accent-hover: #6b8aad;
+
+  /* Semantic — Complete / On Track */
+  --semantic-success: #3aa981;
+  --semantic-success-bg: #1e3330;
+  --semantic-success-border: #2d5a4a;
+
+  /* Semantic — In Progress */
+  --semantic-warning: #e0a400;
+  --semantic-warning-bg: #302b1a;
+  --semantic-warning-border: #5a4d28;
+
+  /* Semantic — Blocked / Overdue */
+  --semantic-error: #d35b5b;
+  --semantic-error-bg: #35222a;
+  --semantic-error-border: #5a3540;
+
+  /* Semantic — Locked / Inactive */
+  --semantic-inactive: #8c879f;
+  --semantic-inactive-bg: #2e3340;
+  --semantic-inactive-border: #3e4558;
+
+  /* Overlay */
+  --overlay: #0a0c14;
+}

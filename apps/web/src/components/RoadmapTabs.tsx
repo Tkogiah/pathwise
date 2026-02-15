@@ -20,7 +20,7 @@ export function RoadmapTabs({
     <div
       role="tablist"
       aria-label="Client roadmaps"
-      className="flex gap-1 border-b border-gray-200"
+      className="flex gap-1 border-b border-edge"
     >
       {roadmaps.map((rm) => {
         const isSelected = selectedRoadmapId === rm.roadmapId;
@@ -36,10 +36,10 @@ export function RoadmapTabs({
             tabIndex={isSelected ? 0 : -1}
             type="button"
             onClick={() => onSelectRoadmap(rm.roadmapId)}
-            className={`px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 ${
+            className={`px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
               isSelected
-                ? 'border-b-2 border-gray-900 text-gray-900'
-                : 'text-gray-500 hover:text-gray-700'
+                ? 'border-b-2 border-accent text-content-primary'
+                : 'text-content-muted hover:text-content-secondary'
             }`}
           >
             {rm.templateName}
