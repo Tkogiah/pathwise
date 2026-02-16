@@ -1,7 +1,7 @@
 {
   "template": {
     "name": "Housing Program",
-    "description": "Canonical 7-stage housing workflow",
+    "description": "Canonical 6-stage housing workflow",
     "isActive": true
   },
   "stages": [
@@ -57,18 +57,6 @@
         "Communicate with landlords/property managers as appropriate (Ongoing)",
         "Schedule and prepare participant for housing interviews or viewings (Ongoing)",
         "Document all housing search activity in participant record (Weekly)"
-      ]
-    },
-    {
-      "title": "Ongoing Case Management",
-      "timeline": "Day 1–90",
-      "tasks": [
-        "Conduct regular check-ins focused on housing progress (At least weekly)",
-        "Update Housing Action Plan as needed (At least every 14 days)",
-        "Address new barriers or changes in participant status (As they arise)",
-        "Coordinate with CSC staff regarding behavior, compliance, concerns impacting housing (Ongoing)",
-        "Reinforce program rules and housing readiness expectations, including time remaining (Ongoing)",
-        "Maintain clear, timely documentation (Weekly)"
       ]
     },
     {

@@ -48,13 +48,13 @@ async function main() {
   });
 
   // =============================================================
-  // Canonical Housing Template (7 stages, 48 tasks)
+  // Canonical Housing Template (6 stages, 43 tasks)
   // Source: docs/templates/Housing_Canonical.md
   // =============================================================
   const housing = await prisma.programTemplate.create({
     data: {
       name: 'Housing Program',
-      description: 'Canonical 7-stage housing workflow',
+      description: 'Canonical 6-stage housing workflow',
     },
   });
 
@@ -375,78 +375,12 @@ async function main() {
     },
   });
 
-  // --- Stage 5: Ongoing Case Management (Day 1–90, 6 tasks) ---
-  const stage5 = await prisma.templateStage.create({
-    data: {
-      templateId: housing.id,
-      title: 'Ongoing Case Management',
-      orderIndex: 4,
-      iconName: 'shield',
-      recommendedDurationDays: 90,
-      timelineLabel: 'Day 1–90',
-    },
-  });
-
-  const s5t1 = await prisma.templateTask.create({
-    data: {
-      stageId: stage5.id,
-      title: 'Conduct regular check-ins',
-      description:
-        'Conduct regular check-ins focused on housing progress (At least weekly)',
-      orderIndex: 0,
-    },
-  });
-  const s5t2 = await prisma.templateTask.create({
-    data: {
-      stageId: stage5.id,
-      title: 'Update Housing Action Plan',
-      description:
-        'Update Housing Action Plan as needed (At least every 14 days)',
-      orderIndex: 1,
-    },
-  });
-  const s5t3 = await prisma.templateTask.create({
-    data: {
-      stageId: stage5.id,
-      title: 'Address new barriers',
-      description:
-        'Address new barriers or changes in participant status (As they arise)',
-      orderIndex: 2,
-    },
-  });
-  const s5t4 = await prisma.templateTask.create({
-    data: {
-      stageId: stage5.id,
-      title: 'Coordinate with CSC staff',
-      description:
-        'Coordinate with CSC staff regarding behavior, compliance, concerns impacting housing (Ongoing)',
-      orderIndex: 3,
-    },
-  });
-  const s5t5 = await prisma.templateTask.create({
-    data: {
-      stageId: stage5.id,
-      title: 'Reinforce program rules',
-      description:
-        'Reinforce program rules and housing readiness expectations, including time remaining (Ongoing)',
-      orderIndex: 4,
-    },
-  });
-  const s5t6 = await prisma.templateTask.create({
-    data: {
-      stageId: stage5.id,
-      title: 'Maintain documentation',
-      description: 'Maintain clear, timely documentation (Weekly)',
-      orderIndex: 5,
-    },
-  });
-
-  // --- Stage 6: Housing Match & Move-In Preparation (Day 45–90, 6 tasks) ---
+  // --- Stage 5: Housing Match & Move-In Preparation (Day 45–90, 6 tasks) ---
   const stage6 = await prisma.templateStage.create({
     data: {
       templateId: housing.id,
       title: 'Housing Match & Move-In Preparation',
-      orderIndex: 5,
+      orderIndex: 4,
       iconName: 'home',
       recommendedDurationDays: 45,
       timelineLabel: 'Day 45–90',
@@ -507,12 +441,12 @@ async function main() {
     },
   });
 
-  // --- Stage 7: Exit Planning & Transition (Day 60–90, 7 tasks) ---
+  // --- Stage 6: Exit Planning & Transition (Day 60–90, 7 tasks) ---
   const stage7 = await prisma.templateStage.create({
     data: {
       templateId: housing.id,
       title: 'Exit Planning & Transition',
-      orderIndex: 6,
+      orderIndex: 5,
       iconName: 'flag',
       recommendedDurationDays: 30,
       timelineLabel: 'Day 60–90',
@@ -584,13 +518,13 @@ async function main() {
   // =============================================================
   // Instance helpers
   // =============================================================
-  const allStages = [stage1, stage2, stage3, stage4, stage5, stage6, stage7];
+  // Note: stage5 was removed (Ongoing Case Management), so stage6/7 remain to avoid renaming.
+  const allStages = [stage1, stage2, stage3, stage4, stage6, stage7];
   const tasksByStage: Record<string, (typeof s1t1)[]> = {
     [stage1.id]: [s1t1, s1t2, s1t3, s1t4, s1t5, s1t6, s1t7, s1t8, s1t9],
     [stage2.id]: [s2t1, s2t2, s2t3, s2t4, s2t5, s2t6, s2t7, s2t8],
     [stage3.id]: [s3t1, s3t2, s3t3, s3t4, s3t5, s3t6],
     [stage4.id]: [s4t1, s4t2, s4t3, s4t4, s4t5, s4t6, s4t7],
-    [stage5.id]: [s5t1, s5t2, s5t3, s5t4, s5t5, s5t6],
     [stage6.id]: [s6t1, s6t2, s6t3, s6t4, s6t5, s6t6],
     [stage7.id]: [s7t1, s7t2, s7t3, s7t4, s7t5, s7t6, s7t7],
   };
@@ -742,7 +676,7 @@ async function main() {
     },
   });
 
-  // Stages 5-7: not activated (GRAY) — left as defaults
+  // Stages 5-6: not activated (GRAY) — left as defaults
 
   // =============================================================
   // DAVID THOMPSON — Instance 2 (early, multi-roadmap demo)
@@ -847,7 +781,7 @@ async function main() {
   console.log('Seed complete.');
   console.log('  Users: 3');
   console.log('  Clients: 3');
-  console.log('  Template: 1 (Housing Program, 7 stages, 49 tasks)');
+  console.log('  Template: 1 (Housing Program, 6 stages, 43 tasks)');
   console.log('  Program instances: 4');
 }
 

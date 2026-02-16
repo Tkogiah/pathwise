@@ -1,4 +1,4 @@
-# Canonical Housing Program Roadmap (7 Stages)
+# Canonical Housing Program Roadmap (6 Stages)
 
 This is the production source of truth for the Housing workflow template.
 
@@ -65,21 +65,7 @@ This is the production source of truth for the Housing workflow template.
 - Schedule and prepare participant for housing interviews or viewings (Ongoing)
 - Document all housing search activity in participant record (Weekly)
 
-## 5 — Ongoing Case Management (Day 1–90)
-
-**Stage Title:** Ongoing Case Management  
-**Timeline Goal:** Throughout Days 1–90
-
-**Subtasks:**
-
-- Conduct regular check-ins focused on housing progress (At least weekly)
-- Update Housing Action Plan as needed (At least every 14 days)
-- Address new barriers or changes in participant status (As they arise)
-- Coordinate with CSC staff regarding behavior, compliance, concerns impacting housing (Ongoing)
-- Reinforce program rules and housing readiness expectations, including time remaining (Ongoing)
-- Maintain clear, timely documentation (Weekly)
-
-## 6 — Housing Match & Move-In Preparation (Day 45–90)
+## 5 — Housing Match & Move-In Preparation (Day 45–90)
 
 **Stage Title:** Housing Match & Move-In Preparation  
 **Timeline Goal:** Day 45–90
@@ -93,7 +79,7 @@ This is the production source of truth for the Housing workflow template.
 - Connect participant to move-in assistance or community resources (Prior to move-in)
 - Ensure participant understands lease compliance and house rules (Prior to exit)
 
-## 7 — Exit Planning & Transition (Begin No Later Than Day 60; Complete by Day 90)
+## 6 — Exit Planning & Transition (Begin No Later Than Day 60; Complete by Day 90)
 
 **Stage Title:** Exit Planning & Transition  
 **Timeline Goal:** Day 60–90
