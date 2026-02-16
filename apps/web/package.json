@@ -5,6 +5,7 @@
   "dependencies": {
     "@pathwise/engine": "*",
     "@pathwise/types": "*",
+    "@prisma/client": "^6.19.2",
     "next": "16.1.6",
     "react": "19.2.4",
     "react-dom": "19.2.4"
@@ -20,6 +21,7 @@
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "postcss": "^8.4.31",
+    "prisma": "^6.19.2",
     "tailwindcss": "^4.1.18",
     "typescript": "5.9.3"
   }
