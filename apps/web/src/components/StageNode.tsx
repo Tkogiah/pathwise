@@ -60,7 +60,7 @@ export function StageNode({
       data-testid={`stage-node-${slug}`}
       className={`relative flex w-24 shrink-0 flex-col items-center rounded-lg border px-2 py-2.5 text-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent md:w-28 ${
         selected
-          ? `border-edge ${nodeBg} ring-2 ring-accent`
+          ? `border-edge ${nodeBg} ring-2 ring-inset ring-accent`
           : `border-edge ${nodeBg} hover:border-accent`
       }`}
     >

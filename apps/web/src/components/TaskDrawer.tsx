@@ -114,7 +114,7 @@ export function TaskDrawer({
             </h2>
             <button
               onClick={onClose}
-              className="text-content-muted hover:text-content-secondary"
+              className="text-xl text-content-muted hover:text-content-secondary"
               aria-label="Close panel"
             >
               &times;
