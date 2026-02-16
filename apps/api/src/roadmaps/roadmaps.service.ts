@@ -97,6 +97,8 @@ export class RoadmapsService {
         activatedAt: si.activatedAt,
         completedAt: si.completedAt,
         handoffSummary: si.handoffSummary,
+        timelineLabel: si.templateStage.timelineLabel,
+        recommendedDurationDays: si.templateStage.recommendedDurationDays,
         tasks,
       };
     });

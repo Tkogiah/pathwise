@@ -9,8 +9,8 @@ import { test, expect } from '@playwright/test';
  *
  * Seed data reference:
  * - Clients (sorted by lastName): Mitchell, Rivera, Thompson
- * - Marcus Rivera has 1 roadmap, stage "Intake & Assessment"
- *   with "Collect ID documents" (IN_PROGRESS) and "Complete intake form" (NOT_STARTED)
+ * - Marcus Rivera has 1 roadmap, stage "Intake & Initial Engagement"
+ *   with "Review referral packet" (IN_PROGRESS) and "Complete participant orientation" (NOT_STARTED)
  */
 
 /** Navigate to a client detail page via the client list. */
@@ -49,12 +49,14 @@ test.describe('Pathwise Smoke Tests', () => {
     // Navigate to Marcus Rivera (simple roadmap, predictable state)
     await navigateToClient(page, 'Rivera');
 
-    // Click a stage to enter zoom-in view (tasks not visible in overview)
-    await page.locator('[data-testid="roadmap-bar"] button').first().click();
+    // Click the first stage to enter zoom-in view (tasks not visible in overview)
+    await page
+      .locator('[data-testid="stage-node-intake-initial-engagement"]')
+      .click();
 
-    // Click the "Collect ID documents" task row
+    // Click the "Review referral packet" task row
     const taskRow = page.locator(
-      '[data-testid="task-row-collect-id-documents"]',
+      '[data-testid="task-row-review-referral-packet"]',
     );
     await expect(taskRow).toBeVisible();
     await taskRow.click();
@@ -63,7 +65,7 @@ test.describe('Pathwise Smoke Tests', () => {
     const drawer = page.locator('[data-testid="task-drawer"]');
     await expect(drawer).toBeVisible();
     await expect(page.locator('[data-testid="task-drawer-title"]')).toHaveText(
-      'Collect ID documents',
+      'Review referral packet',
     );
 
     // Close drawer via Escape
@@ -77,18 +79,20 @@ test.describe('Pathwise Smoke Tests', () => {
     // Navigate to Marcus Rivera
     await navigateToClient(page, 'Rivera');
 
-    // Click a stage to enter zoom-in view (tasks not visible in overview)
-    await page.locator('[data-testid="roadmap-bar"] button').first().click();
+    // Click the first stage to enter zoom-in view (tasks not visible in overview)
+    await page
+      .locator('[data-testid="stage-node-intake-initial-engagement"]')
+      .click();
 
-    // Capture initial stage progress for "Intake & Assessment"
+    // Capture initial stage progress for "Intake & Initial Engagement"
     const stageProgress = page.locator(
-      '[data-testid="stage-progress-intake-assessment"]',
+      '[data-testid="stage-progress-intake-initial-engagement"]',
     );
     const initialProgress = await stageProgress.textContent();
 
-    // Open "Complete intake form" (NOT_STARTED, not locked, not N/A)
+    // Open "Complete participant orientation" (NOT_STARTED, not locked, not N/A)
     const taskRow = page.locator(
-      '[data-testid="task-row-complete-intake-form"]',
+      '[data-testid="task-row-complete-participant-orientation"]',
     );
     await taskRow.click();
 
@@ -111,7 +115,7 @@ test.describe('Pathwise Smoke Tests', () => {
 
     // Verify task row status label updated
     const statusLabel = page.locator(
-      '[data-testid="task-status-label-complete-intake-form"]',
+      '[data-testid="task-status-label-complete-participant-orientation"]',
     );
     await expect(statusLabel).toHaveText('Complete');
 

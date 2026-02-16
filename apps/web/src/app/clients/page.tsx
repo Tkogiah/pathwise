@@ -12,7 +12,15 @@ export default async function ClientsPage() {
 
   return (
     <div>
-      <h1 className="text-xl font-semibold text-content-primary">Clients</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-xl font-semibold text-content-primary">Clients</h1>
+        <Link
+          href="/clients/archived"
+          className="text-xs text-content-muted hover:text-content-secondary"
+        >
+          Archived
+        </Link>
+      </div>
 
       {clients.length === 0 ? (
         <p className="mt-6 text-sm text-content-muted">No clients found.</p>

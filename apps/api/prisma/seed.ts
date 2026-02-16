@@ -47,229 +47,554 @@ async function main() {
     data: { firstName: 'Marcus', lastName: 'Rivera' },
   });
 
-  // --- Housing Template (1 template, 5 stages, 17 tasks) ---
+  // =============================================================
+  // Canonical Housing Template (7 stages, 48 tasks)
+  // Source: docs/templates/Housing_Canonical.md
+  // =============================================================
   const housing = await prisma.programTemplate.create({
     data: {
       name: 'Housing Program',
-      description: 'Standard housing stabilization pathway',
+      description: 'Canonical 7-stage housing workflow',
     },
   });
 
-  // Stage 1: Intake & Assessment (4 tasks)
+  // --- Stage 1: Intake & Initial Engagement (Day 0–3, 9 tasks) ---
   const stage1 = await prisma.templateStage.create({
     data: {
       templateId: housing.id,
-      title: 'Intake & Assessment',
+      title: 'Intake & Initial Engagement',
       orderIndex: 0,
       iconName: 'clipboard',
-      recommendedDurationDays: 7,
+      recommendedDurationDays: 3,
+      timelineLabel: 'Day 0–3',
     },
   });
 
   const s1t1 = await prisma.templateTask.create({
     data: {
       stageId: stage1.id,
-      title: 'Collect ID documents',
-      description: 'Gather government-issued photo ID and Social Security card',
+      title: 'Review referral packet',
+      description:
+        'Review referral packet and eligibility documentation (Day 0–1)',
       orderIndex: 0,
     },
   });
   const s1t2 = await prisma.templateTask.create({
     data: {
       stageId: stage1.id,
-      title: 'Complete intake form',
-      description: 'Fill out standard intake questionnaire',
+      title: 'Complete participant orientation',
+      description:
+        'Complete participant orientation to CSC housing services (Day 0–1)',
       orderIndex: 1,
     },
   });
   const s1t3 = await prisma.templateTask.create({
     data: {
       stageId: stage1.id,
-      title: 'Conduct needs assessment',
-      description: 'Evaluate housing needs, barriers, and preferences',
+      title: 'Explain program expectations',
+      description:
+        'Explain program expectations, timelines, and housing goals, including 90-day maximum stay (Day 0–1)',
       orderIndex: 2,
     },
   });
   const s1t4 = await prisma.templateTask.create({
     data: {
       stageId: stage1.id,
-      title: 'Record housing preference',
+      title: 'Obtain signed ROI',
       description:
-        'Document preferred location, unit size, and accessibility needs',
-      isRequired: false,
+        'Obtain signed releases of information (ROI) as needed (Day 0–3)',
       orderIndex: 3,
     },
   });
+  const s1t5 = await prisma.templateTask.create({
+    data: {
+      stageId: stage1.id,
+      title: 'Verify identification status',
+      description:
+        'Verify identification status (ID, SSN card, birth certificate) (Day 0–3)',
+      orderIndex: 4,
+    },
+  });
+  const s1t6 = await prisma.templateTask.create({
+    data: {
+      stageId: stage1.id,
+      title: 'Assess housing barriers',
+      description:
+        'Assess housing barriers (criminal history, eviction history, credit, income) (Day 0–3)',
+      orderIndex: 5,
+    },
+  });
+  const s1t7 = await prisma.templateTask.create({
+    data: {
+      stageId: stage1.id,
+      title: 'Assess immediate needs',
+      description:
+        'Assess immediate needs impacting housing (medical, behavioral health, mobility) (Day 0–3)',
+      orderIndex: 6,
+    },
+  });
+  const s1t8 = await prisma.templateTask.create({
+    data: {
+      stageId: stage1.id,
+      title: 'Enter into HMIS',
+      description:
+        'Enter participant into HMIS and/or required tracking systems (Day 0–3)',
+      orderIndex: 7,
+    },
+  });
+  const s1t9 = await prisma.templateTask.create({
+    data: {
+      stageId: stage1.id,
+      title: 'Schedule housing planning meeting',
+      description: 'Schedule initial housing planning meeting (By Day 3)',
+      orderIndex: 8,
+    },
+  });
 
-  // Stage 2: Document Collection (4 tasks, with dependency)
+  // --- Stage 2: Housing Assessment & Planning (Day 4–14, 8 tasks) ---
   const stage2 = await prisma.templateStage.create({
     data: {
       templateId: housing.id,
-      title: 'Document Collection',
+      title: 'Housing Assessment & Planning',
       orderIndex: 1,
       iconName: 'folder',
-      recommendedDurationDays: 14,
+      recommendedDurationDays: 10,
+      timelineLabel: 'Day 4–14',
     },
   });
 
   const s2t1 = await prisma.templateTask.create({
     data: {
       stageId: stage2.id,
-      title: 'Verify income documentation',
-      description: 'Collect pay stubs, benefits letters, or tax returns',
+      title: 'Identify PSH options',
+      description:
+        'Identify housing type(s) to pursue by priority: Permanent Supportive Housing (PSH)',
       orderIndex: 0,
     },
   });
   const s2t2 = await prisma.templateTask.create({
     data: {
       stageId: stage2.id,
-      title: 'Copy identification documents',
-      description: 'Make copies of all ID documents for file',
+      title: 'Identify RRH options',
+      description:
+        'Identify housing type(s) to pursue by priority: Rapid Rehousing (RRH)',
       orderIndex: 1,
     },
   });
   const s2t3 = await prisma.templateTask.create({
     data: {
       stageId: stage2.id,
-      title: 'Obtain references',
-      description: 'Collect landlord or personal references',
-      isRequired: false,
+      title: 'Identify subsidized housing',
+      description:
+        'Identify housing type(s) to pursue by priority: Subsidized/Affordable Housing',
       orderIndex: 2,
     },
   });
-  // Background check depends on income verification (same stage)
   const s2t4 = await prisma.templateTask.create({
     data: {
       stageId: stage2.id,
-      title: 'Run background check',
-      description: 'Submit background check request after income is verified',
-      dependsOnTaskId: s2t1.id,
+      title: 'Identify market-rate housing',
+      description:
+        'Identify housing type(s) to pursue by priority: Market-rate housing',
       orderIndex: 3,
     },
   });
+  const s2t5 = await prisma.templateTask.create({
+    data: {
+      stageId: stage2.id,
+      title: 'Develop Housing Action Plan',
+      description: 'Develop individualized Housing Action Plan (By Day 10)',
+      orderIndex: 4,
+    },
+  });
+  const s2t6 = await prisma.templateTask.create({
+    data: {
+      stageId: stage2.id,
+      title: 'Set housing timeline & milestones',
+      description:
+        'Set realistic housing timeline and milestones aligned with 90-day limit (By Day 10)',
+      orderIndex: 5,
+    },
+  });
+  const s2t7 = await prisma.templateTask.create({
+    data: {
+      stageId: stage2.id,
+      title: 'Review income & benefits',
+      description: 'Review income sources and benefits status (By Day 14)',
+      orderIndex: 6,
+    },
+  });
+  const s2t8 = await prisma.templateTask.create({
+    data: {
+      stageId: stage2.id,
+      title: 'Refer to benefits support',
+      description:
+        'Refer to benefits support if needed (SSI/SSDI, SNAP, GA, VA) (By Day 14)',
+      orderIndex: 7,
+    },
+  });
 
-  // Stage 3: Housing Search (3 tasks, with dependency)
+  // --- Stage 3: Documentation & Housing Readiness (Day 7–30, 6 tasks) ---
   const stage3 = await prisma.templateStage.create({
     data: {
       templateId: housing.id,
-      title: 'Housing Search',
+      title: 'Documentation & Housing Readiness',
       orderIndex: 2,
-      iconName: 'search',
-      recommendedDurationDays: 30,
+      iconName: 'document',
+      recommendedDurationDays: 23,
+      timelineLabel: 'Day 7–30',
     },
   });
 
   const s3t1 = await prisma.templateTask.create({
     data: {
       stageId: stage3.id,
-      title: 'Search available units',
-      description: 'Identify available units matching client preferences',
+      title: 'Obtain missing documents',
+      description:
+        'Assist participant in obtaining missing documents (Initiate by Day 7; ongoing)',
       orderIndex: 0,
     },
   });
   const s3t2 = await prisma.templateTask.create({
     data: {
       stageId: stage3.id,
-      title: 'Submit housing application',
-      description: 'Complete and submit application to selected property',
+      title: 'Create housing packet',
+      description:
+        'Create or update housing packet (copies of ID, income verification, references) (By Day 21)',
       orderIndex: 1,
     },
   });
-  // Landlord contact depends on application submission (same stage)
   const s3t3 = await prisma.templateTask.create({
     data: {
       stageId: stage3.id,
-      title: 'Contact landlord',
-      description: 'Follow up with landlord on application status',
-      dependsOnTaskId: s3t2.id,
+      title: 'Support with rental history',
+      description:
+        'Support participant with resume or rental history summary if applicable (By Day 21)',
       orderIndex: 2,
     },
   });
+  const s3t4 = await prisma.templateTask.create({
+    data: {
+      stageId: stage3.id,
+      title: 'Prepare accommodation requests',
+      description:
+        'Prepare reasonable accommodation requests (if needed) (By Day 21)',
+      orderIndex: 3,
+    },
+  });
+  const s3t5 = await prisma.templateTask.create({
+    data: {
+      stageId: stage3.id,
+      title: 'Address credit issues',
+      description:
+        'Review and address credit issues (referrals, explanations, payment plans) (By Day 30)',
+      orderIndex: 4,
+    },
+  });
+  const s3t6 = await prisma.templateTask.create({
+    data: {
+      stageId: stage3.id,
+      title: 'Coach on tenant rights',
+      description:
+        'Coach participant on tenant rights and responsibilities (By Day 30)',
+      orderIndex: 5,
+    },
+  });
 
-  // Stage 4: Lease & Move-In (3 tasks)
+  // --- Stage 4: Housing Search & Applications (Day 14–75, 7 tasks) ---
   const stage4 = await prisma.templateStage.create({
     data: {
       templateId: housing.id,
-      title: 'Lease & Move-In',
+      title: 'Housing Search & Applications',
       orderIndex: 3,
-      iconName: 'home',
-      recommendedDurationDays: 14,
+      iconName: 'search',
+      recommendedDurationDays: 61,
+      timelineLabel: 'Day 14–75',
     },
   });
 
   const s4t1 = await prisma.templateTask.create({
     data: {
       stageId: stage4.id,
-      title: 'Review lease agreement',
-      description: 'Review lease terms with client before signing',
+      title: 'Identify housing leads',
+      description:
+        'Identify appropriate housing leads (Begin by Day 14; ongoing)',
       orderIndex: 0,
     },
   });
   const s4t2 = await prisma.templateTask.create({
     data: {
       stageId: stage4.id,
-      title: 'Arrange deposit assistance',
-      description: 'Process security deposit and first month rent assistance',
+      title: 'Review eligibility requirements',
+      description: 'Review eligibility requirements with participant (Ongoing)',
       orderIndex: 1,
     },
   });
   const s4t3 = await prisma.templateTask.create({
     data: {
       stageId: stage4.id,
-      title: 'Conduct move-in inspection',
-      description: 'Walk through unit with client and document condition',
+      title: 'Assist with applications',
+      description:
+        'Assist with housing applications (online and paper) (Begin by Day 21)',
       orderIndex: 2,
     },
   });
+  const s4t4 = await prisma.templateTask.create({
+    data: {
+      stageId: stage4.id,
+      title: 'Track applications & waitlists',
+      description: 'Track submitted applications and waitlists (Weekly)',
+      orderIndex: 3,
+    },
+  });
+  const s4t5 = await prisma.templateTask.create({
+    data: {
+      stageId: stage4.id,
+      title: 'Communicate with landlords',
+      description:
+        'Communicate with landlords/property managers as appropriate (Ongoing)',
+      orderIndex: 4,
+    },
+  });
+  const s4t6 = await prisma.templateTask.create({
+    data: {
+      stageId: stage4.id,
+      title: 'Prepare for interviews & viewings',
+      description:
+        'Schedule and prepare participant for housing interviews or viewings (Ongoing)',
+      orderIndex: 5,
+    },
+  });
+  const s4t7 = await prisma.templateTask.create({
+    data: {
+      stageId: stage4.id,
+      title: 'Document search activity',
+      description:
+        'Document all housing search activity in participant record (Weekly)',
+      orderIndex: 6,
+    },
+  });
 
-  // Stage 5: Stabilization (3 tasks)
+  // --- Stage 5: Ongoing Case Management (Day 1–90, 6 tasks) ---
   const stage5 = await prisma.templateStage.create({
     data: {
       templateId: housing.id,
-      title: 'Stabilization',
+      title: 'Ongoing Case Management',
       orderIndex: 4,
       iconName: 'shield',
-      recommendedDurationDays: 30,
+      recommendedDurationDays: 90,
+      timelineLabel: 'Day 1–90',
     },
   });
 
   const s5t1 = await prisma.templateTask.create({
     data: {
       stageId: stage5.id,
-      title: '30-day check-in',
-      description: 'Conduct follow-up visit after 30 days in housing',
+      title: 'Conduct regular check-ins',
+      description:
+        'Conduct regular check-ins focused on housing progress (At least weekly)',
       orderIndex: 0,
     },
   });
   const s5t2 = await prisma.templateTask.create({
     data: {
       stageId: stage5.id,
-      title: 'Confirm utility setup',
-      description: 'Verify all utilities are connected and in client name',
+      title: 'Update Housing Action Plan',
+      description:
+        'Update Housing Action Plan as needed (At least every 14 days)',
       orderIndex: 1,
     },
   });
   const s5t3 = await prisma.templateTask.create({
     data: {
       stageId: stage5.id,
-      title: 'Connect to community resources',
+      title: 'Address new barriers',
       description:
-        'Link client to local food bank, transit, and support groups',
-      isRequired: false,
+        'Address new barriers or changes in participant status (As they arise)',
       orderIndex: 2,
     },
   });
+  const s5t4 = await prisma.templateTask.create({
+    data: {
+      stageId: stage5.id,
+      title: 'Coordinate with CSC staff',
+      description:
+        'Coordinate with CSC staff regarding behavior, compliance, concerns impacting housing (Ongoing)',
+      orderIndex: 3,
+    },
+  });
+  const s5t5 = await prisma.templateTask.create({
+    data: {
+      stageId: stage5.id,
+      title: 'Reinforce program rules',
+      description:
+        'Reinforce program rules and housing readiness expectations, including time remaining (Ongoing)',
+      orderIndex: 4,
+    },
+  });
+  const s5t6 = await prisma.templateTask.create({
+    data: {
+      stageId: stage5.id,
+      title: 'Maintain documentation',
+      description: 'Maintain clear, timely documentation (Weekly)',
+      orderIndex: 5,
+    },
+  });
 
-  const allStages = [stage1, stage2, stage3, stage4, stage5];
+  // --- Stage 6: Housing Match & Move-In Preparation (Day 45–90, 6 tasks) ---
+  const stage6 = await prisma.templateStage.create({
+    data: {
+      templateId: housing.id,
+      title: 'Housing Match & Move-In Preparation',
+      orderIndex: 5,
+      iconName: 'home',
+      recommendedDurationDays: 45,
+      timelineLabel: 'Day 45–90',
+    },
+  });
+
+  const s6t1 = await prisma.templateTask.create({
+    data: {
+      stageId: stage6.id,
+      title: 'Confirm housing approval',
+      description:
+        'Confirm housing approval and anticipated move-in date (As soon as available)',
+      orderIndex: 0,
+    },
+  });
+  const s6t2 = await prisma.templateTask.create({
+    data: {
+      stageId: stage6.id,
+      title: 'Review lease terms',
+      description: 'Review lease terms with participant (Prior to signing)',
+      orderIndex: 1,
+    },
+  });
+  const s6t3 = await prisma.templateTask.create({
+    data: {
+      stageId: stage6.id,
+      title: 'Coordinate inspections & deposits',
+      description:
+        'Coordinate inspections, deposits, and utility setup if applicable (As required)',
+      orderIndex: 2,
+    },
+  });
+  const s6t4 = await prisma.templateTask.create({
+    data: {
+      stageId: stage6.id,
+      title: 'Arrange move-in logistics',
+      description:
+        'Arrange move-in logistics (transportation, belongings) (1–7 days prior to move-in)',
+      orderIndex: 3,
+    },
+  });
+  const s6t5 = await prisma.templateTask.create({
+    data: {
+      stageId: stage6.id,
+      title: 'Connect to move-in resources',
+      description:
+        'Connect participant to move-in assistance or community resources (Prior to move-in)',
+      orderIndex: 4,
+    },
+  });
+  const s6t6 = await prisma.templateTask.create({
+    data: {
+      stageId: stage6.id,
+      title: 'Ensure lease compliance understanding',
+      description:
+        'Ensure participant understands lease compliance and house rules (Prior to exit)',
+      orderIndex: 5,
+    },
+  });
+
+  // --- Stage 7: Exit Planning & Transition (Day 60–90, 7 tasks) ---
+  const stage7 = await prisma.templateStage.create({
+    data: {
+      templateId: housing.id,
+      title: 'Exit Planning & Transition',
+      orderIndex: 6,
+      iconName: 'flag',
+      recommendedDurationDays: 30,
+      timelineLabel: 'Day 60–90',
+    },
+  });
+
+  const s7t1 = await prisma.templateTask.create({
+    data: {
+      stageId: stage7.id,
+      title: 'Review remaining program time',
+      description:
+        'Review remaining time in program with participant (By Day 60)',
+      orderIndex: 0,
+    },
+  });
+  const s7t2 = await prisma.templateTask.create({
+    data: {
+      stageId: stage7.id,
+      title: 'Complete exit planning checklist',
+      description: 'Complete CSC exit planning checklist (By Day 75)',
+      orderIndex: 1,
+    },
+  });
+  const s7t3 = await prisma.templateTask.create({
+    data: {
+      stageId: stage7.id,
+      title: 'Coordinate warm handoff',
+      description:
+        'Coordinate warm handoff to ongoing case management or housing support (By Day 85)',
+      orderIndex: 2,
+    },
+  });
+  const s7t4 = await prisma.templateTask.create({
+    data: {
+      stageId: stage7.id,
+      title: 'Provide key contacts & resources',
+      description:
+        'Provide participant with key contacts and resources (At exit)',
+      orderIndex: 3,
+    },
+  });
+  const s7t5 = await prisma.templateTask.create({
+    data: {
+      stageId: stage7.id,
+      title: 'Update HMIS with exit destination',
+      description:
+        'Update HMIS and internal systems with exit destination (Within 3 business days of exit)',
+      orderIndex: 4,
+    },
+  });
+  const s7t6 = await prisma.templateTask.create({
+    data: {
+      stageId: stage7.id,
+      title: 'Document final outcomes',
+      description:
+        'Document final outcomes and housing placement details (Within 3 business days of exit)',
+      orderIndex: 5,
+    },
+  });
+  const s7t7 = await prisma.templateTask.create({
+    data: {
+      stageId: stage7.id,
+      title: 'Schedule post-exit follow-up',
+      description: 'Schedule follow-up if program requires post-exit check-ins',
+      orderIndex: 6,
+    },
+  });
+
+  // =============================================================
+  // Instance helpers
+  // =============================================================
+  const allStages = [stage1, stage2, stage3, stage4, stage5, stage6, stage7];
   const tasksByStage: Record<string, (typeof s1t1)[]> = {
-    [stage1.id]: [s1t1, s1t2, s1t3, s1t4],
-    [stage2.id]: [s2t1, s2t2, s2t3, s2t4],
-    [stage3.id]: [s3t1, s3t2, s3t3],
-    [stage4.id]: [s4t1, s4t2, s4t3],
-    [stage5.id]: [s5t1, s5t2, s5t3],
+    [stage1.id]: [s1t1, s1t2, s1t3, s1t4, s1t5, s1t6, s1t7, s1t8, s1t9],
+    [stage2.id]: [s2t1, s2t2, s2t3, s2t4, s2t5, s2t6, s2t7, s2t8],
+    [stage3.id]: [s3t1, s3t2, s3t3, s3t4, s3t5, s3t6],
+    [stage4.id]: [s4t1, s4t2, s4t3, s4t4, s4t5, s4t6, s4t7],
+    [stage5.id]: [s5t1, s5t2, s5t3, s5t4, s5t5, s5t6],
+    [stage6.id]: [s6t1, s6t2, s6t3, s6t4, s6t5, s6t6],
+    [stage7.id]: [s7t1, s7t2, s7t3, s7t4, s7t5, s7t6, s7t7],
   };
 
-  // --- Helper: clone template into instances ---
   async function cloneProgram(
     clientId: string,
     activateUpTo: number,
@@ -291,7 +616,7 @@ async function main() {
           templateStageId: stage.id,
           activatedAt:
             stage.orderIndex <= activateUpTo
-              ? daysAgo(30 - stage.orderIndex * 7)
+              ? daysAgo(30 - stage.orderIndex * 5)
               : null,
         },
       });
@@ -315,18 +640,18 @@ async function main() {
     return { instance, stageInstanceMap, taskInstanceMap };
   }
 
-  // =========================================================
+  // =============================================================
   // DAVID THOMPSON — Instance 1 (advanced, multi-state demo)
-  // =========================================================
-  const david1 = await cloneProgram(david.id, 2, daysAgo(45));
+  // =============================================================
+  const david1 = await cloneProgram(david.id, 3, daysAgo(60));
 
   // Stage 1 (Intake): all COMPLETE → GREEN
-  for (const task of [s1t1, s1t2, s1t3, s1t4]) {
+  for (const task of [s1t1, s1t2, s1t3, s1t4, s1t5, s1t6, s1t7, s1t8, s1t9]) {
     await prisma.taskInstance.update({
       where: { id: david1.taskInstanceMap[task.id] },
       data: {
         status: TaskStatus.COMPLETE,
-        completedAt: daysAgo(35),
+        completedAt: daysAgo(55),
         assignedUserId: maria.id,
       },
     });
@@ -334,72 +659,97 @@ async function main() {
   await prisma.stageInstance.update({
     where: { id: david1.stageInstanceMap[stage1.id] },
     data: {
-      completedAt: daysAgo(35),
+      completedAt: daysAgo(55),
       handoffSummary:
-        'Intake complete. All documents collected. Ready for verification.',
+        'Intake complete. All documents collected. Ready for assessment.',
     },
   });
 
-  // Stage 2 (Documents): 2 COMPLETE, 1 BLOCKED, 1 locked → RED
-  // s2t2 (copy IDs) — COMPLETE
-  await prisma.taskInstance.update({
-    where: { id: david1.taskInstanceMap[s2t2.id] },
+  // Stage 2 (Assessment & Planning): all COMPLETE → GREEN
+  for (const task of [s2t1, s2t2, s2t3, s2t4, s2t5, s2t6, s2t7, s2t8]) {
+    await prisma.taskInstance.update({
+      where: { id: david1.taskInstanceMap[task.id] },
+      data: {
+        status: TaskStatus.COMPLETE,
+        completedAt: daysAgo(45),
+        assignedUserId: maria.id,
+      },
+    });
+  }
+  await prisma.stageInstance.update({
+    where: { id: david1.stageInstanceMap[stage2.id] },
     data: {
-      status: TaskStatus.COMPLETE,
-      completedAt: daysAgo(25),
-      assignedUserId: maria.id,
+      completedAt: daysAgo(45),
+      handoffSummary:
+        'Housing Action Plan developed. PSH identified as priority.',
     },
   });
-  // s2t3 (references) — COMPLETE
+
+  // Stage 3 (Documentation): 4 COMPLETE, 1 BLOCKED, 1 IN_PROGRESS → RED
+  for (const task of [s3t1, s3t2, s3t3, s3t4]) {
+    await prisma.taskInstance.update({
+      where: { id: david1.taskInstanceMap[task.id] },
+      data: {
+        status: TaskStatus.COMPLETE,
+        completedAt: daysAgo(30),
+        assignedUserId: james.id,
+      },
+    });
+  }
+  // s3t5 (credit issues) — BLOCKED + overdue
   await prisma.taskInstance.update({
-    where: { id: david1.taskInstanceMap[s2t3.id] },
-    data: {
-      status: TaskStatus.COMPLETE,
-      completedAt: daysAgo(20),
-      assignedUserId: james.id,
-    },
-  });
-  // s2t1 (income verification) — BLOCKED
-  await prisma.taskInstance.update({
-    where: { id: david1.taskInstanceMap[s2t1.id] },
+    where: { id: david1.taskInstanceMap[s3t5.id] },
     data: {
       status: TaskStatus.BLOCKED,
       blockerType: BlockerType.EXTERNAL,
-      blockerNote: 'Waiting on employer to provide verification letter',
+      blockerNote: 'Waiting on credit bureau dispute resolution',
       assignedUserId: maria.id,
       dueDate: daysAgo(5),
     },
   });
-  // s2t4 (background check) — NOT_STARTED, LOCKED (depends on s2t1 which is not COMPLETE)
-  // Left as default NOT_STARTED — engine will derive locked state
+  // s3t6 (tenant rights) — IN_PROGRESS
   await prisma.taskInstance.update({
-    where: { id: david1.taskInstanceMap[s2t4.id] },
-    data: { assignedUserId: maria.id },
-  });
-  await prisma.stageInstance.update({
-    where: { id: david1.stageInstanceMap[stage2.id] },
-    data: {
-      handoffSummary:
-        'Income verification blocked. Background check waiting on that.',
-    },
-  });
-
-  // Stage 3 (Housing Search): 1 IN_PROGRESS + overdue → RED
-  await prisma.taskInstance.update({
-    where: { id: david1.taskInstanceMap[s3t1.id] },
+    where: { id: david1.taskInstanceMap[s3t6.id] },
     data: {
       status: TaskStatus.IN_PROGRESS,
-      dueDate: daysAgo(3),
       assignedUserId: james.id,
+      dueDate: daysFromNow(3),
+    },
+  });
+  await prisma.stageInstance.update({
+    where: { id: david1.stageInstanceMap[stage3.id] },
+    data: {
+      handoffSummary:
+        'Credit dispute blocking progress. Tenant coaching underway.',
     },
   });
 
-  // =========================================================
-  // DAVID THOMPSON — Instance 2 (early, for multi-roadmap)
-  // =========================================================
+  // Stage 4 (Housing Search): 2 IN_PROGRESS, rest NOT_STARTED → YELLOW
+  await prisma.taskInstance.update({
+    where: { id: david1.taskInstanceMap[s4t1.id] },
+    data: {
+      status: TaskStatus.IN_PROGRESS,
+      assignedUserId: james.id,
+      dueDate: daysFromNow(14),
+    },
+  });
+  await prisma.taskInstance.update({
+    where: { id: david1.taskInstanceMap[s4t2.id] },
+    data: {
+      status: TaskStatus.IN_PROGRESS,
+      assignedUserId: maria.id,
+      dueDate: daysFromNow(10),
+    },
+  });
+
+  // Stages 5-7: not activated (GRAY) — left as defaults
+
+  // =============================================================
+  // DAVID THOMPSON — Instance 2 (early, multi-roadmap demo)
+  // =============================================================
   const david2 = await cloneProgram(david.id, 0, daysAgo(5));
 
-  // Stage 1: 1 IN_PROGRESS, rest NOT_STARTED
+  // Stage 1: 1 IN_PROGRESS, rest NOT_STARTED → YELLOW
   await prisma.taskInstance.update({
     where: { id: david2.taskInstanceMap[s1t1.id] },
     data: {
@@ -409,13 +759,13 @@ async function main() {
     },
   });
 
-  // =========================================================
+  // =============================================================
   // SARAH MITCHELL — 1 instance (mixed progress, N/A demo)
-  // =========================================================
+  // =============================================================
   const sarah1 = await cloneProgram(sarah.id, 1, daysAgo(30));
 
   // Stage 1 (Intake): all COMPLETE → GREEN
-  for (const task of [s1t1, s1t2, s1t3, s1t4]) {
+  for (const task of [s1t1, s1t2, s1t3, s1t4, s1t5, s1t6, s1t7, s1t8, s1t9]) {
     await prisma.taskInstance.update({
       where: { id: sarah1.taskInstanceMap[task.id] },
       data: {
@@ -433,48 +783,51 @@ async function main() {
     },
   });
 
-  // Stage 2 (Documents): 2 COMPLETE, 1 N/A, 1 IN_PROGRESS → YELLOW
+  // Stage 2 (Assessment): 5 COMPLETE, 1 N/A, 2 IN_PROGRESS → YELLOW
+  for (const task of [s2t1, s2t2, s2t3, s2t4, s2t5]) {
+    await prisma.taskInstance.update({
+      where: { id: sarah1.taskInstanceMap[task.id] },
+      data: {
+        status: TaskStatus.COMPLETE,
+        completedAt: daysAgo(15),
+        assignedUserId: james.id,
+      },
+    });
+  }
+  // s2t6 (timeline) — N/A
   await prisma.taskInstance.update({
-    where: { id: sarah1.taskInstanceMap[s2t1.id] },
-    data: {
-      status: TaskStatus.COMPLETE,
-      completedAt: daysAgo(15),
-      assignedUserId: james.id,
-    },
-  });
-  await prisma.taskInstance.update({
-    where: { id: sarah1.taskInstanceMap[s2t2.id] },
-    data: {
-      status: TaskStatus.COMPLETE,
-      completedAt: daysAgo(14),
-      assignedUserId: james.id,
-    },
-  });
-  // s2t3 (references) — N/A
-  await prisma.taskInstance.update({
-    where: { id: sarah1.taskInstanceMap[s2t3.id] },
+    where: { id: sarah1.taskInstanceMap[s2t6.id] },
     data: {
       isNa: true,
-      naReason: 'Client self-referred, no prior landlord',
+      naReason: 'Client already has clear timeline from prior program',
       assignedUserId: james.id,
     },
   });
-  // s2t4 (background check) — IN_PROGRESS (s2t1 is COMPLETE so not locked)
+  // s2t7 (income review) — IN_PROGRESS
   await prisma.taskInstance.update({
-    where: { id: sarah1.taskInstanceMap[s2t4.id] },
+    where: { id: sarah1.taskInstanceMap[s2t7.id] },
     data: {
       status: TaskStatus.IN_PROGRESS,
       assignedUserId: aisha.id,
       dueDate: daysFromNow(7),
     },
   });
+  // s2t8 (benefits referral) — IN_PROGRESS
+  await prisma.taskInstance.update({
+    where: { id: sarah1.taskInstanceMap[s2t8.id] },
+    data: {
+      status: TaskStatus.IN_PROGRESS,
+      assignedUserId: aisha.id,
+      dueDate: daysFromNow(10),
+    },
+  });
 
-  // =========================================================
+  // =============================================================
   // MARCUS RIVERA — 1 instance (early stage, mostly NOT_STARTED)
-  // =========================================================
+  // =============================================================
   const marcus1 = await cloneProgram(marcus.id, 0, daysAgo(3));
 
-  // Stage 1: 1 IN_PROGRESS, rest NOT_STARTED → YELLOW
+  // Stage 1: 1 IN_PROGRESS, 1 NOT_STARTED with due date → YELLOW
   await prisma.taskInstance.update({
     where: { id: marcus1.taskInstanceMap[s1t1.id] },
     data: {
@@ -483,20 +836,19 @@ async function main() {
       dueDate: daysFromNow(4),
     },
   });
+  await prisma.taskInstance.update({
+    where: { id: marcus1.taskInstanceMap[s1t2.id] },
+    data: {
+      assignedUserId: aisha.id,
+      dueDate: daysFromNow(4),
+    },
+  });
 
   console.log('Seed complete.');
   console.log('  Users: 3');
   console.log('  Clients: 3');
-  console.log('  Template: 1 (Housing Program, 5 stages, 17 tasks)');
+  console.log('  Template: 1 (Housing Program, 7 stages, 49 tasks)');
   console.log('  Program instances: 4');
-  console.log(
-    '  Stage instances:',
-    Object.keys(david1.stageInstanceMap).length * 4,
-  );
-  console.log(
-    '  Task instances:',
-    Object.keys(david1.taskInstanceMap).length * 4,
-  );
 }
 
 main()

@@ -3,6 +3,7 @@ import { apiFetch } from '@/lib/api';
 import { RoadmapVM } from '@/lib/types';
 import { ClientRoadmapShell } from '@/components/ClientRoadmapShell';
 import { EmptyState } from '@/components/EmptyState';
+import { ArchiveButton } from '@/components/ArchiveButton';
 
 interface RoadmapSummary {
   roadmapId: string;
@@ -15,6 +16,7 @@ interface ClientDetail {
   id: string;
   firstName: string;
   lastName: string;
+  isArchived: boolean;
   roadmaps: RoadmapSummary[];
 }
 
@@ -41,9 +43,17 @@ export default async function ClientDetailPage({
         &larr; All clients
       </Link>
 
-      <h1 className="mt-3 text-xl font-semibold text-content-primary">
-        {client.firstName} {client.lastName}
-      </h1>
+      <div className="mt-3 flex items-center gap-3">
+        <h1 className="text-xl font-semibold text-content-primary">
+          {client.firstName} {client.lastName}
+        </h1>
+        {client.isArchived && (
+          <span className="rounded-full border border-status-inactive-border bg-status-inactive-bg px-2 py-0.5 text-[10px] font-medium text-status-inactive">
+            Archived
+          </span>
+        )}
+        <ArchiveButton clientId={client.id} isArchived={client.isArchived} />
+      </div>
 
       {!roadmap ? (
         <section className="mt-6">
@@ -54,6 +64,7 @@ export default async function ClientDetailPage({
           <ClientRoadmapShell
             roadmaps={client.roadmaps}
             initialRoadmap={roadmap}
+            isArchived={client.isArchived}
           />
         </section>
       )}
