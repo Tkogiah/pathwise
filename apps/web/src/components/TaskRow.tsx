@@ -89,37 +89,38 @@ export function TaskRow({
         </span>
       )}
 
-      {task.appointmentAt && (
-        <div
-          className="hidden shrink-0 items-center gap-1 text-sm text-content-secondary sm:flex"
-          title={`Appointment: ${new Date(task.appointmentAt).toLocaleString(
-            'en-US',
-            {
-              month: 'short',
-              day: 'numeric',
-              hour: 'numeric',
-              minute: '2-digit',
-            },
-          )}`}
-          aria-label="Appointment scheduled"
-        >
-          <span aria-hidden="true">📅</span>
-          <span>
+      <div className="hidden shrink-0 items-center gap-4 text-sm text-content-muted sm:flex">
+        {task.appointmentAt && (
+          <span
+            className="flex items-center gap-1 text-content-secondary"
+            title={`Appointment: ${new Date(task.appointmentAt).toLocaleString(
+              'en-US',
+              {
+                month: 'short',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: '2-digit',
+              },
+            )}`}
+            aria-label="Appointment scheduled"
+          >
+            <span aria-hidden="true">📅</span>
+            <span className="font-medium">Appt</span>
             {new Date(task.appointmentAt).toLocaleDateString('en-US', {
               month: 'short',
               day: 'numeric',
             })}
           </span>
-        </div>
-      )}
-
-      <div className="hidden shrink-0 text-sm text-content-muted sm:block">
-        {task.dueDate
-          ? new Date(task.dueDate).toLocaleDateString('en-US', {
-              month: 'short',
-              day: 'numeric',
-            })
-          : '—'}
+        )}
+        <span>
+          <span className="font-medium text-content-secondary">Due</span>{' '}
+          {task.dueDate
+            ? new Date(task.dueDate).toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+              })
+            : '—'}
+        </span>
       </div>
 
       <div className="h-6 w-6 shrink-0 rounded-full bg-surface-card text-center text-sm font-semibold leading-6 text-content-secondary">
