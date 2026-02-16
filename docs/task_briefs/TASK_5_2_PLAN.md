@@ -7,6 +7,7 @@ The canonical 7‑stage Housing Template (Task 5.1) replaced the old 5‑stage s
 ## Target Client for Tests: Marcus Rivera
 
 Marcus has 1 roadmap instance with only Stage 1 ("Intake & Initial Engagement") activated. Two tasks have predictable states:
+
 - `Review referral packet` → IN_PROGRESS
 - `Complete participant orientation` → NOT_STARTED
 
@@ -15,6 +16,7 @@ These are deterministic and safe for test updates.
 ## Slugified Test IDs
 
 Using `slugify()` from `apps/web/src/lib/utils.ts`:
+
 - Stage: `Intake & Initial Engagement` → `intake-initial-engagement`
 - Task: `Review referral packet` → `review-referral-packet`
 - Task: `Complete participant orientation` → `complete-participant-orientation`
@@ -47,4 +49,3 @@ Using `slugify()` from `apps/web/src/lib/utils.ts`:
 ## Note
 
 This work was already performed as part of Task 5.1; this plan documents the expected state for review.
-

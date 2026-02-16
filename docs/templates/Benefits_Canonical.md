@@ -79,4 +79,3 @@ Focused on SNAP (Oregon) but structured to generalize to other benefits programs
 ## Data Protection Notes
 
 This roadmap must NOT store SSNs, exact income amounts, full DHS case numbers, or document scans. It tracks workflow progress only.
-

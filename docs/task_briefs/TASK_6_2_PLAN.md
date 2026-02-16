@@ -15,6 +15,7 @@
 Create a new `TemplatesModule` (`templates.module.ts`, `templates.controller.ts`, `templates.service.ts`).
 
 **`GET /templates`** returns all active templates:
+
 ```json
 [{ "id": "...", "name": "Housing Program" }]
 ```
@@ -28,11 +29,13 @@ Register `TemplatesModule` in `AppModule`.
 Add to existing `ClientsController` and `ClientsService`.
 
 **DTO** (Zod):
+
 ```ts
-z.object({ templateId: z.string() })
+z.object({ templateId: z.string() });
 ```
 
 **Service method `activateRoadmap(clientId, templateId)`**:
+
 1. Verify client exists (404 if not).
 2. Verify template exists and is active (400 if not).
 3. **Duplicate check**: query `clientProgramInstance.findFirst({ where: { clientId, templateId } })`. If found, throw `BadRequestException('Client already has this roadmap')`.
@@ -48,6 +51,7 @@ z.object({ templateId: z.string() })
 New file: `apps/web/src/components/AddRoadmapButton.tsx` (client component).
 
 **Behavior**:
+
 1. On mount, fetch `GET /templates`.
 2. Filter out templates the client already has **by templateId** (not name).
    - Update `GET /clients/:id` to include `templateId` in each roadmap summary.
@@ -62,6 +66,7 @@ New file: `apps/web/src/components/AddRoadmapButton.tsx` (client component).
 ### Step 4 — UI: Place `AddRoadmapButton` in client detail page
 
 In `apps/web/src/app/clients/[id]/page.tsx`:
+
 - Render `<AddRoadmapButton>` in the header row, after the `ArchiveButton`.
 - Pass `clientId={client.id}` and `existingTemplateIds={client.roadmaps.map(r => r.templateId)}`.
 - Hide when `client.isArchived` (archived clients shouldn't get new roadmaps).
@@ -73,6 +78,7 @@ After `router.refresh()`, the server component re‑fetches `GET /clients/:id` w
 ### Step 6 — E2E test update
 
 Add **Test 5** to `e2e/smoke.spec.ts`:
+
 1. Navigate to Marcus Rivera (1 roadmap).
 2. Verify "Add Roadmap" button is visible.
 3. Click it, confirm activation.
@@ -89,18 +95,18 @@ Add **Test 5** to `e2e/smoke.spec.ts`:
 
 ## Files Changed / Created
 
-| File | Change |
-|------|--------|
-| `apps/api/src/templates/templates.module.ts` | **New** — NestJS module |
-| `apps/api/src/templates/templates.controller.ts` | **New** — `GET /templates` |
-| `apps/api/src/templates/templates.service.ts` | **New** — `findAll()` |
-| `apps/api/src/app.module.ts` | Import `TemplatesModule` |
-| `apps/api/src/clients/clients.controller.ts` | Add `POST :id/roadmaps` |
-| `apps/api/src/clients/clients.service.ts` | Add `activateRoadmap()` method |
-| `apps/web/src/components/AddRoadmapButton.tsx` | **New** — client component |
-| `apps/web/src/app/clients/[id]/page.tsx` | Render `AddRoadmapButton` in header |
-| `apps/web/src/lib/types.ts` | Add `templateId` to roadmap summary type |
-| `e2e/smoke.spec.ts` | Add Test 5 |
+| File                                             | Change                                   |
+| ------------------------------------------------ | ---------------------------------------- |
+| `apps/api/src/templates/templates.module.ts`     | **New** — NestJS module                  |
+| `apps/api/src/templates/templates.controller.ts` | **New** — `GET /templates`               |
+| `apps/api/src/templates/templates.service.ts`    | **New** — `findAll()`                    |
+| `apps/api/src/app.module.ts`                     | Import `TemplatesModule`                 |
+| `apps/api/src/clients/clients.controller.ts`     | Add `POST :id/roadmaps`                  |
+| `apps/api/src/clients/clients.service.ts`        | Add `activateRoadmap()` method           |
+| `apps/web/src/components/AddRoadmapButton.tsx`   | **New** — client component               |
+| `apps/web/src/app/clients/[id]/page.tsx`         | Render `AddRoadmapButton` in header      |
+| `apps/web/src/lib/types.ts`                      | Add `templateId` to roadmap summary type |
+| `e2e/smoke.spec.ts`                              | Add Test 5                               |
 
 ## No Changes Needed
 
@@ -108,4 +114,3 @@ Add **Test 5** to `e2e/smoke.spec.ts`:
 - **RoadmapTabs / ClientRoadmapShell**: already support multiple roadmaps
 - **RoadmapsService**: `findOne()` already transforms any instance to `RoadmapVM`
 - **Engine**: no changes
-

@@ -12,12 +12,14 @@ Clients who have completed their program need to be archived — removed from th
 ## Step 2: Update Client API — Filtering + Archive/Unarchive Endpoints
 
 **clients.service.ts**
+
 - `findAll()` → filter `where: { isArchived: false }`
 - `findAllArchived()` → `where: { isArchived: true }`
 - `archive(id: string)` → set `isArchived: true`
 - `unarchive(id: string)` → set `isArchived: false`
 
 **clients.controller.ts**
+
 - `GET /clients` → active only
 - `GET /clients/archived` → archived
 - `PATCH /clients/:id/archive` → archive
@@ -32,12 +34,14 @@ Clients who have completed their program need to be archived — removed from th
 ## Step 4: Update Client List Page
 
 `apps/web/src/app/clients/page.tsx`
+
 - Add a link/tab to “Archived Clients”.
 - Active list remains unchanged (API already filters).
 
 ## Step 5: Create Archived Clients Page
 
 `apps/web/src/app/clients/archived/page.tsx`
+
 - Fetch `GET /clients/archived`.
 - Render same list layout as active page.
 - Each row shows **Unarchive** button (no navigation link).
@@ -46,6 +50,7 @@ Clients who have completed their program need to be archived — removed from th
 ## Step 6: Add Archive Action to Client Detail Page
 
 `apps/web/src/app/clients/[id]/page.tsx`
+
 - Add **Archive** button next to client name.
 - On click: `PATCH /clients/:id/archive`, then redirect to `/clients`.
 - When archived: show “Archived” badge and **Unarchive** button instead.
@@ -63,6 +68,7 @@ Optionally seed one archived client for demo/testing. Not required.
 ## Step 9: Verify
 
 Run:
+
 - `npm run typecheck`
 - `npm run lint`
 - `npm run test`
@@ -92,4 +98,3 @@ Run:
 - Route collision: `/clients/archived` vs `/clients/:id` — must order archived route first.
 - Archived clients should still render in read‑only mode.
 - E2E tests use active clients only; no changes needed unless a test client is archived.
-

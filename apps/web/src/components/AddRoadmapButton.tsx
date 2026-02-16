@@ -25,12 +25,12 @@ export function AddRoadmapButton({
   );
 
   useEffect(() => {
-    apiFetch<Template[]>('/templates').then(setTemplates).catch(() => {});
+    apiFetch<Template[]>('/templates')
+      .then(setTemplates)
+      .catch(() => {});
   }, []);
 
-  const eligible = templates.filter(
-    (t) => !existingTemplateIds.includes(t.id),
-  );
+  const eligible = templates.filter((t) => !existingTemplateIds.includes(t.id));
 
   useEffect(() => {
     if (!selectedTemplateId && eligible.length > 0) {

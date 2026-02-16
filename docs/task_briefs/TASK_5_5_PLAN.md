@@ -3,6 +3,7 @@
 ## Context
 
 The backend already fully supports `isNa` / `naReason`:
+
 - **Schema**: `TaskInstance` has `isNa Boolean @default(false)` and `naReason String?`
 - **DTO**: `UpdateTaskInstanceSchema` accepts `isNa` (boolean) and `naReason` (string | null)
 - **Engine**: treats `isNa` as equivalent to `COMPLETE` for progress, locking, color, and stage status
@@ -35,6 +36,7 @@ else:
 ```
 
 This ensures:
+
 - Selecting N/A sets the flag without touching status enum.
 - Switching back clears `isNa` and `naReason`.
 
@@ -56,7 +58,7 @@ In `getTaskStatusLabel()`, the `isNa` check currently falls below `COMPLETE`. Th
 if (task.isLocked) return 'Locked';
 if (task.status === 'BLOCKED') return 'Blocked';
 if (task.isOverdue) return 'Overdue';
-if (task.isNa) return 'Not Applicable';     // moved up
+if (task.isNa) return 'Not Applicable'; // moved up
 if (task.status === 'COMPLETE') return 'Complete';
 if (task.status === 'IN_PROGRESS') return 'In Progress';
 return 'Not Started';
@@ -84,11 +86,11 @@ Add a **Test 4** that exercises the N/A flow:
 
 ## Files Changed
 
-| File | Change |
-|------|--------|
+| File                                     | Change                                                                                  |
+| ---------------------------------------- | --------------------------------------------------------------------------------------- |
 | `apps/web/src/components/TaskDrawer.tsx` | Add N/A option, update handler, update read-only display, remove standalone N/A section |
-| `apps/web/src/components/TaskRow.tsx` | Reorder `isNa` check in `getTaskStatusLabel()` |
-| `e2e/smoke.spec.ts` | Add Test 4 for N/A status flow |
+| `apps/web/src/components/TaskRow.tsx`    | Reorder `isNa` check in `getTaskStatusLabel()`                                          |
+| `e2e/smoke.spec.ts`                      | Add Test 4 for N/A status flow                                                          |
 
 ## No Changes Needed
 
@@ -101,6 +103,7 @@ Add a **Test 4** that exercises the N/A flow:
 ## Open Decision
 
 **naReason UX**: The plan request says `naReason` is optional. Options:
+
 1. **Keep it simple** — No reason input; just set `isNa: true`. The existing `naReason` field goes unused from the UI (could be set via API directly). Simplest approach.
 2. **Optional text input** — Show a small text input below the select when N/A is selected. User can optionally type a reason before it's saved.
 

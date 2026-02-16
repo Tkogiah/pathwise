@@ -13,6 +13,7 @@
 ### Step 1 — Schema: Add `programLengthDays` to `ClientProgramInstance`
 
 Add to `apps/api/prisma/schema.prisma`:
+
 ```prisma
 programLengthDays Int?
 ```
@@ -26,22 +27,25 @@ Update `apps/api/prisma/seed.ts` to set `programLengthDays` when creating instan
 ### Step 3 — API: Add `PATCH /roadmaps/:id` endpoint
 
 **DTO** (`apps/api/src/roadmaps/dto/update-roadmap.dto.ts`):
+
 ```ts
 z.object({
   startDate: z.string().datetime().optional(),
   programLengthDays: z.number().int().min(1).nullable().optional(),
 }).refine((data) => Object.keys(data).length > 0, {
   message: 'At least one field must be provided',
-})
+});
 ```
 
 **Service method** (`roadmaps.service.ts`):
+
 1. Verify program instance exists (404 if not).
 2. Build update data from validated DTO.
 3. `prisma.clientProgramInstance.update(...)`.
 4. Return the updated `RoadmapVM` via `toViewModel()`.
 
 **Controller** (`roadmaps.controller.ts`):
+
 - Add `@Patch(':id')` with Zod validation (same pattern as task‑instances).
 
 ### Step 4 — Update `RoadmapVM` type and serializer
@@ -55,11 +59,13 @@ z.object({
 New component: `apps/web/src/components/ProgramMetadata.tsx` (client component).
 
 **Display mode** (default):
+
 - Shows "Start: Jan 15, 2026" and "Length: 90 days" inline.
 - An "Edit" button switches to edit mode.
 - Hidden when `readOnly` (archived clients).
 
 **Edit mode**:
+
 - `<input type="date">` for start date (pre‑filled).
 - `<input type="number" min="1">` for program length in days (pre‑filled).
 - **Save** and **Cancel** buttons.
@@ -70,6 +76,7 @@ New component: `apps/web/src/components/ProgramMetadata.tsx` (client component).
 ### Step 6 — Wire `ProgramMetadata` into `RoadmapView`
 
 In `RoadmapView.tsx`:
+
 - Import and render `<ProgramMetadata>` with props: `roadmapId`, `startDate`, `programLengthDays`, `readOnly`, `onUpdated={refreshRoadmap}`.
 - **Placement**: render it **above the RoadmapBar** so it’s visible in both overview and zoom‑in states (outside the selectedStage conditional block).
 
@@ -82,21 +89,20 @@ In `RoadmapView.tsx`:
 
 ## Files Changed / Created
 
-| File | Change |
-|------|--------|
-| `apps/api/prisma/schema.prisma` | Add `programLengthDays Int?` to `ClientProgramInstance` |
-| `apps/api/prisma/migrations/...` | New migration |
-| `apps/api/prisma/seed.ts` | Set `programLengthDays: 90` in `cloneProgram()` |
-| `apps/api/src/roadmaps/dto/update-roadmap.dto.ts` | **New** — Zod DTO |
-| `apps/api/src/roadmaps/roadmaps.controller.ts` | Add `PATCH :id` |
-| `apps/api/src/roadmaps/roadmaps.service.ts` | Add `update()` method, include `programLengthDays` in `toViewModel()` |
-| `apps/web/src/lib/types.ts` | Add `programLengthDays` to `RoadmapVM` |
-| `apps/web/src/components/ProgramMetadata.tsx` | **New** — inline editor component |
-| `apps/web/src/components/RoadmapView.tsx` | Render `ProgramMetadata` |
+| File                                              | Change                                                                |
+| ------------------------------------------------- | --------------------------------------------------------------------- |
+| `apps/api/prisma/schema.prisma`                   | Add `programLengthDays Int?` to `ClientProgramInstance`               |
+| `apps/api/prisma/migrations/...`                  | New migration                                                         |
+| `apps/api/prisma/seed.ts`                         | Set `programLengthDays: 90` in `cloneProgram()`                       |
+| `apps/api/src/roadmaps/dto/update-roadmap.dto.ts` | **New** — Zod DTO                                                     |
+| `apps/api/src/roadmaps/roadmaps.controller.ts`    | Add `PATCH :id`                                                       |
+| `apps/api/src/roadmaps/roadmaps.service.ts`       | Add `update()` method, include `programLengthDays` in `toViewModel()` |
+| `apps/web/src/lib/types.ts`                       | Add `programLengthDays` to `RoadmapVM`                                |
+| `apps/web/src/components/ProgramMetadata.tsx`     | **New** — inline editor component                                     |
+| `apps/web/src/components/RoadmapView.tsx`         | Render `ProgramMetadata`                                              |
 
 ## No Changes Needed
 
 - **Engine**: no impact on task/stage calculations (program length is display‑only for now)
 - **ClientRoadmapShell / RoadmapTabs**: no changes
 - **E2E tests**: metadata editing is low‑risk display; can add tests in a future task
-

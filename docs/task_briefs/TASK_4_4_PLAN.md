@@ -32,6 +32,7 @@ Example pattern:
 ## Step 2: Create ThemeToggle.tsx (Client Component)
 
 Create a small, self‑contained toggle component that:
+
 - Reads `localStorage` on mount (fallback to `matchMedia`)
 - Sets local state (`'light' | 'dark'`)
 - On click: toggles state, updates `document.documentElement.classList`, writes to `localStorage`
@@ -45,6 +46,7 @@ Per requirement, place the toggle in the **client header** row (top‑right), al
 ## Step 4: Verify
 
 Run:
+
 - `npm run typecheck`
 - `npm run lint`
 - `npm run test`
@@ -56,4 +58,3 @@ Run:
 2. **Flash prevention** — inline script runs synchronously before paint.
 3. **System preference** — only used when no stored preference exists.
 4. **Route changes** — theme class on `<html>` persists across navigation; toggle in client header stays consistent on client detail pages.
-

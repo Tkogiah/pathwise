@@ -25,7 +25,9 @@ export default async function ArchivedClientsPage() {
       </h1>
 
       {clients.length === 0 ? (
-        <p className="mt-6 text-base text-content-muted">No archived clients.</p>
+        <p className="mt-6 text-base text-content-muted">
+          No archived clients.
+        </p>
       ) : (
         <ul className="mt-4 divide-y divide-edge overflow-hidden rounded-lg border border-edge bg-surface-elevated">
           {clients.map((client) => (

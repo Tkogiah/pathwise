@@ -10,11 +10,7 @@ const DemoUserContext = createContext<{
 
 const LOCAL_STORAGE_KEY = 'pathwise-demo-user-id';
 
-export function DemoUserProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export function DemoUserProvider({ children }: { children: React.ReactNode }) {
   const [currentDemoUserId, setCurrentDemoUserId] = useState<string | null>(
     null,
   );

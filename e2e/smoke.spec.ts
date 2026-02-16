@@ -197,7 +197,9 @@ test.describe('Pathwise Smoke Tests', () => {
     await addButton.click();
 
     // After activation and router.refresh(), tabs should appear (2 roadmaps)
-    await expect(page.locator('[role="tablist"]')).toBeVisible({ timeout: 10000 });
+    await expect(page.locator('[role="tablist"]')).toBeVisible({
+      timeout: 10000,
+    });
     const tabs = page.locator('[role="tab"]');
     await expect(tabs).toHaveCount(2);
   });

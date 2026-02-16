@@ -29,9 +29,7 @@ export function ProgramMetadata({
   onUpdated: () => Promise<void>;
 }) {
   const [editing, setEditing] = useState(false);
-  const [dateValue, setDateValue] = useState(() =>
-    toDateInputValue(startDate),
-  );
+  const [dateValue, setDateValue] = useState(() => toDateInputValue(startDate));
   const [lengthValue, setLengthValue] = useState(
     programLengthDays?.toString() ?? '',
   );
