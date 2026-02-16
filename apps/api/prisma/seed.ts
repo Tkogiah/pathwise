@@ -538,7 +538,7 @@ async function main() {
     },
   });
 
-  const b1t1 = await prisma.templateTask.create({
+  await prisma.templateTask.create({
     data: {
       stageId: bStage1.id,
       title: 'Confirm Oregon residency',
@@ -546,7 +546,7 @@ async function main() {
       orderIndex: 0,
     },
   });
-  const b1t2 = await prisma.templateTask.create({
+  await prisma.templateTask.create({
     data: {
       stageId: bStage1.id,
       title: 'Confirm identity documentation',
@@ -554,7 +554,7 @@ async function main() {
       orderIndex: 1,
     },
   });
-  const b1t3 = await prisma.templateTask.create({
+  await prisma.templateTask.create({
     data: {
       stageId: bStage1.id,
       title: 'Identify household composition',
@@ -562,7 +562,7 @@ async function main() {
       orderIndex: 2,
     },
   });
-  const b1t4 = await prisma.templateTask.create({
+  await prisma.templateTask.create({
     data: {
       stageId: bStage1.id,
       title: 'Review basic income sources',
@@ -570,7 +570,7 @@ async function main() {
       orderIndex: 3,
     },
   });
-  const b1t5 = await prisma.templateTask.create({
+  await prisma.templateTask.create({
     data: {
       stageId: bStage1.id,
       title: 'Assess housing status',
@@ -578,7 +578,7 @@ async function main() {
       orderIndex: 4,
     },
   });
-  const b1t6 = await prisma.templateTask.create({
+  await prisma.templateTask.create({
     data: {
       stageId: bStage1.id,
       title: 'Identify expedited eligibility',
@@ -586,7 +586,7 @@ async function main() {
       orderIndex: 5,
     },
   });
-  const b1t7 = await prisma.templateTask.create({
+  await prisma.templateTask.create({
     data: {
       stageId: bStage1.id,
       title: 'Determine other benefits screening',
@@ -607,7 +607,7 @@ async function main() {
     },
   });
 
-  const b2t1 = await prisma.templateTask.create({
+  await prisma.templateTask.create({
     data: {
       stageId: bStage2.id,
       title: 'Identify required docs list',
@@ -615,7 +615,7 @@ async function main() {
       orderIndex: 0,
     },
   });
-  const b2t2 = await prisma.templateTask.create({
+  await prisma.templateTask.create({
     data: {
       stageId: bStage2.id,
       title: 'Confirm ID availability',
@@ -623,7 +623,7 @@ async function main() {
       orderIndex: 1,
     },
   });
-  const b2t3 = await prisma.templateTask.create({
+  await prisma.templateTask.create({
     data: {
       stageId: bStage2.id,
       title: 'Confirm proof of residence',
@@ -631,7 +631,7 @@ async function main() {
       orderIndex: 2,
     },
   });
-  const b2t4 = await prisma.templateTask.create({
+  await prisma.templateTask.create({
     data: {
       stageId: bStage2.id,
       title: 'Confirm income verification',
@@ -639,7 +639,7 @@ async function main() {
       orderIndex: 3,
     },
   });
-  const b2t5 = await prisma.templateTask.create({
+  await prisma.templateTask.create({
     data: {
       stageId: bStage2.id,
       title: 'Confirm citizenship documentation',
@@ -648,7 +648,7 @@ async function main() {
       orderIndex: 4,
     },
   });
-  const b2t6 = await prisma.templateTask.create({
+  await prisma.templateTask.create({
     data: {
       stageId: bStage2.id,
       title: 'Identify verification barriers',
@@ -656,7 +656,7 @@ async function main() {
       orderIndex: 5,
     },
   });
-  const b2t7 = await prisma.templateTask.create({
+  await prisma.templateTask.create({
     data: {
       stageId: bStage2.id,
       title: 'Create document follow-up plan',
@@ -677,7 +677,7 @@ async function main() {
     },
   });
 
-  const b3t1 = await prisma.templateTask.create({
+  await prisma.templateTask.create({
     data: {
       stageId: bStage3.id,
       title: 'Choose application method',
@@ -685,7 +685,7 @@ async function main() {
       orderIndex: 0,
     },
   });
-  const b3t2 = await prisma.templateTask.create({
+  await prisma.templateTask.create({
     data: {
       stageId: bStage3.id,
       title: 'Complete SNAP application',
@@ -693,7 +693,7 @@ async function main() {
       orderIndex: 1,
     },
   });
-  const b3t3 = await prisma.templateTask.create({
+  await prisma.templateTask.create({
     data: {
       stageId: bStage3.id,
       title: 'Confirm application submitted',
@@ -701,7 +701,7 @@ async function main() {
       orderIndex: 2,
     },
   });
-  const b3t4 = await prisma.templateTask.create({
+  await prisma.templateTask.create({
     data: {
       stageId: bStage3.id,
       title: 'Record application date',
@@ -709,7 +709,7 @@ async function main() {
       orderIndex: 3,
     },
   });
-  const b3t5 = await prisma.templateTask.create({
+  await prisma.templateTask.create({
     data: {
       stageId: bStage3.id,
       title: 'Confirm expedited request',
@@ -717,7 +717,7 @@ async function main() {
       orderIndex: 4,
     },
   });
-  const b3t6 = await prisma.templateTask.create({
+  await prisma.templateTask.create({
     data: {
       stageId: bStage3.id,
       title: 'Provide confirmation number',
@@ -738,7 +738,7 @@ async function main() {
     },
   });
 
-  const b4t1 = await prisma.templateTask.create({
+  await prisma.templateTask.create({
     data: {
       stageId: bStage4.id,
       title: 'Confirm interview scheduled',
@@ -746,7 +746,7 @@ async function main() {
       orderIndex: 0,
     },
   });
-  const b4t2 = await prisma.templateTask.create({
+  await prisma.templateTask.create({
     data: {
       stageId: bStage4.id,
       title: 'Prepare participant for interview',
@@ -754,7 +754,7 @@ async function main() {
       orderIndex: 1,
     },
   });
-  const b4t3 = await prisma.templateTask.create({
+  await prisma.templateTask.create({
     data: {
       stageId: bStage4.id,
       title: 'Ensure interview completed',
@@ -762,7 +762,7 @@ async function main() {
       orderIndex: 2,
     },
   });
-  const b4t4 = await prisma.templateTask.create({
+  await prisma.templateTask.create({
     data: {
       stageId: bStage4.id,
       title: 'Track requested verifications',
@@ -770,7 +770,7 @@ async function main() {
       orderIndex: 3,
     },
   });
-  const b4t5 = await prisma.templateTask.create({
+  await prisma.templateTask.create({
     data: {
       stageId: bStage4.id,
       title: 'Submit follow-up documents',
@@ -778,7 +778,7 @@ async function main() {
       orderIndex: 4,
     },
   });
-  const b4t6 = await prisma.templateTask.create({
+  await prisma.templateTask.create({
     data: {
       stageId: bStage4.id,
       title: 'Monitor verification deadlines',
@@ -799,7 +799,7 @@ async function main() {
     },
   });
 
-  const b5t1 = await prisma.templateTask.create({
+  await prisma.templateTask.create({
     data: {
       stageId: bStage5.id,
       title: 'Confirm decision status',
@@ -807,7 +807,7 @@ async function main() {
       orderIndex: 0,
     },
   });
-  const b5t2 = await prisma.templateTask.create({
+  await prisma.templateTask.create({
     data: {
       stageId: bStage5.id,
       title: 'Confirm benefit start date',
@@ -815,7 +815,7 @@ async function main() {
       orderIndex: 1,
     },
   });
-  const b5t3 = await prisma.templateTask.create({
+  await prisma.templateTask.create({
     data: {
       stageId: bStage5.id,
       title: 'Confirm EBT card status',
@@ -824,7 +824,7 @@ async function main() {
       orderIndex: 2,
     },
   });
-  const b5t4 = await prisma.templateTask.create({
+  await prisma.templateTask.create({
     data: {
       stageId: bStage5.id,
       title: 'Educate on benefit use',
@@ -833,7 +833,7 @@ async function main() {
       orderIndex: 3,
     },
   });
-  const b5t5 = await prisma.templateTask.create({
+  await prisma.templateTask.create({
     data: {
       stageId: bStage5.id,
       title: 'Review denial reason',
@@ -841,7 +841,7 @@ async function main() {
       orderIndex: 4,
     },
   });
-  const b5t6 = await prisma.templateTask.create({
+  await prisma.templateTask.create({
     data: {
       stageId: bStage5.id,
       title: 'Determine appeal viability',
@@ -849,7 +849,7 @@ async function main() {
       orderIndex: 5,
     },
   });
-  const b5t7 = await prisma.templateTask.create({
+  await prisma.templateTask.create({
     data: {
       stageId: bStage5.id,
       title: 'Assist with appeal submission',

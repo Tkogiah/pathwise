@@ -1,11 +1,18 @@
 import Link from 'next/link';
 import { apiFetch } from '@/lib/api';
 import { NewClientForm } from '@/components/NewClientForm';
+import { ClientGauges } from '@/components/ClientGauges';
 
 interface ClientSummary {
   id: string;
   firstName: string;
   lastName: string;
+  roadmaps: {
+    templateName: string;
+    daysInProgram: number;
+    programLengthDays: number | null;
+    progress: { completed: number; total: number };
+  }[];
 }
 
 export default async function ClientsPage() {
@@ -34,12 +41,15 @@ export default async function ClientsPage() {
             <li key={client.id}>
               <Link
                 href={`/clients/${client.id}`}
-                className="flex items-center justify-between px-4 py-3 hover:bg-surface-card"
+                className="flex items-center gap-4 px-4 py-3 hover:bg-surface-card"
               >
-                <span className="text-sm font-medium text-content-primary">
+                <span className="shrink-0 text-sm font-medium text-content-primary">
                   {client.lastName}, {client.firstName}
                 </span>
-                <span className="text-content-muted">&rsaquo;</span>
+                <div className="hidden flex-1 justify-end sm:flex">
+                  <ClientGauges roadmaps={client.roadmaps} />
+                </div>
+                <span className="shrink-0 text-content-muted">&rsaquo;</span>
               </Link>
             </li>
           ))}

@@ -10,12 +10,52 @@ export class ClientsService {
   constructor(private prisma: PrismaService) {}
 
   async findAll() {
+    const now = Date.now();
     const clients = await this.prisma.client.findMany({
       where: { isArchived: false },
       orderBy: { lastName: 'asc' },
-      select: { id: true, firstName: true, lastName: true },
+      include: {
+        programInstances: {
+          where: { isActive: true },
+          include: {
+            template: { select: { name: true } },
+            stageInstances: {
+              include: {
+                taskInstances: {
+                  include: {
+                    templateTask: { select: { isRequired: true } },
+                  },
+                },
+              },
+            },
+          },
+          orderBy: { startDate: 'desc' },
+        },
+      },
     });
-    return clients;
+
+    return clients.map((client) => ({
+      id: client.id,
+      firstName: client.firstName,
+      lastName: client.lastName,
+      roadmaps: client.programInstances.map((pi) => {
+        const allTasks = pi.stageInstances.flatMap((si) => si.taskInstances);
+        const required = allTasks.filter((t) => t.templateTask.isRequired);
+        const completed = required.filter(
+          (t) => t.status === 'COMPLETE' || t.isNa,
+        ).length;
+
+        return {
+          templateName: pi.template.name,
+          daysInProgram: Math.max(
+            0,
+            Math.floor((now - pi.startDate.getTime()) / 86_400_000),
+          ),
+          programLengthDays: pi.programLengthDays,
+          progress: { completed, total: required.length },
+        };
+      }),
+    }));
   }
 
   async create(body: { firstName?: string; lastName?: string }) {
