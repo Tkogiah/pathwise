@@ -130,4 +130,48 @@ test.describe('Pathwise Smoke Tests', () => {
     // Verify progress restored (retrying assertion)
     await expect(stageProgress).toHaveText(initialProgress ?? '');
   });
+
+  test('Test 4: Set task to Not Applicable and back', async ({ page }) => {
+    // Navigate to Marcus Rivera
+    await navigateToClient(page, 'Rivera');
+
+    // Click the first stage to enter zoom-in view
+    await page
+      .locator('[data-testid="stage-node-intake-initial-engagement"]')
+      .click();
+
+    // Open "Complete participant orientation" (NOT_STARTED)
+    const taskRow = page.locator(
+      '[data-testid="task-row-complete-participant-orientation"]',
+    );
+    await taskRow.click();
+
+    const drawer = page.locator('[data-testid="task-drawer"]');
+    await expect(drawer).toBeVisible();
+
+    // Change status to NOT_APPLICABLE
+    const statusSelect = page.locator('[data-testid="task-status-select"]');
+    await statusSelect.selectOption('NOT_APPLICABLE');
+    await expect(statusSelect).toHaveValue('NOT_APPLICABLE');
+
+    // Close drawer and verify task row label
+    await page.keyboard.press('Escape');
+    await expect(drawer).not.toBeVisible();
+
+    const statusLabel = page.locator(
+      '[data-testid="task-status-label-complete-participant-orientation"]',
+    );
+    await expect(statusLabel).toHaveText('Not Applicable');
+
+    // --- Cleanup: reset back to NOT_STARTED ---
+    await taskRow.click();
+    await expect(drawer).toBeVisible();
+    await statusSelect.selectOption('NOT_STARTED');
+    await expect(statusSelect).toHaveValue('NOT_STARTED');
+    await page.keyboard.press('Escape');
+    await expect(drawer).not.toBeVisible();
+
+    // Verify label restored
+    await expect(statusLabel).toHaveText('Not Started');
+  });
 });

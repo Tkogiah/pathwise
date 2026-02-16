@@ -10,10 +10,10 @@ const statusStyles = {
 
 function getTaskStatusLabel(task: TaskVM): string {
   if (task.isLocked) return 'Locked';
+  if (task.isNa) return 'Not Applicable';
   if (task.status === 'BLOCKED') return 'Blocked';
   if (task.isOverdue) return 'Overdue';
   if (task.status === 'COMPLETE') return 'Complete';
-  if (task.isNa) return 'Not Applicable';
   if (task.status === 'IN_PROGRESS') return 'In Progress';
   return 'Not Started';
 }

@@ -4,13 +4,20 @@ import { useState, useEffect, useId } from 'react';
 import { TaskVM } from '@/lib/types';
 import { apiPatch } from '@/lib/api';
 
-const STATUSES = ['NOT_STARTED', 'IN_PROGRESS', 'BLOCKED', 'COMPLETE'] as const;
+const STATUSES = [
+  'NOT_STARTED',
+  'IN_PROGRESS',
+  'BLOCKED',
+  'COMPLETE',
+  'NOT_APPLICABLE',
+] as const;
 
 const STATUS_LABELS: Record<string, string> = {
   NOT_STARTED: 'Not Started',
   IN_PROGRESS: 'In Progress',
   BLOCKED: 'Blocked',
   COMPLETE: 'Complete',
+  NOT_APPLICABLE: 'Not Applicable',
 };
 
 function formatDate(dateString: string | null) {
@@ -51,11 +58,21 @@ export function TaskDrawer({
 
   if (!task) return null;
 
-  const handleStatusChange = async (newStatus: string) => {
-    if (newStatus === task.status) return;
+  const effectiveStatus = task.isNa ? 'NOT_APPLICABLE' : task.status;
+
+  const handleStatusChange = async (newValue: string) => {
+    if (newValue === effectiveStatus) return;
     setUpdating(true);
     try {
-      await apiPatch(`/task-instances/${task.id}`, { status: newStatus });
+      if (newValue === 'NOT_APPLICABLE') {
+        await apiPatch(`/task-instances/${task.id}`, { isNa: true });
+      } else {
+        await apiPatch(`/task-instances/${task.id}`, {
+          status: newValue,
+          isNa: false,
+          naReason: null,
+        });
+      }
       await onTaskUpdated();
     } catch {
       // TODO: show error toast in future
@@ -121,14 +138,14 @@ export function TaskDrawer({
                 <dd className="mt-1">
                   {task.isLocked || readOnly ? (
                     <span className="text-content-muted">
-                      {STATUS_LABELS[task.status] ?? task.status}
+                      {STATUS_LABELS[effectiveStatus] ?? task.status}
                       {task.isLocked && (
                         <span className="ml-1 text-xs">(locked)</span>
                       )}
                     </span>
                   ) : (
                     <select
-                      value={task.status}
+                      value={effectiveStatus}
                       disabled={updating}
                       aria-label="Task status"
                       onChange={(e) => void handleStatusChange(e.target.value)}
@@ -164,17 +181,6 @@ export function TaskDrawer({
                 <dd className="mt-1 text-content-secondary">
                   {task.blockerType ? `${task.blockerType}: ` : ''}
                   {task.blockerNote || 'No details'}
-                </dd>
-              </div>
-            )}
-
-            {task.isNa && (
-              <div>
-                <dt className="font-medium text-content-muted">
-                  Not Applicable
-                </dt>
-                <dd className="mt-1 text-content-secondary">
-                  {task.naReason || 'No reason provided'}
                 </dd>
               </div>
             )}
