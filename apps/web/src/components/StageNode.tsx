@@ -92,7 +92,7 @@ export function StageNode({
       )}
       {stage.redTaskCount > 0 && (
         <span
-          className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-status-error text-[11px] font-semibold text-white"
+          className="absolute right-1 top-1 flex h-4 w-4 items-center justify-center rounded-full bg-status-error text-[11px] font-semibold text-white"
           aria-label={`${stage.redTaskCount} overdue or blocked tasks`}
         >
           {stage.redTaskCount}
@@ -100,7 +100,7 @@ export function StageNode({
       )}
       {appointmentCount > 0 && (
         <span
-          className="absolute -left-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-status-warning text-[11px] font-semibold text-white"
+          className="absolute left-1 top-1 flex h-4 w-4 items-center justify-center rounded-full bg-status-warning text-[11px] font-semibold text-white"
           aria-label={`${appointmentCount} upcoming appointments`}
         >
           {appointmentCount}
