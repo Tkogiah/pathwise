@@ -62,6 +62,7 @@ export function NewClientForm() {
           <label className="flex flex-col text-sm text-content-muted">
             First name
             <input
+              autoFocus
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
               className="mt-1 w-32 rounded border border-edge bg-surface-elevated px-2 py-1 text-base text-content-primary"
