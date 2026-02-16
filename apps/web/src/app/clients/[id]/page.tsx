@@ -4,9 +4,11 @@ import { RoadmapVM } from '@/lib/types';
 import { ClientRoadmapShell } from '@/components/ClientRoadmapShell';
 import { EmptyState } from '@/components/EmptyState';
 import { ArchiveButton } from '@/components/ArchiveButton';
+import { AddRoadmapButton } from '@/components/AddRoadmapButton';
 
 interface RoadmapSummary {
   roadmapId: string;
+  templateId: string;
   templateName: string;
   startDate: string;
   isActive: boolean;
@@ -53,6 +55,12 @@ export default async function ClientDetailPage({
           </span>
         )}
         <ArchiveButton clientId={client.id} isArchived={client.isArchived} />
+        {!client.isArchived && (
+          <AddRoadmapButton
+            clientId={client.id}
+            existingTemplateIds={client.roadmaps.map((r) => r.templateId)}
+          />
+        )}
       </div>
 
       {!roadmap ? (

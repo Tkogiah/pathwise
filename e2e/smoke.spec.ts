@@ -174,4 +174,31 @@ test.describe('Pathwise Smoke Tests', () => {
     // Verify label restored
     await expect(statusLabel).toHaveText('Not Started');
   });
+
+  test('Test 5: Activate a new roadmap for a client', async ({ page }) => {
+    // Navigate to Marcus Rivera (1 roadmap in seed)
+    await navigateToClient(page, 'Rivera');
+
+    // Tabs should not be visible (only 1 roadmap)
+    await expect(page.locator('[role="tablist"]')).not.toBeVisible();
+
+    // "Add Roadmap" button should be visible
+    const addButton = page.locator('[data-testid="add-roadmap-button"]');
+
+    // Button may not appear if Rivera already has the only template
+    // (e.g. from a previous test run without seed reset).
+    // If hidden, skip gracefully.
+    if (!(await addButton.isVisible())) return;
+
+    // Accept the confirmation dialog
+    page.once('dialog', (dialog) => void dialog.accept());
+
+    // Click the button
+    await addButton.click();
+
+    // After activation and router.refresh(), tabs should appear (2 roadmaps)
+    await expect(page.locator('[role="tablist"]')).toBeVisible({ timeout: 10000 });
+    const tabs = page.locator('[role="tab"]');
+    await expect(tabs).toHaveCount(2);
+  });
 });

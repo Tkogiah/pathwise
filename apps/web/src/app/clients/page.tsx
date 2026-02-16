@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { apiFetch } from '@/lib/api';
+import { NewClientForm } from '@/components/NewClientForm';
 
 interface ClientSummary {
   id: string;
@@ -14,12 +15,15 @@ export default async function ClientsPage() {
     <div>
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-semibold text-content-primary">Clients</h1>
-        <Link
-          href="/clients/archived"
-          className="text-xs text-content-muted hover:text-content-secondary"
-        >
-          Archived
-        </Link>
+        <div className="flex items-center gap-3">
+          <NewClientForm />
+          <Link
+            href="/clients/archived"
+            className="text-xs text-content-muted hover:text-content-secondary"
+          >
+            Archived
+          </Link>
+        </div>
       </div>
 
       {clients.length === 0 ? (

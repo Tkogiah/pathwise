@@ -1,5 +1,18 @@
-import { Controller, Get, Patch, Param } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  Patch,
+  Param,
+  Post,
+} from '@nestjs/common';
+import { z } from 'zod';
 import { ClientsService } from './clients.service';
+
+const ActivateRoadmapSchema = z.object({
+  templateId: z.string(),
+});
 
 @Controller('clients')
 export class ClientsController {
@@ -8,6 +21,11 @@ export class ClientsController {
   @Get()
   findAll() {
     return this.clientsService.findAll();
+  }
+
+  @Post()
+  create(@Body() body: { firstName?: string; lastName?: string }) {
+    return this.clientsService.create(body);
   }
 
   @Get('archived')
@@ -23,6 +41,18 @@ export class ClientsController {
   @Get(':id/roadmaps')
   findRoadmaps(@Param('id') id: string) {
     return this.clientsService.findOne(id);
+  }
+
+  @Post(':id/roadmaps')
+  activateRoadmap(@Param('id') id: string, @Body() body: unknown) {
+    const result = ActivateRoadmapSchema.safeParse(body);
+    if (!result.success) {
+      throw new BadRequestException({
+        message: 'Validation failed',
+        errors: result.error.issues,
+      });
+    }
+    return this.clientsService.activateRoadmap(id, result.data.templateId);
   }
 
   @Patch(':id/archive')
