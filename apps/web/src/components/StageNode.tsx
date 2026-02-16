@@ -72,23 +72,23 @@ export function StageNode({
       <span className="text-base leading-none" aria-hidden="true">
         {icon}
       </span>
-      <span className="mt-1 line-clamp-2 text-[11px] font-medium leading-tight text-content-secondary md:text-xs">
+      <span className="mt-1 line-clamp-2 text-[12px] font-medium leading-tight text-content-secondary md:text-sm">
         {stage.title}
       </span>
       <span
-        className="mt-0.5 text-[10px] text-content-muted md:text-xs"
+        className="mt-0.5 text-[11px] text-content-muted md:text-sm"
         data-testid={`stage-progress-${slug}`}
       >
         {completed}/{total}
       </span>
       {behind && (
-        <span className="mt-0.5 text-[9px] font-medium text-status-error">
+        <span className="mt-0.5 text-[10px] font-medium text-status-error">
           Behind
         </span>
       )}
       {stage.redTaskCount > 0 && (
         <span
-          className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-status-error text-[10px] font-semibold text-white"
+          className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-status-error text-[11px] font-semibold text-white"
           aria-label={`${stage.redTaskCount} overdue or blocked tasks`}
         >
           {stage.redTaskCount}

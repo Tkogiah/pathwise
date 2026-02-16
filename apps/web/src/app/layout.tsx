@@ -34,7 +34,7 @@ export default function RootLayout({
         <DemoUserProvider>
           <header className="border-b border-edge bg-surface-elevated">
             <div className="mx-auto flex items-center justify-between max-w-3xl px-4 py-3 lg:max-w-5xl">
-              <span className="text-sm font-semibold tracking-wide text-content-secondary uppercase">
+              <span className="text-base font-semibold tracking-wide text-content-secondary uppercase">
                 Pathwise
               </span>
               <HeaderControls />

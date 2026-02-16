@@ -45,7 +45,7 @@ export function HandoffSummary({
   if (editing) {
     return (
       <div className="mt-3 space-y-2">
-        <label className="text-xs font-medium text-content-muted">
+        <label className="text-sm font-medium text-content-muted">
           Handoff Summary
         </label>
         <textarea
@@ -54,7 +54,7 @@ export function HandoffSummary({
           onChange={(e) => setDraft(e.target.value)}
           maxLength={2000}
           rows={3}
-          className="w-full rounded border border-edge px-3 py-2 text-sm text-content-primary placeholder:text-content-muted focus:border-accent focus:outline-none"
+          className="w-full rounded border border-edge px-3 py-2 text-base text-content-primary placeholder:text-content-muted focus:border-accent focus:outline-none"
           placeholder="Write a handoff summary for this stage..."
         />
         <div className="flex gap-2">
@@ -62,7 +62,7 @@ export function HandoffSummary({
             aria-label="Save handoff summary"
             onClick={() => void handleSave()}
             disabled={saving}
-            className="rounded bg-accent px-3 py-1 text-xs font-medium text-white hover:bg-accent-hover disabled:opacity-50"
+            className="rounded bg-accent px-3 py-1 text-sm font-medium text-white hover:bg-accent-hover disabled:opacity-50"
           >
             {saving ? 'Saving...' : 'Save'}
           </button>
@@ -70,7 +70,7 @@ export function HandoffSummary({
             aria-label="Cancel editing"
             onClick={handleCancel}
             disabled={saving}
-            className="rounded border border-edge px-3 py-1 text-xs font-medium text-content-secondary hover:bg-surface-card disabled:opacity-50"
+            className="rounded border border-edge px-3 py-1 text-sm font-medium text-content-secondary hover:bg-surface-card disabled:opacity-50"
           >
             Cancel
           </button>
@@ -82,19 +82,19 @@ export function HandoffSummary({
   return (
     <div className="mt-3">
       <div className="flex items-center gap-2">
-        <span className="text-xs font-medium text-content-muted">
+        <span className="text-sm font-medium text-content-muted">
           Handoff Summary
         </span>
         {!readOnly && (
           <button
             onClick={handleEdit}
-            className="text-xs text-content-muted hover:text-content-secondary"
+            className="text-sm text-content-muted hover:text-content-secondary"
           >
             Edit
           </button>
         )}
       </div>
-      <p className="mt-1 text-sm text-content-secondary">
+      <p className="mt-1 text-base text-content-secondary">
         {summary || (
           <span className="italic text-content-muted">No handoff summary</span>
         )}

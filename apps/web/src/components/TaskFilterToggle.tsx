@@ -19,7 +19,7 @@ export function TaskFilterToggle({
         type="button"
         onClick={() => onChangeFilter('all')}
         aria-pressed={filter === 'all'}
-        className={`rounded-md px-3 py-1 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
+        className={`rounded-md px-3 py-1 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
           filter === 'all'
             ? 'bg-accent text-white'
             : 'text-content-secondary hover:bg-surface-card'
@@ -31,7 +31,7 @@ export function TaskFilterToggle({
         type="button"
         onClick={() => onChangeFilter('mine')}
         aria-pressed={filter === 'mine'}
-        className={`rounded-md px-3 py-1 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
+        className={`rounded-md px-3 py-1 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
           filter === 'mine'
             ? 'bg-accent text-white'
             : 'text-content-secondary hover:bg-surface-card'

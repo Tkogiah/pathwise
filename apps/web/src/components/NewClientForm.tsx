@@ -50,7 +50,7 @@ export function NewClientForm() {
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="rounded border border-edge px-3 py-1 text-xs font-medium text-content-secondary hover:bg-surface-card"
+          className="rounded border border-edge px-3 py-1 text-sm font-medium text-content-secondary hover:bg-surface-card"
         >
           New Client
         </button>
@@ -59,26 +59,26 @@ export function NewClientForm() {
           onSubmit={(event) => void handleSubmit(event)}
           className="flex flex-wrap items-end gap-2"
         >
-          <label className="flex flex-col text-xs text-content-muted">
+          <label className="flex flex-col text-sm text-content-muted">
             First name
             <input
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
-              className="mt-1 w-32 rounded border border-edge bg-surface-elevated px-2 py-1 text-sm text-content-primary"
+              className="mt-1 w-32 rounded border border-edge bg-surface-elevated px-2 py-1 text-base text-content-primary"
             />
           </label>
-          <label className="flex flex-col text-xs text-content-muted">
+          <label className="flex flex-col text-sm text-content-muted">
             Last name
             <input
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
-              className="mt-1 w-32 rounded border border-edge bg-surface-elevated px-2 py-1 text-sm text-content-primary"
+              className="mt-1 w-32 rounded border border-edge bg-surface-elevated px-2 py-1 text-base text-content-primary"
             />
           </label>
           <button
             type="submit"
             disabled={!canSubmit}
-            className="rounded bg-accent px-3 py-1 text-xs font-medium text-white hover:bg-accent-hover disabled:opacity-50"
+            className="rounded bg-accent px-3 py-1 text-sm font-medium text-white hover:bg-accent-hover disabled:opacity-50"
           >
             {saving ? 'Creating...' : 'Create'}
           </button>
@@ -86,7 +86,7 @@ export function NewClientForm() {
             type="button"
             onClick={reset}
             disabled={saving}
-            className="rounded border border-edge px-3 py-1 text-xs font-medium text-content-secondary hover:bg-surface-card disabled:opacity-50"
+            className="rounded border border-edge px-3 py-1 text-sm font-medium text-content-secondary hover:bg-surface-card disabled:opacity-50"
           >
             Cancel
           </button>

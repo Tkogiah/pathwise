@@ -27,6 +27,7 @@ export function ProgressArc({
   const circumference = 2 * Math.PI * radius;
   const progress = total > 0 ? completed / total : 0;
   const offset = circumference * (1 - progress);
+  const textSize = Math.max(11, Math.round(size * 0.34));
 
   return (
     <svg
@@ -67,7 +68,8 @@ export function ProgressArc({
         y="50"
         textAnchor="middle"
         dominantBaseline="central"
-        className="fill-content-primary text-[18px] font-semibold"
+        className="fill-content-primary font-semibold"
+        style={{ fontSize: `${textSize}px` }}
       >
         {completed}/{total}
       </text>

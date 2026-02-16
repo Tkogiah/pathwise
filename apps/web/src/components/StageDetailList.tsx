@@ -13,7 +13,7 @@ export function StageDetailList({
   if (!tasks || tasks.length === 0) {
     return (
       <div className="flex h-24 items-center justify-center rounded-md border-2 border-dashed border-edge bg-surface-elevated">
-        <p className="text-sm text-content-muted">{emptyMessage}</p>
+        <p className="text-base text-content-muted">{emptyMessage}</p>
       </div>
     );
   }

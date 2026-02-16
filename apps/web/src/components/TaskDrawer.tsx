@@ -122,17 +122,17 @@ export function TaskDrawer({
           </div>
           <div className="mt-6 space-y-6">
             {task.isLocked && (
-              <div className="rounded-md border border-status-inactive-border bg-status-inactive-bg px-3 py-2 text-xs text-content-muted">
+              <div className="rounded-md border border-status-inactive-border bg-status-inactive-bg px-3 py-2 text-sm text-content-muted">
                 This task is locked because a required dependency is not yet
                 complete.
               </div>
             )}
 
-            <p className="text-sm text-content-secondary">
+            <p className="text-base text-content-secondary">
               {task.description || 'No description provided.'}
             </p>
 
-            <div className="grid grid-cols-2 gap-4 text-sm">
+            <div className="grid grid-cols-2 gap-4 text-base">
               <div>
                 <dt className="font-medium text-content-muted">Status</dt>
                 <dd className="mt-1">
@@ -140,7 +140,7 @@ export function TaskDrawer({
                     <span className="text-content-muted">
                       {STATUS_LABELS[effectiveStatus] ?? task.status}
                       {task.isLocked && (
-                        <span className="ml-1 text-xs">(locked)</span>
+                        <span className="ml-1 text-sm">(locked)</span>
                       )}
                     </span>
                   ) : (
@@ -149,7 +149,7 @@ export function TaskDrawer({
                       disabled={updating}
                       aria-label="Task status"
                       onChange={(e) => void handleStatusChange(e.target.value)}
-                      className="rounded border border-edge bg-surface-elevated px-2 py-1 text-sm text-content-primary disabled:opacity-50"
+                      className="rounded border border-edge bg-surface-elevated px-2 py-1 text-base text-content-primary disabled:opacity-50"
                       data-testid="task-status-select"
                     >
                       {STATUSES.map((s) => (

@@ -24,10 +24,10 @@ export function ClientGauges({ roadmaps }: { roadmaps: RoadmapGauge[] }) {
           <ProgressArc
             completed={rm.progress.completed}
             total={rm.progress.total}
-            size={32}
-            strokeWidth={3}
+            size={64}
+            strokeWidth={6}
           />
-          <div className="text-[10px] leading-tight text-content-muted">
+          <div className="text-[11px] leading-tight text-content-muted">
             <div className="font-medium">{shortLabel(rm.templateName)}</div>
             <div>
               {rm.programLengthDays != null

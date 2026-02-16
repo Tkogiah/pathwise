@@ -70,18 +70,18 @@ export function ProgramMetadata({
     return (
       <div className="flex flex-wrap items-end gap-3 rounded-md border border-edge bg-surface-elevated px-3 py-2">
         <div>
-          <label className="block text-[10px] font-medium text-content-muted">
+          <label className="block text-[11px] font-medium text-content-muted">
             Start Date
           </label>
           <input
             type="date"
             value={dateValue}
             onChange={(e) => setDateValue(e.target.value)}
-            className="mt-0.5 rounded border border-edge bg-surface-primary px-2 py-1 text-sm text-content-primary"
+            className="mt-0.5 rounded border border-edge bg-surface-primary px-2 py-1 text-base text-content-primary"
           />
         </div>
         <div>
-          <label className="block text-[10px] font-medium text-content-muted">
+          <label className="block text-[11px] font-medium text-content-muted">
             Program Length (days)
           </label>
           <input
@@ -89,7 +89,7 @@ export function ProgramMetadata({
             min="1"
             value={lengthValue}
             onChange={(e) => setLengthValue(e.target.value)}
-            className="mt-0.5 w-20 rounded border border-edge bg-surface-primary px-2 py-1 text-sm text-content-primary"
+            className="mt-0.5 w-20 rounded border border-edge bg-surface-primary px-2 py-1 text-base text-content-primary"
           />
         </div>
         <div className="flex gap-1">
@@ -97,7 +97,7 @@ export function ProgramMetadata({
             type="button"
             disabled={saving}
             onClick={() => void handleSave()}
-            className="rounded bg-accent px-3 py-1 text-xs font-medium text-white hover:bg-accent/90 disabled:opacity-50"
+            className="rounded bg-accent px-3 py-1 text-sm font-medium text-white hover:bg-accent/90 disabled:opacity-50"
           >
             {saving ? 'Saving...' : 'Save'}
           </button>
@@ -105,7 +105,7 @@ export function ProgramMetadata({
             type="button"
             disabled={saving}
             onClick={handleCancel}
-            className="rounded border border-edge px-3 py-1 text-xs font-medium text-content-muted hover:text-content-secondary disabled:opacity-50"
+            className="rounded border border-edge px-3 py-1 text-sm font-medium text-content-muted hover:text-content-secondary disabled:opacity-50"
           >
             Cancel
           </button>
@@ -115,7 +115,7 @@ export function ProgramMetadata({
   }
 
   return (
-    <div className="flex items-center gap-4 text-xs text-content-muted">
+    <div className="flex items-center gap-4 text-sm text-content-muted">
       <span>Start: {formatDisplayDate(startDate)}</span>
       {programLengthDays != null && (
         <span>Length: {programLengthDays} days</span>

@@ -60,14 +60,14 @@ export function AddRoadmapButton({
     if (pendingTemplateId === template.id) {
       return (
         <div className="flex items-center gap-2">
-          <span className="text-xs text-content-muted">
+          <span className="text-sm text-content-muted">
             Activate {template.name}?
           </span>
           <button
             type="button"
             disabled={activating}
             onClick={() => void handleActivate(template)}
-            className="rounded bg-accent px-2 py-1 text-xs font-medium text-white hover:bg-accent-hover disabled:opacity-50"
+            className="rounded bg-accent px-2 py-1 text-sm font-medium text-white hover:bg-accent-hover disabled:opacity-50"
           >
             {activating ? 'Activating...' : 'Confirm'}
           </button>
@@ -75,7 +75,7 @@ export function AddRoadmapButton({
             type="button"
             disabled={activating}
             onClick={() => setPendingTemplateId(null)}
-            className="rounded border border-edge px-2 py-1 text-xs font-medium text-content-secondary hover:bg-surface-card disabled:opacity-50"
+            className="rounded border border-edge px-2 py-1 text-sm font-medium text-content-secondary hover:bg-surface-card disabled:opacity-50"
           >
             Cancel
           </button>
@@ -88,7 +88,7 @@ export function AddRoadmapButton({
         type="button"
         disabled={activating}
         onClick={() => setPendingTemplateId(template.id)}
-        className="rounded-md border border-accent bg-accent/10 px-3 py-1 text-xs font-medium text-accent hover:bg-accent/20 disabled:opacity-50"
+        className="rounded-md border border-accent bg-accent/10 px-3 py-1 text-sm font-medium text-accent hover:bg-accent/20 disabled:opacity-50"
         data-testid="add-roadmap-button"
       >
         {activating ? 'Activating...' : '+ Add Roadmap'}
@@ -103,14 +103,14 @@ export function AddRoadmapButton({
     <div className="flex items-center gap-2">
       {pendingTemplate ? (
         <>
-          <span className="text-xs text-content-muted">
+          <span className="text-sm text-content-muted">
             Activate {pendingTemplate.name}?
           </span>
           <button
             type="button"
             disabled={activating}
             onClick={() => void handleActivate(pendingTemplate)}
-            className="rounded bg-accent px-2 py-1 text-xs font-medium text-white hover:bg-accent-hover disabled:opacity-50"
+            className="rounded bg-accent px-2 py-1 text-sm font-medium text-white hover:bg-accent-hover disabled:opacity-50"
           >
             {activating ? 'Activating...' : 'Confirm'}
           </button>
@@ -118,7 +118,7 @@ export function AddRoadmapButton({
             type="button"
             disabled={activating}
             onClick={() => setPendingTemplateId(null)}
-            className="rounded border border-edge px-2 py-1 text-xs font-medium text-content-secondary hover:bg-surface-card disabled:opacity-50"
+            className="rounded border border-edge px-2 py-1 text-sm font-medium text-content-secondary hover:bg-surface-card disabled:opacity-50"
           >
             Cancel
           </button>
@@ -128,7 +128,7 @@ export function AddRoadmapButton({
           <select
             value={selectedTemplateId}
             onChange={(event) => setSelectedTemplateId(event.target.value)}
-            className="rounded border border-edge bg-surface-elevated px-2 py-1 text-xs text-content-primary"
+            className="rounded border border-edge bg-surface-elevated px-2 py-1 text-sm text-content-primary"
             data-testid="add-roadmap-select"
           >
             {eligible.map((template) => (
@@ -143,7 +143,7 @@ export function AddRoadmapButton({
             onClick={() =>
               selectedTemplate && setPendingTemplateId(selectedTemplate.id)
             }
-            className="rounded-md border border-accent bg-accent/10 px-3 py-1 text-xs font-medium text-accent hover:bg-accent/20 disabled:opacity-50"
+            className="rounded-md border border-accent bg-accent/10 px-3 py-1 text-sm font-medium text-accent hover:bg-accent/20 disabled:opacity-50"
             data-testid="add-roadmap-submit"
           >
             {activating ? 'Activating...' : 'Add'}

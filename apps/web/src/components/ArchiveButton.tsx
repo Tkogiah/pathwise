@@ -36,7 +36,7 @@ export function ArchiveButton({
       type="button"
       onClick={() => void handleToggle()}
       disabled={loading}
-      className="rounded border border-edge px-3 py-1 text-xs font-medium text-content-secondary hover:bg-surface-card disabled:opacity-50"
+      className="rounded border border-edge px-3 py-1 text-sm font-medium text-content-secondary hover:bg-surface-card disabled:opacity-50"
     >
       {loading
         ? isArchived

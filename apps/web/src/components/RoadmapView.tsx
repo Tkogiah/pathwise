@@ -125,7 +125,7 @@ export function RoadmapView({
               size={64}
               strokeWidth={6}
             />
-            <p className="text-sm text-content-muted">
+            <p className="text-base text-content-muted">
               Select a stage to view tasks
             </p>
           </div>
@@ -136,7 +136,7 @@ export function RoadmapView({
             <button
               type="button"
               onClick={handleBackToOverview}
-              className="text-sm text-content-muted hover:text-content-secondary"
+              className="text-base text-content-muted hover:text-content-secondary"
             >
               &larr; Overview
             </button>
@@ -146,22 +146,22 @@ export function RoadmapView({
                 <ProgressArc
                   completed={selectedStage.progress.completed}
                   total={selectedStage.progress.total}
-                  size={40}
-                  strokeWidth={4}
+                  size={64}
+                  strokeWidth={6}
                   color={stageArcColor}
                 />
                 <div>
                   <div className="flex items-center gap-2">
-                    <h2 className="text-sm font-semibold text-content-primary">
+                    <h2 className="text-base font-semibold text-content-primary">
                       {selectedStage.title}
                     </h2>
                     {isStageBehind(selectedStage) && (
-                      <span className="rounded-full border border-status-error-border bg-status-error-bg px-2 py-0.5 text-[10px] font-medium text-status-error">
+                      <span className="rounded-full border border-status-error-border bg-status-error-bg px-2 py-0.5 text-[11px] font-medium text-status-error">
                         Behind schedule
                       </span>
                     )}
                   </div>
-                  <p className="mt-0.5 text-xs text-content-muted">
+                  <p className="mt-0.5 text-sm text-content-muted">
                     {selectedStage.progress.completed} of{' '}
                     {selectedStage.progress.total} tasks complete
                     {selectedStage.timelineLabel &&

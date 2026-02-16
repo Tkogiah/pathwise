@@ -15,7 +15,7 @@ export default async function ArchivedClientsPage() {
     <div>
       <Link
         href="/clients"
-        className="text-sm text-content-muted hover:text-content-secondary"
+        className="text-base text-content-muted hover:text-content-secondary"
       >
         &larr; Active clients
       </Link>
@@ -25,7 +25,7 @@ export default async function ArchivedClientsPage() {
       </h1>
 
       {clients.length === 0 ? (
-        <p className="mt-6 text-sm text-content-muted">No archived clients.</p>
+        <p className="mt-6 text-base text-content-muted">No archived clients.</p>
       ) : (
         <ul className="mt-4 divide-y divide-edge overflow-hidden rounded-lg border border-edge bg-surface-elevated">
           {clients.map((client) => (
@@ -33,7 +33,7 @@ export default async function ArchivedClientsPage() {
               key={client.id}
               className="flex items-center justify-between px-4 py-3"
             >
-              <span className="text-sm font-medium text-content-primary">
+              <span className="text-base font-medium text-content-primary">
                 {client.lastName}, {client.firstName}
               </span>
               <UnarchiveButton clientId={client.id} />

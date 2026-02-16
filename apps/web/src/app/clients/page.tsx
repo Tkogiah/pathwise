@@ -26,7 +26,7 @@ export default async function ClientsPage() {
           <NewClientForm />
           <Link
             href="/clients/archived"
-            className="text-xs text-content-muted hover:text-content-secondary"
+            className="text-sm text-content-muted hover:text-content-secondary"
           >
             Archived
           </Link>
@@ -34,7 +34,7 @@ export default async function ClientsPage() {
       </div>
 
       {clients.length === 0 ? (
-        <p className="mt-6 text-sm text-content-muted">No clients found.</p>
+        <p className="mt-6 text-base text-content-muted">No clients found.</p>
       ) : (
         <ul className="mt-4 divide-y divide-edge overflow-hidden rounded-lg border border-edge bg-surface-elevated">
           {clients.map((client) => (
@@ -43,7 +43,7 @@ export default async function ClientsPage() {
                 href={`/clients/${client.id}`}
                 className="flex items-center gap-4 px-4 py-3 hover:bg-surface-card"
               >
-                <span className="shrink-0 text-sm font-medium text-content-primary">
+                <span className="shrink-0 text-base font-medium text-content-primary">
                   {client.lastName}, {client.firstName}
                 </span>
                 <div className="hidden flex-1 justify-end sm:flex">

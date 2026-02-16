@@ -13,7 +13,7 @@ export function DemoUserSelector({
 }) {
   return (
     <div className="flex items-center space-x-2 rounded-lg border border-edge bg-surface-elevated p-2 shadow-sm">
-      <span className="text-sm font-medium text-content-secondary">
+      <span className="text-base font-medium text-content-secondary">
         Demo User:
       </span>
       <div className="flex items-center space-x-1">
@@ -22,7 +22,7 @@ export function DemoUserSelector({
             key={user.id}
             onClick={() => onSelectUser(user.id)}
             className={`
-              rounded-md px-3 py-1 text-sm font-semibold
+              rounded-md px-3 py-1 text-base font-semibold
               ${
                 currentUserId === user.id
                   ? 'bg-accent text-white'

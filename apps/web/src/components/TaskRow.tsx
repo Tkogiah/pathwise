@@ -53,7 +53,7 @@ export function TaskRow({
 
       <div className="flex-1 truncate">
         <p
-          className={`truncate text-sm font-medium ${isMuted ? '' : 'text-content-primary'}`}
+          className={`truncate text-base font-medium ${isMuted ? '' : 'text-content-primary'}`}
         >
           {task.title}
         </p>
@@ -61,7 +61,7 @@ export function TaskRow({
 
       {task.status === 'BLOCKED' && (
         <span
-          className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-status-error text-[10px] font-bold text-white"
+          className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-status-error text-[11px] font-bold text-white"
           title="Blocked"
           aria-label="Blocked"
         >
@@ -71,7 +71,7 @@ export function TaskRow({
 
       {task.isLocked && (
         <span
-          className="shrink-0 text-sm text-content-muted"
+          className="shrink-0 text-base text-content-muted"
           title="Locked"
           aria-label="Locked"
         >
@@ -81,7 +81,7 @@ export function TaskRow({
 
       {task.isNa && (
         <span
-          className="shrink-0 text-sm text-content-muted"
+          className="shrink-0 text-base text-content-muted"
           title="Not Applicable"
           aria-label="Not Applicable"
         >
@@ -89,7 +89,7 @@ export function TaskRow({
         </span>
       )}
 
-      <div className="hidden shrink-0 text-xs text-content-muted sm:block">
+      <div className="hidden shrink-0 text-sm text-content-muted sm:block">
         {task.dueDate
           ? new Date(task.dueDate).toLocaleDateString('en-US', {
               month: 'short',
@@ -98,7 +98,7 @@ export function TaskRow({
           : '—'}
       </div>
 
-      <div className="h-6 w-6 shrink-0 rounded-full bg-surface-card text-center text-xs font-semibold leading-6 text-content-secondary">
+      <div className="h-6 w-6 shrink-0 rounded-full bg-surface-card text-center text-sm font-semibold leading-6 text-content-secondary">
         {task.assignedUser ? task.assignedUser.name.charAt(0) : '?'}
       </div>
     </button>

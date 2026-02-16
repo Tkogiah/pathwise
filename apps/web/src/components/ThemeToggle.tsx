@@ -51,7 +51,7 @@ export function ThemeToggle() {
       aria-label={
         theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'
       }
-      className="rounded-full bg-surface-card px-3 py-1 text-xs text-content-muted hover:text-content-secondary"
+      className="rounded-full bg-surface-card px-3 py-1 text-sm text-content-muted hover:text-content-secondary"
     >
       {theme === 'dark' ? '\u2600\uFE0F Light' : '\uD83C\uDF19 Dark'}
     </button>

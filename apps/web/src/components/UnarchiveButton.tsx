@@ -25,7 +25,7 @@ export function UnarchiveButton({ clientId }: { clientId: string }) {
       type="button"
       onClick={() => void handleUnarchive()}
       disabled={loading}
-      className="rounded bg-accent px-3 py-1 text-xs font-medium text-white hover:bg-accent-hover disabled:opacity-50"
+      className="rounded bg-accent px-3 py-1 text-sm font-medium text-white hover:bg-accent-hover disabled:opacity-50"
     >
       {loading ? 'Restoring...' : 'Unarchive'}
     </button>

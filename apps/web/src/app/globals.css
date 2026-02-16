@@ -1,6 +1,10 @@
 @import 'tailwindcss';
 @import '../styles/tokens.css';
 
+html {
+  font-size: 112.5%;
+}
+
 @theme {
   /* Surfaces */
   --color-surface-primary: var(--background-primary);

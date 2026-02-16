@@ -40,7 +40,7 @@ export default async function ClientDetailPage({
     <div>
       <Link
         href="/clients"
-        className="text-sm text-content-muted hover:text-content-secondary"
+        className="text-base text-content-muted hover:text-content-secondary"
       >
         &larr; All clients
       </Link>
@@ -50,7 +50,7 @@ export default async function ClientDetailPage({
           {client.firstName} {client.lastName}
         </h1>
         {client.isArchived && (
-          <span className="rounded-full border border-status-inactive-border bg-status-inactive-bg px-2 py-0.5 text-[10px] font-medium text-status-inactive">
+          <span className="rounded-full border border-status-inactive-border bg-status-inactive-bg px-2 py-0.5 text-[11px] font-medium text-status-inactive">
             Archived
           </span>
         )}
