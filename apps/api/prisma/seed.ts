@@ -1112,6 +1112,8 @@ async function main() {
       status: TaskStatus.IN_PROGRESS,
       assignedUserId: aisha.id,
       dueDate: daysFromNow(4),
+      appointmentAt: daysFromNow(2),
+      appointmentNote: 'SNAP interview check-in',
     },
   });
   await prisma.taskInstance.update({
