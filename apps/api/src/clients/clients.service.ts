@@ -46,6 +46,7 @@ export class ClientsService {
         ).length;
 
         return {
+          id: pi.id,
           templateName: pi.template.name,
           daysInProgram: Math.max(
             0,

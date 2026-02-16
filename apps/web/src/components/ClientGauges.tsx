@@ -1,6 +1,7 @@
 import { ProgressArc } from './ProgressArc';
 
 interface RoadmapGauge {
+  id: string;
   templateName: string;
   daysInProgram: number;
   programLengthDays: number | null;
@@ -17,10 +18,7 @@ export function ClientGauges({ roadmaps }: { roadmaps: RoadmapGauge[] }) {
   return (
     <div className="flex gap-4">
       {roadmaps.slice(0, 5).map((rm) => (
-        <div
-          key={rm.templateName}
-          className="flex items-center gap-2"
-        >
+        <div key={rm.id} className="flex items-center gap-2">
           <ProgressArc
             completed={rm.progress.completed}
             total={rm.progress.total}

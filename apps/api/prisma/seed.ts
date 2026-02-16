@@ -1023,21 +1023,6 @@ async function main() {
   // Stages 5-6: not activated (GRAY) — left as defaults
 
   // =============================================================
-  // DAVID THOMPSON — Instance 2 (early, multi-roadmap demo)
-  // =============================================================
-  const david2 = await cloneProgram(david.id, 0, daysAgo(5));
-
-  // Stage 1: 1 IN_PROGRESS, rest NOT_STARTED → YELLOW
-  await prisma.taskInstance.update({
-    where: { id: david2.taskInstanceMap[s1t1.id] },
-    data: {
-      status: TaskStatus.IN_PROGRESS,
-      assignedUserId: aisha.id,
-      dueDate: daysFromNow(5),
-    },
-  });
-
-  // =============================================================
   // SARAH MITCHELL — 1 instance (mixed progress, N/A demo)
   // =============================================================
   const sarah1 = await cloneProgram(sarah.id, 1, daysAgo(30));
@@ -1130,7 +1115,7 @@ async function main() {
   console.log('  Templates: 2');
   console.log('    - Housing Program (6 stages, 43 tasks)');
   console.log('    - Benefits Access (5 stages, 33 tasks)');
-  console.log('  Program instances: 4');
+  console.log('  Program instances: 3');
 }
 
 main()
