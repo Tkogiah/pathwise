@@ -516,6 +516,349 @@ async function main() {
   });
 
   // =============================================================
+  // Canonical Benefits Template (5 stages, 33 tasks)
+  // Source: docs/templates/Benefits_Canonical.md
+  // =============================================================
+  const benefits = await prisma.programTemplate.create({
+    data: {
+      name: 'Benefits Access',
+      description: 'Canonical 5-stage benefits access workflow (SNAP-focused)',
+    },
+  });
+
+  // --- Stage 1: Eligibility & Screening (Day 0–3, 7 tasks) ---
+  const bStage1 = await prisma.templateStage.create({
+    data: {
+      templateId: benefits.id,
+      title: 'Eligibility & Screening',
+      orderIndex: 0,
+      iconName: 'clipboard',
+      recommendedDurationDays: 3,
+      timelineLabel: 'Day 0–3',
+    },
+  });
+
+  const b1t1 = await prisma.templateTask.create({
+    data: {
+      stageId: bStage1.id,
+      title: 'Confirm Oregon residency',
+      description: 'Confirm Oregon residency (Day 0–1)',
+      orderIndex: 0,
+    },
+  });
+  const b1t2 = await prisma.templateTask.create({
+    data: {
+      stageId: bStage1.id,
+      title: 'Confirm identity documentation',
+      description: 'Confirm identity documentation status (Day 0–1)',
+      orderIndex: 1,
+    },
+  });
+  const b1t3 = await prisma.templateTask.create({
+    data: {
+      stageId: bStage1.id,
+      title: 'Identify household composition',
+      description: 'Identify household composition (Day 0–2)',
+      orderIndex: 2,
+    },
+  });
+  const b1t4 = await prisma.templateTask.create({
+    data: {
+      stageId: bStage1.id,
+      title: 'Review basic income sources',
+      description: 'Review basic income sources (Day 0–2)',
+      orderIndex: 3,
+    },
+  });
+  const b1t5 = await prisma.templateTask.create({
+    data: {
+      stageId: bStage1.id,
+      title: 'Assess housing status',
+      description: 'Assess housing status (Day 0–2)',
+      orderIndex: 4,
+    },
+  });
+  const b1t6 = await prisma.templateTask.create({
+    data: {
+      stageId: bStage1.id,
+      title: 'Identify expedited eligibility',
+      description: 'Identify potential expedited SNAP eligibility (Day 0–3)',
+      orderIndex: 5,
+    },
+  });
+  const b1t7 = await prisma.templateTask.create({
+    data: {
+      stageId: bStage1.id,
+      title: 'Determine other benefits screening',
+      description: 'Determine if other benefits screening is needed (Day 0–3)',
+      orderIndex: 6,
+    },
+  });
+
+  // --- Stage 2: Documentation Preparation (Day 2–10, 7 tasks) ---
+  const bStage2 = await prisma.templateStage.create({
+    data: {
+      templateId: benefits.id,
+      title: 'Documentation Preparation',
+      orderIndex: 1,
+      iconName: 'folder',
+      recommendedDurationDays: 8,
+      timelineLabel: 'Day 2–10',
+    },
+  });
+
+  const b2t1 = await prisma.templateTask.create({
+    data: {
+      stageId: bStage2.id,
+      title: 'Identify required docs list',
+      description: 'Identify required documentation list (Day 2–3)',
+      orderIndex: 0,
+    },
+  });
+  const b2t2 = await prisma.templateTask.create({
+    data: {
+      stageId: bStage2.id,
+      title: 'Confirm ID availability',
+      description: 'Confirm ID availability or initiate replacement (Day 2–5)',
+      orderIndex: 1,
+    },
+  });
+  const b2t3 = await prisma.templateTask.create({
+    data: {
+      stageId: bStage2.id,
+      title: 'Confirm proof of residence',
+      description: 'Confirm proof of residence strategy (Day 2–5)',
+      orderIndex: 2,
+    },
+  });
+  const b2t4 = await prisma.templateTask.create({
+    data: {
+      stageId: bStage2.id,
+      title: 'Confirm income verification',
+      description: 'Confirm income verification plan (Day 2–7)',
+      orderIndex: 3,
+    },
+  });
+  const b2t5 = await prisma.templateTask.create({
+    data: {
+      stageId: bStage2.id,
+      title: 'Confirm citizenship documentation',
+      description:
+        'Confirm citizenship/eligible noncitizen documentation (Day 2–7)',
+      orderIndex: 4,
+    },
+  });
+  const b2t6 = await prisma.templateTask.create({
+    data: {
+      stageId: bStage2.id,
+      title: 'Identify verification barriers',
+      description: 'Identify verification barriers (Day 2–10)',
+      orderIndex: 5,
+    },
+  });
+  const b2t7 = await prisma.templateTask.create({
+    data: {
+      stageId: bStage2.id,
+      title: 'Create document follow-up plan',
+      description: 'Create document follow-up plan (Day 2–10)',
+      orderIndex: 6,
+    },
+  });
+
+  // --- Stage 3: Application Submission (Day 5–14, 6 tasks) ---
+  const bStage3 = await prisma.templateStage.create({
+    data: {
+      templateId: benefits.id,
+      title: 'Application Submission',
+      orderIndex: 2,
+      iconName: 'document',
+      recommendedDurationDays: 9,
+      timelineLabel: 'Day 5–14',
+    },
+  });
+
+  const b3t1 = await prisma.templateTask.create({
+    data: {
+      stageId: bStage3.id,
+      title: 'Choose application method',
+      description: 'Choose application method (Day 5–7)',
+      orderIndex: 0,
+    },
+  });
+  const b3t2 = await prisma.templateTask.create({
+    data: {
+      stageId: bStage3.id,
+      title: 'Complete SNAP application',
+      description: 'Complete SNAP application (Day 5–10)',
+      orderIndex: 1,
+    },
+  });
+  const b3t3 = await prisma.templateTask.create({
+    data: {
+      stageId: bStage3.id,
+      title: 'Confirm application submitted',
+      description: 'Confirm application submitted (Day 5–10)',
+      orderIndex: 2,
+    },
+  });
+  const b3t4 = await prisma.templateTask.create({
+    data: {
+      stageId: bStage3.id,
+      title: 'Record application date',
+      description: 'Record application date (Day 5–10)',
+      orderIndex: 3,
+    },
+  });
+  const b3t5 = await prisma.templateTask.create({
+    data: {
+      stageId: bStage3.id,
+      title: 'Confirm expedited request',
+      description: 'Confirm expedited request if applicable (Day 5–10)',
+      orderIndex: 4,
+    },
+  });
+  const b3t6 = await prisma.templateTask.create({
+    data: {
+      stageId: bStage3.id,
+      title: 'Provide confirmation number',
+      description: 'Provide confirmation/reference number (Day 5–14)',
+      orderIndex: 5,
+    },
+  });
+
+  // --- Stage 4: Interview & Verification (Day 7–21, 6 tasks) ---
+  const bStage4 = await prisma.templateStage.create({
+    data: {
+      templateId: benefits.id,
+      title: 'Interview & Verification',
+      orderIndex: 3,
+      iconName: 'search',
+      recommendedDurationDays: 14,
+      timelineLabel: 'Day 7–21',
+    },
+  });
+
+  const b4t1 = await prisma.templateTask.create({
+    data: {
+      stageId: bStage4.id,
+      title: 'Confirm interview scheduled',
+      description: 'Confirm interview scheduled (Day 7–14)',
+      orderIndex: 0,
+    },
+  });
+  const b4t2 = await prisma.templateTask.create({
+    data: {
+      stageId: bStage4.id,
+      title: 'Prepare participant for interview',
+      description: 'Prepare participant for interview (Day 7–14)',
+      orderIndex: 1,
+    },
+  });
+  const b4t3 = await prisma.templateTask.create({
+    data: {
+      stageId: bStage4.id,
+      title: 'Ensure interview completed',
+      description: 'Ensure interview completed (Day 7–21)',
+      orderIndex: 2,
+    },
+  });
+  const b4t4 = await prisma.templateTask.create({
+    data: {
+      stageId: bStage4.id,
+      title: 'Track requested verifications',
+      description: 'Track requested additional verifications (Day 7–21)',
+      orderIndex: 3,
+    },
+  });
+  const b4t5 = await prisma.templateTask.create({
+    data: {
+      stageId: bStage4.id,
+      title: 'Submit follow-up documents',
+      description: 'Submit follow-up documents (Day 7–21)',
+      orderIndex: 4,
+    },
+  });
+  const b4t6 = await prisma.templateTask.create({
+    data: {
+      stageId: bStage4.id,
+      title: 'Monitor verification deadlines',
+      description: 'Monitor verification deadlines (Day 7–21)',
+      orderIndex: 5,
+    },
+  });
+
+  // --- Stage 5: Decision & Next Steps (Day 14–30, 7 tasks) ---
+  const bStage5 = await prisma.templateStage.create({
+    data: {
+      templateId: benefits.id,
+      title: 'Decision & Next Steps',
+      orderIndex: 4,
+      iconName: 'flag',
+      recommendedDurationDays: 16,
+      timelineLabel: 'Day 14–30',
+    },
+  });
+
+  const b5t1 = await prisma.templateTask.create({
+    data: {
+      stageId: bStage5.id,
+      title: 'Confirm decision status',
+      description: 'Confirm approval or denial status (Day 14–30)',
+      orderIndex: 0,
+    },
+  });
+  const b5t2 = await prisma.templateTask.create({
+    data: {
+      stageId: bStage5.id,
+      title: 'Confirm benefit start date',
+      description: 'If approved, confirm benefit start date (Day 14–30)',
+      orderIndex: 1,
+    },
+  });
+  const b5t3 = await prisma.templateTask.create({
+    data: {
+      stageId: bStage5.id,
+      title: 'Confirm EBT card status',
+      description:
+        'Confirm EBT card received or replacement requested (Day 14–30)',
+      orderIndex: 2,
+    },
+  });
+  const b5t4 = await prisma.templateTask.create({
+    data: {
+      stageId: bStage5.id,
+      title: 'Educate on benefit use',
+      description:
+        'Educate on benefit use and reporting requirements (Day 14–30)',
+      orderIndex: 3,
+    },
+  });
+  const b5t5 = await prisma.templateTask.create({
+    data: {
+      stageId: bStage5.id,
+      title: 'Review denial reason',
+      description: 'If denied, review denial reason (Day 14–30)',
+      orderIndex: 4,
+    },
+  });
+  const b5t6 = await prisma.templateTask.create({
+    data: {
+      stageId: bStage5.id,
+      title: 'Determine appeal viability',
+      description: 'Determine if appeal is appropriate (Day 14–30)',
+      orderIndex: 5,
+    },
+  });
+  const b5t7 = await prisma.templateTask.create({
+    data: {
+      stageId: bStage5.id,
+      title: 'Assist with appeal submission',
+      description: 'Assist with appeal submission if applicable (Day 14–30)',
+      orderIndex: 6,
+    },
+  });
+
+  // =============================================================
   // Instance helpers
   // =============================================================
   // Note: stage5 was removed (Ongoing Case Management), so stage6/7 remain to avoid renaming.
@@ -782,7 +1125,9 @@ async function main() {
   console.log('Seed complete.');
   console.log('  Users: 3');
   console.log('  Clients: 3');
-  console.log('  Template: 1 (Housing Program, 6 stages, 43 tasks)');
+  console.log('  Templates: 2');
+  console.log('    - Housing Program (6 stages, 43 tasks)');
+  console.log('    - Benefits Access (5 stages, 33 tasks)');
   console.log('  Program instances: 4');
 }
 

@@ -93,13 +93,16 @@ export class ClientsService {
       throw new BadRequestException('Client already has this roadmap');
     }
 
+    const defaultProgramLengthDays =
+      template.name === 'Benefits Access' ? 30 : 90;
+
     return this.prisma.$transaction(async (tx) => {
       const instance = await tx.clientProgramInstance.create({
         data: {
           clientId,
           templateId,
           startDate: new Date(),
-          programLengthDays: 90,
+          programLengthDays: defaultProgramLengthDays,
           isActive: true,
         },
       });

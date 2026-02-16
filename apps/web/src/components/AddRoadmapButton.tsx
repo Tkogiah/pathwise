@@ -19,6 +19,7 @@ export function AddRoadmapButton({
   const router = useRouter();
   const [templates, setTemplates] = useState<Template[]>([]);
   const [activating, setActivating] = useState(false);
+  const [selectedTemplateId, setSelectedTemplateId] = useState<string>('');
 
   useEffect(() => {
     apiFetch<Template[]>('/templates').then(setTemplates).catch(() => {});
@@ -30,22 +31,13 @@ export function AddRoadmapButton({
 
   if (eligible.length === 0) return null;
 
-  if (eligible.length > 1) {
-    return (
-      <button
-        type="button"
-        disabled
-        className="rounded-md border border-edge bg-surface-elevated px-3 py-1 text-xs font-medium text-content-muted"
-      >
-        + Add Roadmap
-      </button>
-    );
-  }
+  useEffect(() => {
+    if (!selectedTemplateId && eligible.length > 0) {
+      setSelectedTemplateId(eligible[0].id);
+    }
+  }, [eligible, selectedTemplateId]);
 
   const handleActivate = async (template: Template) => {
-    if (eligible.length > 1) {
-      return;
-    }
     if (!confirm(`Activate ${template.name} for this client?`)) return;
     setActivating(true);
     try {
@@ -60,15 +52,45 @@ export function AddRoadmapButton({
     }
   };
 
+  if (eligible.length === 1) {
+    return (
+      <button
+        type="button"
+        disabled={activating}
+        onClick={() => void handleActivate(eligible[0])}
+        className="rounded-md border border-accent bg-accent/10 px-3 py-1 text-xs font-medium text-accent hover:bg-accent/20 disabled:opacity-50"
+        data-testid="add-roadmap-button"
+      >
+        {activating ? 'Activating...' : '+ Add Roadmap'}
+      </button>
+    );
+  }
+
+  const selectedTemplate = eligible.find((t) => t.id === selectedTemplateId);
+
   return (
-    <button
-      type="button"
-      disabled={activating}
-      onClick={() => void handleActivate(eligible[0])}
-      className="rounded-md border border-accent bg-accent/10 px-3 py-1 text-xs font-medium text-accent hover:bg-accent/20 disabled:opacity-50"
-      data-testid="add-roadmap-button"
-    >
-      {activating ? 'Activating...' : '+ Add Roadmap'}
-    </button>
+    <div className="flex items-center gap-2">
+      <select
+        value={selectedTemplateId}
+        onChange={(event) => setSelectedTemplateId(event.target.value)}
+        className="rounded border border-edge bg-surface-elevated px-2 py-1 text-xs text-content-primary"
+        data-testid="add-roadmap-select"
+      >
+        {eligible.map((template) => (
+          <option key={template.id} value={template.id}>
+            {template.name}
+          </option>
+        ))}
+      </select>
+      <button
+        type="button"
+        disabled={activating || !selectedTemplate}
+        onClick={() => selectedTemplate && handleActivate(selectedTemplate)}
+        className="rounded-md border border-accent bg-accent/10 px-3 py-1 text-xs font-medium text-accent hover:bg-accent/20 disabled:opacity-50"
+        data-testid="add-roadmap-submit"
+      >
+        {activating ? 'Activating...' : 'Add'}
+      </button>
+    </div>
   );
 }
