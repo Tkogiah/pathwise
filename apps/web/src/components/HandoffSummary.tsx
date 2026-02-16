@@ -7,10 +7,12 @@ export function HandoffSummary({
   stageId,
   summary,
   onUpdated,
+  readOnly = false,
 }: {
   stageId: string;
   summary: string | null;
   onUpdated: () => Promise<void>;
+  readOnly?: boolean;
 }) {
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState(summary ?? '');
@@ -83,12 +85,14 @@ export function HandoffSummary({
         <span className="text-xs font-medium text-content-muted">
           Handoff Summary
         </span>
-        <button
-          onClick={handleEdit}
-          className="text-xs text-content-muted hover:text-content-secondary"
-        >
-          Edit
-        </button>
+        {!readOnly && (
+          <button
+            onClick={handleEdit}
+            className="text-xs text-content-muted hover:text-content-secondary"
+          >
+            Edit
+          </button>
+        )}
       </div>
       <p className="mt-1 text-sm text-content-secondary">
         {summary || (

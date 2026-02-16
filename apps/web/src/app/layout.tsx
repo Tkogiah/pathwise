@@ -8,7 +8,7 @@ const plex = IBM_Plex_Sans({
 });
 
 export const metadata: Metadata = {
-  title: 'Program Roadmap',
+  title: 'Pathwise',
   description: 'Visual program state engine for case managers',
 };
 
@@ -18,14 +18,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var t=localStorage.getItem('theme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.classList.add('theme-dark')}})();`,
+          }}
+        />
+      </head>
       <body
         className={`${plex.className} bg-surface-primary text-content-primary antialiased`}
       >
         <header className="border-b border-edge bg-surface-elevated">
           <div className="mx-auto max-w-3xl px-4 py-3 lg:max-w-5xl">
             <span className="text-sm font-semibold tracking-wide text-content-secondary uppercase">
-              Program Roadmap
+              Pathwise
             </span>
           </div>
         </header>

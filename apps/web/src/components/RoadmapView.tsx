@@ -3,18 +3,22 @@
 import { useState, useEffect, useCallback } from 'react';
 import { RoadmapVM, TaskVM } from '@/lib/types';
 import { apiFetch } from '@/lib/api';
+import { isStageBehind } from '@/lib/utils';
 import { RoadmapBar } from './RoadmapBar';
 import { StageDetailList } from './StageDetailList';
 import { TaskDrawer } from './TaskDrawer';
 import { HandoffSummary } from './HandoffSummary';
 import { TaskFilterToggle, TaskFilter } from './TaskFilterToggle';
+import { ProgressArc } from './ProgressArc';
 
 export function RoadmapView({
   initialRoadmap,
   currentDemoUserId,
+  isArchived = false,
 }: {
   initialRoadmap: RoadmapVM;
   currentDemoUserId: string | null;
+  isArchived?: boolean;
 }) {
   const [currentRoadmap, setCurrentRoadmap] = useState(initialRoadmap);
   const [selectedStageId, setSelectedStageId] = useState<string | null>(null);
@@ -71,6 +75,24 @@ export function RoadmapView({
     (s) => s.id === selectedStageId,
   );
 
+  const overallCompleted = currentRoadmap.stages.reduce(
+    (sum, s) => sum + s.progress.completed,
+    0,
+  );
+  const overallTotal = currentRoadmap.stages.reduce(
+    (sum, s) => sum + s.progress.total,
+    0,
+  );
+
+  const stageArcColor = selectedStage
+    ? {
+        GREEN: 'success' as const,
+        YELLOW: 'warning' as const,
+        RED: 'error' as const,
+        GRAY: 'inactive' as const,
+      }[selectedStage.status]
+    : 'accent';
+
   const filteredTasks =
     selectedStage && taskFilter === 'mine'
       ? selectedStage.tasks.filter(
@@ -88,7 +110,13 @@ export function RoadmapView({
         />
 
         {!selectedStage && (
-          <div className="flex h-24 items-center justify-center rounded-md border-2 border-dashed border-edge">
+          <div className="flex h-28 flex-col items-center justify-center gap-2 rounded-md border-2 border-dashed border-edge">
+            <ProgressArc
+              completed={overallCompleted}
+              total={overallTotal}
+              size={64}
+              strokeWidth={6}
+            />
             <p className="text-sm text-content-muted">
               Select a stage to view tasks
             </p>
@@ -106,17 +134,38 @@ export function RoadmapView({
             </button>
 
             <section className="rounded-lg border border-edge bg-surface-elevated px-4 py-3">
-              <h2 className="text-sm font-semibold text-content-primary">
-                {selectedStage.title}
-              </h2>
-              <p className="mt-1 text-xs text-content-muted">
-                {selectedStage.progress.completed} of{' '}
-                {selectedStage.progress.total} tasks complete
-              </p>
+              <div className="flex items-center gap-3">
+                <ProgressArc
+                  completed={selectedStage.progress.completed}
+                  total={selectedStage.progress.total}
+                  size={40}
+                  strokeWidth={4}
+                  color={stageArcColor}
+                />
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h2 className="text-sm font-semibold text-content-primary">
+                      {selectedStage.title}
+                    </h2>
+                    {isStageBehind(selectedStage) && (
+                      <span className="rounded-full border border-status-error-border bg-status-error-bg px-2 py-0.5 text-[10px] font-medium text-status-error">
+                        Behind schedule
+                      </span>
+                    )}
+                  </div>
+                  <p className="mt-0.5 text-xs text-content-muted">
+                    {selectedStage.progress.completed} of{' '}
+                    {selectedStage.progress.total} tasks complete
+                    {selectedStage.timelineLabel &&
+                      ` · Target: ${selectedStage.timelineLabel}`}
+                  </p>
+                </div>
+              </div>
               <HandoffSummary
                 stageId={selectedStage.id}
                 summary={selectedStage.handoffSummary}
                 onUpdated={refreshRoadmap}
+                readOnly={isArchived}
               />
             </section>
 
@@ -143,6 +192,7 @@ export function RoadmapView({
         task={selectedTask}
         onClose={handleCloseDrawer}
         onTaskUpdated={refreshRoadmap}
+        readOnly={isArchived}
       />
     </>
   );

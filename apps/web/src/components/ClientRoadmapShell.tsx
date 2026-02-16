@@ -7,6 +7,7 @@ import { DEMO_USERS } from '@/lib/demo-users';
 import { RoadmapTabs } from './RoadmapTabs';
 import { RoadmapView } from './RoadmapView';
 import { DemoUserSelector } from './DemoUserSelector';
+import { ThemeToggle } from './ThemeToggle';
 
 interface RoadmapSummary {
   roadmapId: string;
@@ -16,9 +17,11 @@ interface RoadmapSummary {
 export function ClientRoadmapShell({
   roadmaps,
   initialRoadmap,
+  isArchived = false,
 }: {
   roadmaps: RoadmapSummary[];
   initialRoadmap: RoadmapVM;
+  isArchived?: boolean;
 }) {
   const [selectedRoadmapId, setSelectedRoadmapId] = useState(initialRoadmap.id);
   const [roadmapData, setRoadmapData] = useState<RoadmapVM>(initialRoadmap);
@@ -66,11 +69,14 @@ export function ClientRoadmapShell({
           selectedRoadmapId={selectedRoadmapId}
           onSelectRoadmap={(id) => void handleSelectRoadmap(id)}
         />
-        <DemoUserSelector
-          users={DEMO_USERS}
-          currentUserId={currentDemoUserId}
-          onSelectUser={setCurrentDemoUserId}
-        />
+        <div className="flex items-center gap-2">
+          <DemoUserSelector
+            users={DEMO_USERS}
+            currentUserId={currentDemoUserId}
+            onSelectUser={setCurrentDemoUserId}
+          />
+          <ThemeToggle />
+        </div>
       </div>
 
       <div
@@ -87,6 +93,7 @@ export function ClientRoadmapShell({
             key={selectedRoadmapId}
             initialRoadmap={roadmapData}
             currentDemoUserId={currentDemoUserId}
+            isArchived={isArchived}
           />
         )}
       </div>

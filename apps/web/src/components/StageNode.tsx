@@ -1,7 +1,7 @@
 'use client';
 
 import { StageVM } from '@/lib/types';
-import { slugify } from '@/lib/utils';
+import { slugify, isStageBehind } from '@/lib/utils';
 
 const STATUS_DOT: Record<StageVM['status'], string> = {
   GREEN: 'bg-status-success',
@@ -30,6 +30,8 @@ const ICON_MAP: Record<string, string> = {
   search: '\u{1F50D}',
   home: '\u{1F3E0}',
   shield: '\u{1F6E1}\uFE0F',
+  document: '\u{1F4C4}',
+  flag: '\u{1F3C1}',
 };
 
 export function StageNode({
@@ -46,6 +48,7 @@ export function StageNode({
   const statusLabel = STATUS_LABEL[stage.status];
   const slug = slugify(stage.title);
   const nodeBg = STATUS_BG[stage.status];
+  const behind = isStageBehind(stage);
 
   return (
     <button
@@ -78,6 +81,11 @@ export function StageNode({
       >
         {completed}/{total}
       </span>
+      {behind && (
+        <span className="mt-0.5 text-[9px] font-medium text-status-error">
+          Behind
+        </span>
+      )}
       {stage.redTaskCount > 0 && (
         <span
           className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-status-error text-[10px] font-semibold text-white"

@@ -26,10 +26,12 @@ export function TaskDrawer({
   task,
   onClose,
   onTaskUpdated,
+  readOnly = false,
 }: {
   task: TaskVM | null;
   onClose: () => void;
   onTaskUpdated: () => Promise<void>;
+  readOnly?: boolean;
 }) {
   const titleId = useId();
   const [updating, setUpdating] = useState(false);
@@ -117,10 +119,12 @@ export function TaskDrawer({
               <div>
                 <dt className="font-medium text-content-muted">Status</dt>
                 <dd className="mt-1">
-                  {task.isLocked ? (
+                  {task.isLocked || readOnly ? (
                     <span className="text-content-muted">
                       {STATUS_LABELS[task.status] ?? task.status}
-                      <span className="ml-1 text-xs">(locked)</span>
+                      {task.isLocked && (
+                        <span className="ml-1 text-xs">(locked)</span>
+                      )}
                     </span>
                   ) : (
                     <select

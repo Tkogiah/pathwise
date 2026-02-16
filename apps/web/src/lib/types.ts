@@ -28,6 +28,8 @@ export interface StageVM {
   activatedAt: string | null;
   completedAt: string | null;
   handoffSummary: string | null;
+  timelineLabel: string | null;
+  recommendedDurationDays: number | null;
   tasks: TaskVM[];
 }
 
