@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useId } from 'react';
+import { useState, useEffect, useId, useRef } from 'react';
 import { TaskVM } from '@/lib/types';
 import { apiPatch } from '@/lib/api';
 
@@ -76,8 +76,9 @@ export function TaskDrawer({
   const [editingDue, setEditingDue] = useState(false);
   const [editingAppointment, setEditingAppointment] = useState(false);
   const [dueDateValue, setDueDateValue] = useState('');
-  const [appointmentValue, setAppointmentValue] = useState('');
   const [appointmentNoteValue, setAppointmentNoteValue] = useState('');
+  const [appointmentError, setAppointmentError] = useState('');
+  const appointmentInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     if (!task) return;
@@ -97,8 +98,13 @@ export function TaskDrawer({
     setEditingDue(false);
     setEditingAppointment(false);
     setDueDateValue(toDateInputValue(task.dueDate));
-    setAppointmentValue(toDateTimeInputValue(task.appointmentAt));
+    if (appointmentInputRef.current) {
+      appointmentInputRef.current.value = toDateTimeInputValue(
+        task.appointmentAt,
+      );
+    }
     setAppointmentNoteValue(task.appointmentNote ?? '');
+    setAppointmentError('');
   }, [task]);
 
   if (!task) return null;
@@ -145,11 +151,15 @@ export function TaskDrawer({
   };
 
   const handleSaveAppointment = async () => {
+    const rawAppointment = appointmentInputRef.current?.value ?? '';
+    if (!rawAppointment) {
+      setAppointmentError('Please choose a date and time for the appointment.');
+      appointmentInputRef.current?.focus();
+      return;
+    }
     setUpdating(true);
     try {
-      const appointmentIso = appointmentValue
-        ? new Date(appointmentValue).toISOString()
-        : null;
+      const appointmentIso = new Date(rawAppointment).toISOString();
 
       await apiPatch(`/task-instances/${task.id}`, {
         appointmentAt: appointmentIso,
@@ -159,6 +169,7 @@ export function TaskDrawer({
       });
       await onTaskUpdated();
       setEditingAppointment(false);
+      setAppointmentError('');
     } catch {
       // TODO: show error toast in future
     } finally {
@@ -173,8 +184,13 @@ export function TaskDrawer({
 
   const handleCancelAppointment = () => {
     setEditingAppointment(false);
-    setAppointmentValue(toDateTimeInputValue(task.appointmentAt));
+    if (appointmentInputRef.current) {
+      appointmentInputRef.current.value = toDateTimeInputValue(
+        task.appointmentAt,
+      );
+    }
     setAppointmentNoteValue(task.appointmentNote ?? '');
+    setAppointmentError('');
   };
 
   const drawerStyles = `
@@ -345,12 +361,17 @@ export function TaskDrawer({
                     </label>
                     <input
                       type="datetime-local"
-                      value={appointmentValue}
-                      onChange={(event) =>
-                        setAppointmentValue(event.target.value)
-                      }
+                      ref={appointmentInputRef}
+                      required
+                      defaultValue={toDateTimeInputValue(task.appointmentAt)}
+                      onChange={() => setAppointmentError('')}
                       className="mt-1 w-full rounded border border-edge bg-surface-elevated px-2 py-1 text-base text-content-primary"
                     />
+                    {appointmentError && (
+                      <p className="mt-2 text-sm text-status-error">
+                        {appointmentError}
+                      </p>
+                    )}
                     <textarea
                       value={appointmentNoteValue}
                       onChange={(event) =>
