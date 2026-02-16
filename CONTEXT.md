@@ -9,7 +9,8 @@
 5. `docs/UI_CLEANUP.md`
 6. `docs/DESIGN_TOKENS_BRIEF.md`
 7. `docs/templates/Housing_Canonical.md`
-8. `docs/task_briefs/` (latest plan request + plan)
+8. `docs/templates/Benefits_Canonical.md`
+9. `docs/task_briefs/` (latest plan request + plan)
 
 ## Purpose
 
@@ -62,6 +63,13 @@ Pathwise is a visual program state engine for case managers. It reduces friction
 - stage_instances
 - task_instances
 
+### Key Field Extensions
+
+- client_program_instances: `programLengthDays`
+- template_stages: `timelineLabel`, `recommendedDurationDays`
+- clients: `isArchived`
+- task_instances: `appointmentAt`, `appointmentNote`, `dueNote`
+
 ## Engine Rules (Critical)
 
 - Task status enum: NOT_STARTED, IN_PROGRESS, BLOCKED, COMPLETE + is_na flag.
@@ -76,23 +84,27 @@ Pathwise is a visual program state engine for case managers. It reduces friction
 
 ## UI Structure (Current)
 
-- Client page: name, roadmap tabs, horizontal stage roadmap bar, stage detail panel.
-- Stage detail: vertical task list, filters (All/My Tasks).
-- Task drawer: right panel for status, due date, blocker, assignee.
+- Client page: name + controls, roadmap tabs always visible, horizontal stage roadmap bar.
+- Overview state: no stage selected; shows overall progress arc + prompt.
+- Zoom-in state: stage header with progress arc + timeline label + “behind schedule” badge, task list below.
+- Stage detail: vertical task list, filters (All/My Tasks), handoff summary.
+- Task drawer: right panel for status, due date, blocker, appointment scheduling; assignee removed.
 
-## Canonical Template
+## Canonical Templates
 
-- Canonical 7‑stage Housing template is the production source of truth.
-- Files:
+- Housing template is canonical source of truth for production (6 stages; “Ongoing Case Management” removed from roadmap).
   - docs/templates/Housing_Canonical.md
   - docs/templates/Housing_Canonical.json
+- Benefits template (Oregon SNAP‑focused) is available as second roadmap.
+  - docs/templates/Benefits_Canonical.md
 
-## Theme / Visual Direction (In Progress)
+## Theme / Visual Direction (Implemented)
 
 - Warm gray background (not pure white).
 - Thick gauge arcs for overall progress + per‑stage progress.
 - Two palettes: Light and Dark.
-- Tokens live in: docs/DESIGN_TOKENS_BRIEF.md (to be implemented via CSS vars + Tailwind mapping).
+- Tokens implemented via CSS vars + Tailwind mapping (see docs/DESIGN_TOKENS_BRIEF.md).
+- Theme toggle in global header; per‑demo‑user preference stored in localStorage.
 
 ## Out of Scope (MVP)
 
@@ -108,7 +120,17 @@ Pathwise is a visual program state engine for case managers. It reduces friction
 - Phase 2: task updates + blockers + handoff field + filters
 - Phase 3: multi‑roadmap tabs + responsive polish + accessibility + E2E tests
 - Phase 4: UI overhaul (roadmap‑first, zoom‑in view, progress arcs, visual system)
-- Phase 5: replace template with canonical 7‑stage plan + update tests
+- Phase 5: replace template with canonical housing plan + add benefits template
+- Phase 6: client metadata edit, add roadmap activation, client gauges, scheduling/appointments
+
+## Recent Additions (Current State)
+
+- Client archiving (archive/unarchive, archived list view).
+- Program metadata edit (start date + program length) with API PATCH /roadmaps/:id.
+- Behind‑schedule logic surfaced in roadmap bar + stage header.
+- Add Roadmap flow (GET /templates, POST /clients/:id/roadmaps).
+- Client list gauges showing days in program + progress per active roadmap.
+- Appointments and due date editing in task drawer; appointment indicators in roadmap overview.
 
 ## Collaboration Roles
 
