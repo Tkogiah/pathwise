@@ -95,7 +95,13 @@ export class ClientsService {
 
     return this.prisma.$transaction(async (tx) => {
       const instance = await tx.clientProgramInstance.create({
-        data: { clientId, templateId, startDate: new Date(), isActive: true },
+        data: {
+          clientId,
+          templateId,
+          startDate: new Date(),
+          programLengthDays: 90,
+          isActive: true,
+        },
       });
 
       const stages = await tx.templateStage.findMany({

@@ -10,6 +10,7 @@ import { TaskDrawer } from './TaskDrawer';
 import { HandoffSummary } from './HandoffSummary';
 import { TaskFilterToggle, TaskFilter } from './TaskFilterToggle';
 import { ProgressArc } from './ProgressArc';
+import { ProgramMetadata } from './ProgramMetadata';
 
 export function RoadmapView({
   initialRoadmap,
@@ -103,6 +104,13 @@ export function RoadmapView({
   return (
     <>
       <div className="space-y-4">
+        <ProgramMetadata
+          roadmapId={currentRoadmap.id}
+          startDate={currentRoadmap.startDate}
+          programLengthDays={currentRoadmap.programLengthDays}
+          readOnly={isArchived}
+          onUpdated={refreshRoadmap}
+        />
         <RoadmapBar
           stages={currentRoadmap.stages}
           selectedStageId={selectedStageId}

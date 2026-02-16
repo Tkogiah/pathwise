@@ -38,6 +38,7 @@ export interface RoadmapVM {
   templateName: string;
   clientName: string;
   startDate: string;
+  programLengthDays: number | null;
   isActive: boolean;
   stages: StageVM[];
 }

@@ -539,6 +539,7 @@ async function main() {
         clientId,
         templateId: housing.id,
         startDate,
+        programLengthDays: 90,
       },
     });
 

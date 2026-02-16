@@ -43,6 +43,33 @@ export class RoadmapsService {
     return this.toViewModel(instance);
   }
 
+  async update(
+    id: string,
+    dto: { startDate?: string; programLengthDays?: number | null },
+  ) {
+    const instance = await this.prisma.clientProgramInstance.findUnique({
+      where: { id },
+    });
+    if (!instance) {
+      throw new NotFoundException(`Roadmap ${id} not found`);
+    }
+
+    const updateData: Record<string, unknown> = {};
+    if (dto.startDate !== undefined) {
+      updateData.startDate = new Date(dto.startDate);
+    }
+    if (dto.programLengthDays !== undefined) {
+      updateData.programLengthDays = dto.programLengthDays;
+    }
+
+    await this.prisma.clientProgramInstance.update({
+      where: { id },
+      data: updateData,
+    });
+
+    return this.findOne(id);
+  }
+
   private toViewModel(
     instance: NonNullable<Awaited<ReturnType<typeof this.findOneRaw>>>,
   ) {
@@ -108,6 +135,7 @@ export class RoadmapsService {
       templateName: instance.template.name,
       clientName: `${instance.client.firstName} ${instance.client.lastName}`,
       startDate: instance.startDate,
+      programLengthDays: instance.programLengthDays,
       isActive: instance.isActive,
       stages,
     };

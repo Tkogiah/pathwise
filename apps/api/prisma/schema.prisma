@@ -100,8 +100,9 @@ model ClientProgramInstance {
   id         String   @id @default(cuid())
   clientId   String
   templateId String
-  startDate  DateTime
-  isActive   Boolean  @default(true)
+  startDate         DateTime
+  programLengthDays Int?
+  isActive          Boolean  @default(true)
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
