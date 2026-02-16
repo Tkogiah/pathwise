@@ -131,6 +131,9 @@ model TaskInstance {
   status          TaskStatus  @default(NOT_STARTED)
   assignedUserId  String?
   dueDate         DateTime?
+  dueNote         String?
+  appointmentAt   DateTime?
+  appointmentNote String?
   blockerType     BlockerType?
   blockerNote     String?
   completedAt     DateTime?

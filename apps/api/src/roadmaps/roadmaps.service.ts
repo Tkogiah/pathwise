@@ -110,6 +110,9 @@ export class RoadmapsService {
           blockerType: ti.blockerType,
           blockerNote: ti.blockerNote,
           dependsOnTaskId: ti.templateTask.dependsOnTaskId,
+          dueNote: ti.dueNote,
+          appointmentAt: ti.appointmentAt,
+          appointmentNote: ti.appointmentNote,
         };
       });
 

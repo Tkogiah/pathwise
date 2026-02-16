@@ -15,6 +15,9 @@ export interface TaskVM {
   blockerType: string | null;
   blockerNote: string | null;
   dependsOnTaskId: string | null;
+  dueNote: string | null;
+  appointmentAt: string | null;
+  appointmentNote: string | null;
 }
 
 export interface StageVM {

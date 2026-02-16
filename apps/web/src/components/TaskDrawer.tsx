@@ -29,6 +29,37 @@ function formatDate(dateString: string | null) {
   });
 }
 
+function formatDateTime(dateString: string | null) {
+  if (!dateString) return '\u2014';
+  return new Date(dateString).toLocaleString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+  });
+}
+
+function toDateInputValue(dateString: string | null) {
+  if (!dateString) return '';
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+function toDateTimeInputValue(dateString: string | null) {
+  if (!dateString) return '';
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  return `${year}-${month}-${day}T${hours}:${minutes}`;
+}
+
 export function TaskDrawer({
   task,
   onClose,
@@ -42,6 +73,11 @@ export function TaskDrawer({
 }) {
   const titleId = useId();
   const [updating, setUpdating] = useState(false);
+  const [editingDue, setEditingDue] = useState(false);
+  const [editingAppointment, setEditingAppointment] = useState(false);
+  const [dueDateValue, setDueDateValue] = useState('');
+  const [appointmentValue, setAppointmentValue] = useState('');
+  const [appointmentNoteValue, setAppointmentNoteValue] = useState('');
 
   useEffect(() => {
     if (!task) return;
@@ -55,6 +91,15 @@ export function TaskDrawer({
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [task, onClose]);
+
+  useEffect(() => {
+    if (!task) return;
+    setEditingDue(false);
+    setEditingAppointment(false);
+    setDueDateValue(toDateInputValue(task.dueDate));
+    setAppointmentValue(toDateTimeInputValue(task.appointmentAt));
+    setAppointmentNoteValue(task.appointmentNote ?? '');
+  }, [task]);
 
   if (!task) return null;
 
@@ -79,6 +124,57 @@ export function TaskDrawer({
     } finally {
       setUpdating(false);
     }
+  };
+
+  const handleSaveDue = async () => {
+    setUpdating(true);
+    try {
+      const dueDateIso = dueDateValue
+        ? new Date(`${dueDateValue}T00:00:00`).toISOString()
+        : null;
+      await apiPatch(`/task-instances/${task.id}`, {
+        dueDate: dueDateIso,
+      });
+      await onTaskUpdated();
+      setEditingDue(false);
+    } catch {
+      // TODO: show error toast in future
+    } finally {
+      setUpdating(false);
+    }
+  };
+
+  const handleSaveAppointment = async () => {
+    setUpdating(true);
+    try {
+      const appointmentIso = appointmentValue
+        ? new Date(appointmentValue).toISOString()
+        : null;
+
+      await apiPatch(`/task-instances/${task.id}`, {
+        appointmentAt: appointmentIso,
+        appointmentNote: appointmentNoteValue.trim()
+          ? appointmentNoteValue.trim()
+          : null,
+      });
+      await onTaskUpdated();
+      setEditingAppointment(false);
+    } catch {
+      // TODO: show error toast in future
+    } finally {
+      setUpdating(false);
+    }
+  };
+
+  const handleCancelDue = () => {
+    setEditingDue(false);
+    setDueDateValue(toDateInputValue(task.dueDate));
+  };
+
+  const handleCancelAppointment = () => {
+    setEditingAppointment(false);
+    setAppointmentValue(toDateTimeInputValue(task.appointmentAt));
+    setAppointmentNoteValue(task.appointmentNote ?? '');
   };
 
   const drawerStyles = `
@@ -162,17 +258,130 @@ export function TaskDrawer({
                 </dd>
               </div>
               <div>
-                <dt className="font-medium text-content-muted">Due Date</dt>
-                <dd className="mt-1 text-content-primary">
-                  {formatDate(task.dueDate)}
-                </dd>
+                <div className="flex items-center justify-between">
+                  <dt className="font-medium text-content-muted">Due Date</dt>
+                  {!readOnly && !task.isLocked && (
+                    <button
+                      type="button"
+                      onClick={() => setEditingDue((prev) => !prev)}
+                      className="text-sm text-content-muted hover:text-content-secondary"
+                      disabled={updating}
+                    >
+                      {editingDue ? 'Close' : 'Edit'}
+                    </button>
+                  )}
+                </div>
+                {!editingDue && (
+                  <dd className="mt-1 text-content-primary">
+                    {formatDate(task.dueDate)}
+                  </dd>
+                )}
+                {editingDue && (
+                  <div className="mt-2 space-y-2">
+                    <input
+                      type="date"
+                      value={dueDateValue}
+                      onChange={(event) => setDueDateValue(event.target.value)}
+                      className="w-full rounded border border-edge bg-surface-elevated px-2 py-1 text-base text-content-primary"
+                    />
+                    <div className="flex gap-2">
+                      <button
+                        type="button"
+                        onClick={() => void handleSaveDue()}
+                        className="rounded bg-accent px-3 py-1.5 text-sm font-semibold text-white hover:bg-accent-hover disabled:opacity-50"
+                        disabled={updating}
+                      >
+                        Save
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleCancelDue}
+                        className="rounded border border-edge px-3 py-1.5 text-sm text-content-secondary hover:bg-surface-card disabled:opacity-50"
+                        disabled={updating}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
-              <div className="col-span-2">
-                <dt className="font-medium text-content-muted">Assignee</dt>
-                <dd className="mt-1 text-content-primary">
-                  {task.assignedUser?.name || 'Unassigned'}
-                </dd>
+            </div>
+
+            <div className="space-y-3 border-t border-edge pt-4">
+              <div className="flex items-center justify-between">
+                <h3 className="text-base font-semibold text-content-primary">
+                  Appointment
+                </h3>
+                {!readOnly && !task.isLocked && (
+                  <button
+                    type="button"
+                    onClick={() => setEditingAppointment((prev) => !prev)}
+                    className="text-sm text-content-muted hover:text-content-secondary"
+                    disabled={updating}
+                  >
+                    {editingAppointment ? 'Close' : 'Edit'}
+                  </button>
+                )}
               </div>
+
+              {!editingAppointment && (
+                <div className="text-base">
+                  <dd className="mt-1 text-content-primary">
+                    {formatDateTime(task.appointmentAt)}
+                  </dd>
+                  {task.appointmentNote && (
+                    <dd className="mt-1 text-sm text-content-secondary">
+                      {task.appointmentNote}
+                    </dd>
+                  )}
+                </div>
+              )}
+
+              {editingAppointment && (
+                <div className="space-y-4">
+                  <div>
+                    <label className="text-sm font-medium text-content-muted">
+                      Appointment
+                    </label>
+                    <input
+                      type="datetime-local"
+                      value={appointmentValue}
+                      onChange={(event) =>
+                        setAppointmentValue(event.target.value)
+                      }
+                      className="mt-1 w-full rounded border border-edge bg-surface-elevated px-2 py-1 text-base text-content-primary"
+                    />
+                    <textarea
+                      value={appointmentNoteValue}
+                      onChange={(event) =>
+                        setAppointmentNoteValue(event.target.value)
+                      }
+                      placeholder="Add appointment notes (optional)"
+                      rows={2}
+                      className="mt-2 w-full rounded border border-edge bg-surface-elevated px-2 py-1 text-sm text-content-primary"
+                    />
+                  </div>
+
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      onClick={() => void handleSaveAppointment()}
+                      className="rounded bg-accent px-3 py-1.5 text-sm font-semibold text-white hover:bg-accent-hover disabled:opacity-50"
+                      disabled={updating}
+                    >
+                      Save
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleCancelAppointment}
+                      className="rounded border border-edge px-3 py-1.5 text-sm text-content-secondary hover:bg-surface-card disabled:opacity-50"
+                      disabled={updating}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
 
             {task.status === 'BLOCKED' && (

@@ -7,6 +7,9 @@ export const UpdateTaskInstanceSchema = z
       .optional(),
     assignedUserId: z.string().nullable().optional(),
     dueDate: z.string().datetime().nullable().optional(),
+    dueNote: z.string().nullable().optional(),
+    appointmentAt: z.string().datetime().nullable().optional(),
+    appointmentNote: z.string().nullable().optional(),
     blockerType: z
       .enum(['INTERNAL', 'EXTERNAL', 'UNKNOWN'])
       .nullable()

@@ -89,6 +89,30 @@ export function TaskRow({
         </span>
       )}
 
+      {task.appointmentAt && (
+        <div
+          className="hidden shrink-0 items-center gap-1 text-sm text-content-secondary sm:flex"
+          title={`Appointment: ${new Date(task.appointmentAt).toLocaleString(
+            'en-US',
+            {
+              month: 'short',
+              day: 'numeric',
+              hour: 'numeric',
+              minute: '2-digit',
+            },
+          )}`}
+          aria-label="Appointment scheduled"
+        >
+          <span aria-hidden="true">📅</span>
+          <span>
+            {new Date(task.appointmentAt).toLocaleDateString('en-US', {
+              month: 'short',
+              day: 'numeric',
+            })}
+          </span>
+        </div>
+      )}
+
       <div className="hidden shrink-0 text-sm text-content-muted sm:block">
         {task.dueDate
           ? new Date(task.dueDate).toLocaleDateString('en-US', {

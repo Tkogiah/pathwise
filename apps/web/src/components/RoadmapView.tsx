@@ -84,6 +84,16 @@ export function RoadmapView({
     (sum, s) => sum + s.progress.total,
     0,
   );
+  const overallUpcomingAppointments = currentRoadmap.stages.reduce(
+    (sum, stage) =>
+      sum +
+      stage.tasks.filter(
+        (task) =>
+          task.appointmentAt &&
+          new Date(task.appointmentAt).getTime() > Date.now(),
+      ).length,
+    0,
+  );
 
   const stageArcColor = selectedStage
     ? {
@@ -125,6 +135,15 @@ export function RoadmapView({
               size={64}
               strokeWidth={6}
             />
+            {overallUpcomingAppointments > 0 && (
+              <div className="flex items-center gap-2 rounded-full border border-status-warning-border bg-status-warning-bg px-3 py-1 text-sm text-status-warning">
+                <span aria-hidden="true">📅</span>
+                <span>
+                  {overallUpcomingAppointments} upcoming appointment
+                  {overallUpcomingAppointments === 1 ? '' : 's'}
+                </span>
+              </div>
+            )}
             <p className="text-base text-content-muted">
               Select a stage to view tasks
             </p>

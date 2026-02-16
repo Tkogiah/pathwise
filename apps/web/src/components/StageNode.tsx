@@ -49,6 +49,10 @@ export function StageNode({
   const slug = slugify(stage.title);
   const nodeBg = STATUS_BG[stage.status];
   const behind = isStageBehind(stage);
+  const appointmentCount = stage.tasks.filter(
+    (task) =>
+      task.appointmentAt && new Date(task.appointmentAt).getTime() > Date.now(),
+  ).length;
 
   return (
     <button
@@ -92,6 +96,14 @@ export function StageNode({
           aria-label={`${stage.redTaskCount} overdue or blocked tasks`}
         >
           {stage.redTaskCount}
+        </span>
+      )}
+      {appointmentCount > 0 && (
+        <span
+          className="absolute -left-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-status-warning text-[11px] font-semibold text-white"
+          aria-label={`${appointmentCount} upcoming appointments`}
+        >
+          {appointmentCount}
         </span>
       )}
     </button>

@@ -128,6 +128,20 @@ export class TaskInstancesService {
       updateData.dueDate = dto.dueDate ? new Date(dto.dueDate) : null;
     }
 
+    if (dto.dueNote !== undefined) {
+      updateData.dueNote = dto.dueNote;
+    }
+
+    if (dto.appointmentAt !== undefined) {
+      updateData.appointmentAt = dto.appointmentAt
+        ? new Date(dto.appointmentAt)
+        : null;
+    }
+
+    if (dto.appointmentNote !== undefined) {
+      updateData.appointmentNote = dto.appointmentNote;
+    }
+
     if (dto.blockerType !== undefined) {
       updateData.blockerType = dto.blockerType as PrismaBlockerType | null;
       // Clear blocker note when blocker type is cleared
