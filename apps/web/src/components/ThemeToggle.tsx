@@ -1,12 +1,13 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useDemoUser } from './DemoUserProvider';
 
 type Theme = 'light' | 'dark';
 
-function getInitialTheme(): Theme {
+function getInitialTheme(storageKey: string): Theme {
   if (typeof window === 'undefined') return 'light';
-  const stored = localStorage.getItem('theme');
+  const stored = localStorage.getItem(storageKey);
   if (stored === 'dark' || stored === 'light') return stored;
   return window.matchMedia('(prefers-color-scheme: dark)').matches
     ? 'dark'
@@ -14,23 +15,31 @@ function getInitialTheme(): Theme {
 }
 
 export function ThemeToggle() {
+  const { currentDemoUserId } = useDemoUser();
+  const storageKey = currentDemoUserId
+    ? `pathwise-theme:${currentDemoUserId}`
+    : 'theme';
   const [theme, setTheme] = useState<Theme>('light');
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setTheme(getInitialTheme());
+    setTheme(getInitialTheme(storageKey));
     setMounted(true);
-  }, []);
+  }, [storageKey]);
 
-  const toggle = () => {
-    const next: Theme = theme === 'dark' ? 'light' : 'dark';
-    setTheme(next);
-    localStorage.setItem('theme', next);
-    if (next === 'dark') {
+  useEffect(() => {
+    if (!mounted) return;
+    if (theme === 'dark') {
       document.documentElement.classList.add('theme-dark');
     } else {
       document.documentElement.classList.remove('theme-dark');
     }
+  }, [mounted, theme]);
+
+  const toggle = () => {
+    const next: Theme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(next);
+    localStorage.setItem(storageKey, next);
   };
 
   if (!mounted) return null;

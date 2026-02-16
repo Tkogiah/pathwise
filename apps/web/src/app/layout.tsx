@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { IBM_Plex_Sans } from 'next/font/google';
 import './globals.css';
+import { HeaderControls } from '@/components/HeaderControls';
+import { DemoUserProvider } from '@/components/DemoUserProvider';
 
 const plex = IBM_Plex_Sans({
   subsets: ['latin'],
@@ -22,23 +24,26 @@ export default function RootLayout({
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){var t=localStorage.getItem('theme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.classList.add('theme-dark')}})();`,
+            __html: `(function(){var u=localStorage.getItem('pathwise-demo-user-id');var k=u?('pathwise-theme:'+u):'theme';var t=localStorage.getItem(k);if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.classList.add('theme-dark')}})();`,
           }}
         />
       </head>
       <body
         className={`${plex.className} bg-surface-primary text-content-primary antialiased`}
       >
-        <header className="border-b border-edge bg-surface-elevated">
-          <div className="mx-auto max-w-3xl px-4 py-3 lg:max-w-5xl">
-            <span className="text-sm font-semibold tracking-wide text-content-secondary uppercase">
-              Pathwise
-            </span>
-          </div>
-        </header>
-        <main className="mx-auto max-w-3xl px-4 py-6 lg:max-w-5xl">
-          {children}
-        </main>
+        <DemoUserProvider>
+          <header className="border-b border-edge bg-surface-elevated">
+            <div className="mx-auto flex items-center justify-between max-w-3xl px-4 py-3 lg:max-w-5xl">
+              <span className="text-sm font-semibold tracking-wide text-content-secondary uppercase">
+                Pathwise
+              </span>
+              <HeaderControls />
+            </div>
+          </header>
+          <main className="mx-auto max-w-3xl px-4 py-6 lg:max-w-5xl">
+            {children}
+          </main>
+        </DemoUserProvider>
       </body>
     </html>
   );

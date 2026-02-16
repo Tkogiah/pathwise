@@ -1,13 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { RoadmapVM } from '@/lib/types';
 import { apiFetch } from '@/lib/api';
-import { DEMO_USERS } from '@/lib/demo-users';
 import { RoadmapTabs } from './RoadmapTabs';
 import { RoadmapView } from './RoadmapView';
-import { DemoUserSelector } from './DemoUserSelector';
-import { ThemeToggle } from './ThemeToggle';
+import { useDemoUser } from './DemoUserProvider';
 
 interface RoadmapSummary {
   roadmapId: string;
@@ -26,26 +24,7 @@ export function ClientRoadmapShell({
   const [selectedRoadmapId, setSelectedRoadmapId] = useState(initialRoadmap.id);
   const [roadmapData, setRoadmapData] = useState<RoadmapVM>(initialRoadmap);
   const [loading, setLoading] = useState(false);
-  const [currentDemoUserId, setCurrentDemoUserId] = useState<string | null>(
-    null,
-  );
-
-  const LOCAL_STORAGE_KEY = 'pathwise-demo-user-id';
-
-  useEffect(() => {
-    const savedUserId = localStorage.getItem(LOCAL_STORAGE_KEY);
-    if (savedUserId) {
-      setCurrentDemoUserId(savedUserId);
-    } else {
-      setCurrentDemoUserId(DEMO_USERS[0]?.id || null);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (currentDemoUserId) {
-      localStorage.setItem(LOCAL_STORAGE_KEY, currentDemoUserId);
-    }
-  }, [currentDemoUserId]);
+  const { currentDemoUserId } = useDemoUser();
 
   const handleSelectRoadmap = async (roadmapId: string) => {
     if (roadmapId === selectedRoadmapId) return;
@@ -69,14 +48,6 @@ export function ClientRoadmapShell({
           selectedRoadmapId={selectedRoadmapId}
           onSelectRoadmap={(id) => void handleSelectRoadmap(id)}
         />
-        <div className="flex items-center gap-2">
-          <DemoUserSelector
-            users={DEMO_USERS}
-            currentUserId={currentDemoUserId}
-            onSelectUser={setCurrentDemoUserId}
-          />
-          <ThemeToggle />
-        </div>
       </div>
 
       <div

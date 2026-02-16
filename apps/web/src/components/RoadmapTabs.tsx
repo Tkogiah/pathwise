@@ -14,7 +14,7 @@ export function RoadmapTabs({
   selectedRoadmapId: string;
   onSelectRoadmap: (id: string) => void;
 }) {
-  if (roadmaps.length <= 1) return null;
+  if (roadmaps.length === 0) return null;
 
   return (
     <div
