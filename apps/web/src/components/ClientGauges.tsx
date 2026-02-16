@@ -27,7 +27,7 @@ export function ClientGauges({ roadmaps }: { roadmaps: RoadmapGauge[] }) {
             size={64}
             strokeWidth={6}
           />
-          <div className="text-[11px] leading-tight text-content-muted">
+          <div className="text-sm leading-tight text-content-muted">
             <div className="font-medium">{shortLabel(rm.templateName)}</div>
             <div>
               {rm.programLengthDays != null
