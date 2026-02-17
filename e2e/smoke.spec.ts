@@ -179,8 +179,8 @@ test.describe('Pathwise Smoke Tests', () => {
     // Navigate to Marcus Rivera (1 roadmap in seed)
     await navigateToClient(page, 'Rivera');
 
-    // Tabs should not be visible (only 1 roadmap)
-    await expect(page.locator('[role="tablist"]')).not.toBeVisible();
+    // Tabs should be visible (even with 1 roadmap)
+    await expect(page.locator('[role="tablist"]')).toBeVisible();
 
     // "Add Roadmap" button should be visible
     const addButton = page.locator('[data-testid="add-roadmap-button"]');
@@ -190,11 +190,13 @@ test.describe('Pathwise Smoke Tests', () => {
     // If hidden, skip gracefully.
     if (!(await addButton.isVisible())) return;
 
-    // Accept the confirmation dialog
-    page.once('dialog', (dialog) => void dialog.accept());
-
-    // Click the button
+    // Click the button to show inline confirmation
     await addButton.click();
+
+    // Click the Confirm button
+    const confirmButton = page.locator('button', { hasText: 'Confirm' });
+    await expect(confirmButton).toBeVisible();
+    await confirmButton.click();
 
     // After activation and router.refresh(), tabs should appear (2 roadmaps)
     await expect(page.locator('[role="tablist"]')).toBeVisible({
