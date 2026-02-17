@@ -19,7 +19,7 @@
 - Keep core engine logic as pure functions in a shared package.
 - UI does not contain business logic.
 - Derived status: never stored, always computed.
-- Demo seed data: 1 org, 2–3 case managers, 3 clients, 1 housing template, 2–3 program instances.
+- Demo seed data: 1 org, 2–3 case managers, 3 clients, housing + benefits templates, 3 program instances.
 
 ## Core Modules
 
@@ -33,10 +33,14 @@
 
 - GET /clients
 - GET /clients/:id
-- GET /clients/:id/roadmaps
+- GET /clients/archived
 - GET /roadmaps/:id (returns stages, tasks, derived status)
 - PATCH /task-instances/:id (status, blocker, due date, assigned, is_na)
 - PATCH /stage-instances/:id/handoff
+- GET /templates
+- POST /clients/:id/roadmaps
+- PATCH /roadmaps/:id (start date + program length)
+- PATCH /clients/:id/archive + /unarchive
 
 ## Repo Structure (Monorepo)
 
@@ -88,3 +92,27 @@
 2. Responsive improvements (tablet/laptop)
 3. Accessibility pass (color + icon)
 4. UX refinements (empty states, subtle loaders)
+5. E2E smoke tests
+
+### Phase 4 — UI Overhaul + Tokens
+
+1. Roadmap-first layout + zoom-in view
+2. Design tokens (light/dark) + theme toggle
+3. Progress arcs
+
+### Phase 5 — Canonical Templates
+
+1. Housing canonical template (6 stages)
+2. Benefits template (Oregon SNAP-focused)
+
+### Phase 6 — Client Metadata + Scheduling
+
+1. Program metadata edit (start date + length)
+2. Add roadmap flow (templates + activation)
+3. Client gauges (days in program + progress)
+4. Task scheduling (due date + appointments)
+
+### Phase 7 — Notes + Activity Feed (Planned)
+
+1. Notes rail layout
+2. Task-scoped notes + client-only activity feed

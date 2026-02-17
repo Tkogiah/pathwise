@@ -17,12 +17,13 @@ The UI must emphasize the high‑level roadmap. This is a **visual state machine
 - **Roadmap‑first overview**: roadmap is primary element on the client page.
 - **Keep roadmap visible** at all times for context.
 - **Zoom‑in mode**: clicking a stage reveals tasks below while retaining the roadmap.
-- **Top 20% header**: client name + overall progress arc + tabs + demo user selector (right aligned).
-- **Progress arcs**: thick gauge arcs (pink/blue accent) for overall client progress and per‑stage progress.
+- **Hero header**: single row containing client name + actions + demo user + theme + compact program metadata.
+- **Progress arcs**: thick gauge arcs using theme tokens (no pink/blue requirement).
 - **Stage nodes**: larger, titles mostly visible, entire node fills when complete.
 - **Warm gray background** (not pure white).
 - **Status palette**: green/yellow/red/gray with icons for color‑blind clarity.
 - **Drawer**: right‑side panel that dims but does not fully block the UI.
+- **Notes rail** (Phase 7): muted, collapsible sidebar that never overwhelms the roadmap.
 
 ## UX Principle
 
