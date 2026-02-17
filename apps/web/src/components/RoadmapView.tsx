@@ -10,7 +10,7 @@ import { TaskDrawer } from './TaskDrawer';
 import { HandoffSummary } from './HandoffSummary';
 import { TaskFilterToggle, TaskFilter } from './TaskFilterToggle';
 import { ProgressArc } from './ProgressArc';
-import { ProgramMetadata } from './ProgramMetadata';
+import { OverviewSummary } from './OverviewSummary';
 
 export function RoadmapView({
   initialRoadmap,
@@ -104,16 +104,53 @@ export function RoadmapView({
     (sum, s) => sum + s.progress.total,
     0,
   );
-  const overallUpcomingAppointments = currentRoadmap.stages.reduce(
-    (sum, stage) =>
-      sum +
-      stage.tasks.filter(
+  const upcomingAppointments = currentRoadmap.stages
+    .flatMap((stage) =>
+      stage.tasks
+        .filter(
+          (task) =>
+            task.appointmentAt &&
+            new Date(task.appointmentAt).getTime() > Date.now(),
+        )
+        .map((task) => ({
+          stageId: stage.id,
+          task,
+          appointmentAt: task.appointmentAt as string,
+        })),
+    )
+    .sort(
+      (a, b) =>
+        new Date(a.appointmentAt).getTime() -
+        new Date(b.appointmentAt).getTime(),
+    );
+
+  const openAppointmentTask = (stageId: string, taskId: string) => {
+    setSelectedStageId(stageId);
+    const task = currentRoadmap.stages
+      .flatMap((stage) => stage.tasks)
+      .find((t) => t.id === taskId);
+    if (task) {
+      setSelectedTask(task);
+    }
+  };
+
+  const handleOpenFirstAppointment = (stageId?: string) => {
+    const stages = stageId
+      ? currentRoadmap.stages.filter((stage) => stage.id === stageId)
+      : currentRoadmap.stages;
+
+    for (const stage of stages) {
+      const nextTask = stage.tasks.find(
         (task) =>
           task.appointmentAt &&
           new Date(task.appointmentAt).getTime() > Date.now(),
-      ).length,
-    0,
-  );
+      );
+      if (nextTask) {
+        openAppointmentTask(stage.id, nextTask.id);
+        return;
+      }
+    }
+  };
 
   const stageArcColor = selectedStage
     ? {
@@ -134,39 +171,69 @@ export function RoadmapView({
   return (
     <>
       <div className="space-y-4">
-        <ProgramMetadata
-          roadmapId={currentRoadmap.id}
-          startDate={currentRoadmap.startDate}
-          programLengthDays={currentRoadmap.programLengthDays}
-          readOnly={isArchived}
-          onUpdated={refreshRoadmap}
-        />
         <RoadmapBar
           stages={currentRoadmap.stages}
           selectedStageId={selectedStageId}
           onSelectStage={handleSelectStage}
+          onOpenFirstAppointment={handleOpenFirstAppointment}
         />
 
         {!selectedStage && (
-          <div className="flex h-28 flex-col items-center justify-center gap-2 rounded-md border-2 border-dashed border-edge">
-            <ProgressArc
-              completed={overallCompleted}
-              total={overallTotal}
-              size={64}
-              strokeWidth={6}
-            />
-            {overallUpcomingAppointments > 0 && (
-              <div className="flex items-center gap-2 rounded-full border border-status-warning-border bg-status-warning-bg px-3 py-1 text-sm text-status-warning">
-                <span aria-hidden="true">📅</span>
-                <span>
-                  {overallUpcomingAppointments} upcoming appointment
-                  {overallUpcomingAppointments === 1 ? '' : 's'}
-                </span>
+          <section className="rounded-lg border border-edge bg-surface-elevated px-4 py-3">
+            <div className="flex items-center gap-3">
+              <ProgressArc
+                completed={overallCompleted}
+                total={overallTotal}
+                size={64}
+                strokeWidth={6}
+              />
+              <div>
+                <h2 className="text-base font-semibold text-content-primary">
+                  {currentRoadmap.templateName}
+                </h2>
+                <p className="mt-0.5 text-sm text-content-muted">
+                  {overallCompleted} of {overallTotal} tasks complete
+                  {currentRoadmap.programLengthDays != null &&
+                    ` · Day ${Math.max(
+                      0,
+                      Math.floor(
+                        (Date.now() -
+                          new Date(currentRoadmap.startDate).getTime()) /
+                          86_400_000,
+                      ),
+                    )} / ${currentRoadmap.programLengthDays}`}
+                  {` · Started ${new Date(
+                    currentRoadmap.startDate,
+                  ).toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                  })}`}
+                </p>
               </div>
-            )}
-            <p className="text-base text-content-muted">
-              Select a stage to view tasks
-            </p>
+            </div>
+            <div className="mt-3 space-y-2">
+              <OverviewSummary
+                roadmapId={currentRoadmap.id}
+                summary={currentRoadmap.overviewSummary}
+                readOnly={isArchived}
+                onUpdated={refreshRoadmap}
+              />
+              <p className="text-sm text-content-muted">
+                Select a stage to view tasks
+              </p>
+            </div>
+          </section>
+        )}
+
+        {!selectedStage && upcomingAppointments.length > 0 && (
+          <div className="space-y-2">
+            <h3 className="text-sm font-semibold text-content-secondary">
+              Upcoming appointments
+            </h3>
+            <StageDetailList
+              tasks={upcomingAppointments.map((appt) => appt.task)}
+              onSelectTask={handleSelectTask}
+            />
           </div>
         )}
 

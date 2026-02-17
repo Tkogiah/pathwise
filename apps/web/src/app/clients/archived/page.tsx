@@ -13,16 +13,19 @@ export default async function ArchivedClientsPage() {
 
   return (
     <div>
-      <Link
-        href="/clients"
-        className="text-base text-content-muted hover:text-content-secondary"
-      >
-        &larr; Active clients
-      </Link>
-
-      <h1 className="mt-3 text-xl font-semibold text-content-primary">
-        Archived Clients
-      </h1>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <Link
+            href="/clients"
+            className="text-base text-content-muted hover:text-content-secondary"
+          >
+            &larr; Active clients
+          </Link>
+          <h1 className="text-xl font-semibold text-content-primary">
+            Archived Clients
+          </h1>
+        </div>
+      </div>
 
       {clients.length === 0 ? (
         <p className="mt-6 text-base text-content-muted">

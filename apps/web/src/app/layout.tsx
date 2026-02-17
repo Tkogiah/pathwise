@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { IBM_Plex_Sans } from 'next/font/google';
 import './globals.css';
-import { HeaderControls } from '@/components/HeaderControls';
 import { DemoUserProvider } from '@/components/DemoUserProvider';
+import { HeaderControls } from '@/components/HeaderControls';
 
 const plex = IBM_Plex_Sans({
   subsets: ['latin'],
@@ -33,14 +33,16 @@ export default function RootLayout({
       >
         <DemoUserProvider>
           <header className="border-b border-edge bg-surface-elevated">
-            <div className="mx-auto flex items-center justify-between max-w-3xl px-4 py-3 lg:max-w-5xl">
+            <div className="mx-auto flex items-center max-w-3xl px-4 py-3 lg:max-w-6xl">
               <span className="text-base font-semibold tracking-wide text-content-secondary uppercase">
                 Pathwise
               </span>
-              <HeaderControls />
+              <div className="ml-auto">
+                <HeaderControls />
+              </div>
             </div>
           </header>
-          <main className="mx-auto max-w-3xl px-4 py-6 lg:max-w-5xl">
+          <main className="mx-auto max-w-3xl px-4 py-6 lg:max-w-6xl">
             {children}
           </main>
         </DemoUserProvider>

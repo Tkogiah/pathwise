@@ -1,4 +1,4 @@
-import { PrismaClient, TaskStatus, BlockerType } from '@prisma/client';
+import { PrismaClient, TaskStatus, BlockerType, NoteLabel } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -16,6 +16,7 @@ function daysFromNow(n: number): Date {
 
 async function main() {
   // --- Clear existing data (reverse FK order) ---
+  await prisma.taskNote.deleteMany();
   await prisma.taskInstance.deleteMany();
   await prisma.stageInstance.deleteMany();
   await prisma.clientProgramInstance.deleteMany();
@@ -922,6 +923,12 @@ async function main() {
   // DAVID THOMPSON — Instance 1 (advanced, multi-state demo)
   // =============================================================
   const david1 = await cloneProgram(david.id, 3, daysAgo(60));
+  await prisma.clientProgramInstance.update({
+    where: { id: david1.instance.id },
+    data: {
+      overviewSummary: 'Currently working on credit dispute resolution.',
+    },
+  });
 
   // Stage 1 (Intake): all COMPLETE → GREEN
   for (const task of [s1t1, s1t2, s1t3, s1t4, s1t5, s1t6, s1t7, s1t8, s1t9]) {
@@ -1026,6 +1033,12 @@ async function main() {
   // SARAH MITCHELL — 1 instance (mixed progress, N/A demo)
   // =============================================================
   const sarah1 = await cloneProgram(sarah.id, 1, daysAgo(30));
+  await prisma.clientProgramInstance.update({
+    where: { id: sarah1.instance.id },
+    data: {
+      overviewSummary: 'Currently working on benefit applications.',
+    },
+  });
 
   // Stage 1 (Intake): all COMPLETE → GREEN
   for (const task of [s1t1, s1t2, s1t3, s1t4, s1t5, s1t6, s1t7, s1t8, s1t9]) {
@@ -1089,6 +1102,12 @@ async function main() {
   // MARCUS RIVERA — 1 instance (early stage, mostly NOT_STARTED)
   // =============================================================
   const marcus1 = await cloneProgram(marcus.id, 0, daysAgo(3));
+  await prisma.clientProgramInstance.update({
+    where: { id: marcus1.instance.id },
+    data: {
+      overviewSummary: 'Currently working on intake documentation.',
+    },
+  });
 
   // Stage 1: 1 IN_PROGRESS, 1 NOT_STARTED with due date → YELLOW
   await prisma.taskInstance.update({
@@ -1109,6 +1128,44 @@ async function main() {
     },
   });
 
+  // =============================================================
+  // DEMO NOTES
+  // =============================================================
+  await prisma.taskNote.create({
+    data: {
+      taskInstanceId: marcus1.taskInstanceMap[s1t1.id],
+      authorId: 'user-1',
+      label: NoteLabel.TASK_UPDATE,
+      summary: 'Referral packet received',
+      body: 'Packet arrived via email from referring agency. All pages present. Ready for review.',
+    },
+  });
+  await prisma.taskNote.create({
+    data: {
+      taskInstanceId: marcus1.taskInstanceMap[s1t2.id],
+      authorId: 'user-2',
+      label: NoteLabel.OUTREACH,
+      body: 'Called Marcus to schedule orientation. Left voicemail — will try again tomorrow.',
+    },
+  });
+  await prisma.taskNote.create({
+    data: {
+      taskInstanceId: david1.taskInstanceMap[s1t1.id],
+      authorId: 'user-1',
+      label: NoteLabel.DOCUMENTS,
+      summary: 'All intake docs verified',
+      body: 'ID, proof of income, and referral letter all on file. Cleared for assessment stage.',
+    },
+  });
+  await prisma.taskNote.create({
+    data: {
+      taskInstanceId: david1.taskInstanceMap[s2t1.id],
+      authorId: 'user-3',
+      label: NoteLabel.HOUSING_SEARCH,
+      body: 'Initial housing needs assessment complete. Client prefers studio or 1BR in the downtown area.',
+    },
+  });
+
   console.log('Seed complete.');
   console.log('  Users: 3');
   console.log('  Clients: 3');
@@ -1116,6 +1173,7 @@ async function main() {
   console.log('    - Housing Program (6 stages, 43 tasks)');
   console.log('    - Benefits Access (5 stages, 33 tasks)');
   console.log('  Program instances: 3');
+  console.log('  Task notes: 4');
 }
 
 main()

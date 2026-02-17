@@ -26,6 +26,19 @@ enum BlockerType {
   UNKNOWN
 }
 
+enum NoteLabel {
+  APPOINTMENT
+  DOCUMENTS
+  HOUSING_SEARCH
+  VOUCHER
+  BENEFITS
+  OUTREACH
+  ID_VERIFICATION
+  BARRIER
+  TASK_UPDATE
+  OTHER
+}
+
 // --- Users & Clients ---
 
 model User {
@@ -103,6 +116,7 @@ model ClientProgramInstance {
   startDate         DateTime
   programLengthDays Int?
   isActive          Boolean  @default(true)
+  overviewSummary   String?
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
@@ -143,4 +157,18 @@ model TaskInstance {
   stageInstance StageInstance @relation(fields: [stageInstanceId], references: [id])
   templateTask  TemplateTask  @relation(fields: [templateTaskId], references: [id])
   assignedUser  User?         @relation(fields: [assignedUserId], references: [id])
+  notes         TaskNote[]
+}
+
+model TaskNote {
+  id             String    @id @default(cuid())
+  taskInstanceId String
+  authorId       String
+  label          NoteLabel @default(OTHER)
+  summary        String?
+  body           String
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  taskInstance TaskInstance @relation(fields: [taskInstanceId], references: [id])
 }

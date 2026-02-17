@@ -38,10 +38,12 @@ export function StageNode({
   stage,
   selected,
   onSelect,
+  onOpenFirstAppointment,
 }: {
   stage: StageVM;
   selected: boolean;
   onSelect: () => void;
+  onOpenFirstAppointment: () => void;
 }) {
   const { completed, total } = stage.progress;
   const icon = ICON_MAP[stage.iconName] ?? '\u{1F4CC}';
@@ -100,6 +102,19 @@ export function StageNode({
       )}
       {appointmentCount > 0 && (
         <span
+          role="button"
+          tabIndex={0}
+          onClick={(event) => {
+            event.stopPropagation();
+            onOpenFirstAppointment();
+          }}
+          onKeyDown={(event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+              event.preventDefault();
+              event.stopPropagation();
+              onOpenFirstAppointment();
+            }
+          }}
           className="absolute left-1 top-1 flex h-4 w-4 items-center justify-center rounded-full bg-status-warning text-[11px] font-semibold text-white"
           aria-label={`${appointmentCount} upcoming appointments`}
         >

@@ -20,7 +20,7 @@ export default async function ClientsPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-xl font-semibold text-content-primary">Clients</h1>
         <div className="flex items-center gap-3">
           <NewClientForm />

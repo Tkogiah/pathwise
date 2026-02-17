@@ -165,6 +165,7 @@ export function TaskDrawer({
       const appointmentIso = new Date(rawAppointment).toISOString();
 
       await apiPatch(`/task-instances/${task.id}`, {
+        authorId: currentDemoUserId ?? undefined,
         appointmentAt: appointmentIso,
         appointmentNote: appointmentNoteValue.trim()
           ? appointmentNoteValue.trim()

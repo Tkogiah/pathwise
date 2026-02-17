@@ -6,6 +6,7 @@ import { RoadmapsModule } from './roadmaps/roadmaps.module';
 import { TaskInstancesModule } from './task-instances/task-instances.module';
 import { StageInstancesModule } from './stage-instances/stage-instances.module';
 import { TemplatesModule } from './templates/templates.module';
+import { NotesModule } from './notes/notes.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { TemplatesModule } from './templates/templates.module';
     TaskInstancesModule,
     StageInstancesModule,
     TemplatesModule,
+    NotesModule,
   ],
   controllers: [AppController],
 })
