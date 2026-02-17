@@ -38,14 +38,13 @@ export default async function ClientDetailPage({
 
   return (
     <div>
-      <Link
-        href="/clients"
-        className="text-base text-content-muted hover:text-content-secondary"
-      >
-        &larr; All clients
-      </Link>
-
-      <div className="mt-3 flex items-center gap-3">
+      <div className="flex flex-wrap items-center gap-3">
+        <Link
+          href="/clients"
+          className="text-base text-content-muted hover:text-content-secondary"
+        >
+          &larr;
+        </Link>
         <h1 className="text-xl font-semibold text-content-primary">
           {client.firstName} {client.lastName}
         </h1>
@@ -68,8 +67,9 @@ export default async function ClientDetailPage({
           <EmptyState message="This client has no roadmaps assigned to them." />
         </section>
       ) : (
-        <section className="mt-6">
+        <section className="mt-4">
           <ClientRoadmapShell
+            clientId={client.id}
             roadmaps={client.roadmaps}
             initialRoadmap={roadmap}
             isArchived={client.isArchived}
