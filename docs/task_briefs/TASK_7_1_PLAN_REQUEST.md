@@ -29,3 +29,9 @@ Add a taskâ€‘scoped notes model with API endpoints for create, list, and authorâ
 - NestJS notes module (controller/service)
 - `apps/web/src/lib/types.ts`
 - seed data (small demo notes)
+
+## Execution Notes (Token Hygiene)
+
+- Run `typecheck` early; defer `lint`, `test`, and `format` until the end.
+- Avoid re-running full test suites after each small change.
+- Only update E2E tests if selectors or behavior change.

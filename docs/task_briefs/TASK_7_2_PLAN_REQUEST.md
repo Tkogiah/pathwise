@@ -17,3 +17,9 @@ Add task‑scoped notes UI in the TaskDrawer with label selection, optional summ
 - `apps/web/src/components/TaskDrawer.tsx`
 - `apps/web/src/components/TaskNotes.tsx` (new, optional)
 - `apps/web/src/lib/types.ts`
+
+## Execution Notes (Token Hygiene)
+
+- Run `typecheck` early; defer `lint`, `test`, and `format` until the end.
+- Avoid re-running full test suites after each small change.
+- Only update E2E tests if selectors or behavior change.
