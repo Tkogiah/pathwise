@@ -3,6 +3,7 @@
 import { useState, useEffect, useId, useRef } from 'react';
 import { TaskVM } from '@/lib/types';
 import { apiPatch } from '@/lib/api';
+import { TaskNotes } from './TaskNotes';
 
 const STATUSES = [
   'NOT_STARTED',
@@ -65,11 +66,13 @@ export function TaskDrawer({
   onClose,
   onTaskUpdated,
   readOnly = false,
+  currentDemoUserId = null,
 }: {
   task: TaskVM | null;
   onClose: () => void;
   onTaskUpdated: () => Promise<void>;
   readOnly?: boolean;
+  currentDemoUserId?: string | null;
 }) {
   const titleId = useId();
   const [updating, setUpdating] = useState(false);
@@ -414,6 +417,12 @@ export function TaskDrawer({
                 </dd>
               </div>
             )}
+
+            <TaskNotes
+              taskId={task.id}
+              currentDemoUserId={currentDemoUserId}
+              readOnly={readOnly}
+            />
           </div>
         </div>
       </div>

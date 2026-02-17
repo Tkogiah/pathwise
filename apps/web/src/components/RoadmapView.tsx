@@ -220,6 +220,7 @@ export function RoadmapView({
         onClose={handleCloseDrawer}
         onTaskUpdated={refreshRoadmap}
         readOnly={isArchived}
+        currentDemoUserId={currentDemoUserId}
       />
     </>
   );
