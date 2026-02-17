@@ -27,6 +27,13 @@ Deliverable:
 - Sequencing changes (if any)
 - Risks or gaps you see
 
+## Execution Notes (Token Hygiene)
+
+- Do **not** run full CI locally during implementation.
+- The user (or Gemini) will run commands after implementation.
+- If you must validate, run only `npm run typecheck` once near the end.
+- Avoid repeated `lint`, `test`, or `format` runs unless specifically requested.
+
 ## Status in Dev Cycle
 
 We are between Step 2 (Architecture + Risk Plan) and Step 3 (Foundation Setup). The brief, architecture notes, and context are documented. Next is repo/tooling setup, then schema + seed data.
