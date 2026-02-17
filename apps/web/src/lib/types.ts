@@ -50,3 +50,41 @@ export interface DemoUser {
   id: string;
   name: string;
 }
+
+export type NoteLabel =
+  | 'APPOINTMENT'
+  | 'DOCUMENTS'
+  | 'HOUSING_SEARCH'
+  | 'VOUCHER'
+  | 'BENEFITS'
+  | 'OUTREACH'
+  | 'ID_VERIFICATION'
+  | 'BARRIER'
+  | 'TASK_UPDATE'
+  | 'OTHER';
+
+export interface TaskNoteVM {
+  id: string;
+  taskInstanceId: string;
+  authorId: string;
+  label: NoteLabel;
+  summary: string | null;
+  body: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ClientNoteEntry {
+  id: string;
+  taskInstanceId: string;
+  authorId: string;
+  label: NoteLabel;
+  summary: string | null;
+  body: string;
+  createdAt: string;
+  updatedAt: string;
+  taskTitle: string;
+  stageTitle: string;
+  roadmapId: string;
+  stageId: string;
+}

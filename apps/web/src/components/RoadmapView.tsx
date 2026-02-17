@@ -16,10 +16,14 @@ export function RoadmapView({
   initialRoadmap,
   currentDemoUserId,
   isArchived = false,
+  pendingNav,
+  onPendingNavHandled,
 }: {
   initialRoadmap: RoadmapVM;
   currentDemoUserId: string | null;
   isArchived?: boolean;
+  pendingNav?: { stageId: string; taskId: string } | null;
+  onPendingNavHandled?: () => void;
 }) {
   const [currentRoadmap, setCurrentRoadmap] = useState(initialRoadmap);
   const [selectedStageId, setSelectedStageId] = useState<string | null>(null);
@@ -36,6 +40,22 @@ export function RoadmapView({
       document.body.style.overflow = 'auto';
     };
   }, [selectedTask]);
+
+  useEffect(() => {
+    if (!pendingNav) return;
+    setSelectedStageId(pendingNav.stageId);
+    const task = currentRoadmap.stages
+      .flatMap((stage) => stage.tasks)
+      .find((t) => t.id === pendingNav.taskId);
+    if (task) {
+      setSelectedTask(task);
+    } else {
+      setSelectedTask(null);
+    }
+    if (onPendingNavHandled) {
+      onPendingNavHandled();
+    }
+  }, [pendingNav, currentRoadmap.stages, onPendingNavHandled]);
 
   const refreshRoadmap = useCallback(async () => {
     const updated = await apiFetch<RoadmapVM>(`/roadmaps/${currentRoadmap.id}`);

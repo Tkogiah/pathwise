@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Post,
+  Query,
 } from '@nestjs/common';
 import { z } from 'zod';
 import { ClientsService } from './clients.service';
@@ -31,6 +32,19 @@ export class ClientsController {
   @Get('archived')
   findAllArchived() {
     return this.clientsService.findAllArchived();
+  }
+
+  @Get(':id/notes')
+  findNotes(@Param('id') id: string, @Query('since') since?: string) {
+    if (since && since !== '24h' && since !== '7d') {
+      throw new BadRequestException({
+        message: 'Invalid since parameter. Use 24h or 7d.',
+      });
+    }
+    return this.clientsService.findNotesByClient(
+      id,
+      since as '24h' | '7d' | undefined,
+    );
   }
 
   @Get(':id')

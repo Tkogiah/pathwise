@@ -59,6 +59,61 @@ export class ClientsService {
     }));
   }
 
+  async findNotesByClient(clientId: string, since?: '24h' | '7d') {
+    const client = await this.prisma.client.findUnique({
+      where: { id: clientId },
+      select: { id: true },
+    });
+    if (!client) {
+      throw new NotFoundException(`Client ${clientId} not found`);
+    }
+
+    const now = Date.now();
+    const sinceDate =
+      since === '24h'
+        ? new Date(now - 24 * 60 * 60 * 1000)
+        : new Date(now - 7 * 24 * 60 * 60 * 1000);
+
+    const notes = await this.prisma.taskNote.findMany({
+      where: {
+        taskInstance: {
+          stageInstance: { programInstance: { clientId } },
+        },
+        createdAt: { gte: sinceDate },
+      },
+      orderBy: { createdAt: 'desc' },
+      include: {
+        taskInstance: {
+          include: {
+            templateTask: { select: { title: true } },
+            stageInstance: {
+              select: {
+                id: true,
+                templateStage: { select: { title: true } },
+                programInstance: { select: { id: true } },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return notes.map((note) => ({
+      id: note.id,
+      taskInstanceId: note.taskInstanceId,
+      authorId: note.authorId,
+      label: note.label,
+      summary: note.summary,
+      body: note.body,
+      createdAt: note.createdAt,
+      updatedAt: note.updatedAt,
+      taskTitle: note.taskInstance.templateTask.title,
+      stageTitle: note.taskInstance.stageInstance.templateStage.title,
+      roadmapId: note.taskInstance.stageInstance.programInstance.id,
+      stageId: note.taskInstance.stageInstance.id,
+    }));
+  }
+
   async create(body: { firstName?: string; lastName?: string }) {
     const firstName = body.firstName?.trim() ?? '';
     const lastName = body.lastName?.trim() ?? '';
