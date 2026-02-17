@@ -278,7 +278,7 @@ export function TaskNotes({
 }) {
   const [notes, setNotes] = useState<TaskNoteVM[]>([]);
   const [loading, setLoading] = useState(true);
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(true);
   const [composerOpen, setComposerOpen] = useState(false);
   const [editingNoteId, setEditingNoteId] = useState<string | null>(null);
 

@@ -18,8 +18,30 @@ export const ALL_LABELS = Object.keys(NOTE_LABELS) as NoteLabel[];
 
 /** Placeholder for Phase 7.5 icon integration. */
 export function getLabelIcon(label: NoteLabel): string | null {
-  void label;
-  return null;
+  switch (label) {
+    case 'APPOINTMENT':
+      return '📅';
+    case 'DOCUMENTS':
+      return '📄';
+    case 'HOUSING_SEARCH':
+      return '🏠';
+    case 'VOUCHER':
+      return '🧾';
+    case 'BENEFITS':
+      return '💳';
+    case 'OUTREACH':
+      return '📞';
+    case 'ID_VERIFICATION':
+      return '🪪';
+    case 'BARRIER':
+      return '⚠️';
+    case 'TASK_UPDATE':
+      return '✅';
+    case 'OTHER':
+      return '📝';
+    default:
+      return null;
+  }
 }
 
 export function getAuthorName(authorId: string): string {
