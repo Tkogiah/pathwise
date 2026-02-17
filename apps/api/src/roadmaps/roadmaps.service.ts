@@ -45,7 +45,11 @@ export class RoadmapsService {
 
   async update(
     id: string,
-    dto: { startDate?: string; programLengthDays?: number | null },
+    dto: {
+      startDate?: string;
+      programLengthDays?: number | null;
+      overviewSummary?: string | null;
+    },
   ) {
     const instance = await this.prisma.clientProgramInstance.findUnique({
       where: { id },
@@ -60,6 +64,9 @@ export class RoadmapsService {
     }
     if (dto.programLengthDays !== undefined) {
       updateData.programLengthDays = dto.programLengthDays;
+    }
+    if (dto.overviewSummary !== undefined) {
+      updateData.overviewSummary = dto.overviewSummary;
     }
 
     await this.prisma.clientProgramInstance.update({
@@ -139,6 +146,7 @@ export class RoadmapsService {
       clientName: `${instance.client.firstName} ${instance.client.lastName}`,
       startDate: instance.startDate,
       programLengthDays: instance.programLengthDays,
+      overviewSummary: instance.overviewSummary,
       isActive: instance.isActive,
       stages,
     };
