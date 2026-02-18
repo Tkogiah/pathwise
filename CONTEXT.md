@@ -13,6 +13,7 @@
 9. `docs/templates/Benefits_Canonical.md`
 10. `docs/task_briefs/` (latest plan request + plan)
 11. `docs/TODO.md`
+12. `docs/LOCAL_ENV.md`
 
 ## Purpose
 
@@ -111,6 +112,12 @@ Pathwise is a visual program state engine for case managers. It reduces friction
 - Two palettes: Light and Dark.
 - Tokens implemented via CSS vars + Tailwind mapping (see docs/DESIGN_TOKENS_BRIEF.md).
 - Theme toggle in global header; per‑demo‑user preference stored in localStorage.
+
+## Local vs Production Env
+
+- Local dev uses `apps/api/.env` and `apps/web/.env.local` pointing to localhost.
+- Production/demo uses host-managed env vars (Railway/Vercel/Neon).
+- See `docs/LOCAL_ENV.md` for exact keys and templates.
 
 ## Out of Scope (MVP)
 
