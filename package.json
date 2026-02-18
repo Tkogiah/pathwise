@@ -8,6 +8,7 @@
   ],
   "scripts": {
     "build": "tsc -b",
+    "build:web": "npm run build -w @pathwise/web",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --check .",
