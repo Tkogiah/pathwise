@@ -17,9 +17,7 @@ export class NotesService {
       where: { id: taskInstanceId },
     });
     if (!task) {
-      throw new NotFoundException(
-        `Task instance ${taskInstanceId} not found`,
-      );
+      throw new NotFoundException(`Task instance ${taskInstanceId} not found`);
     }
 
     return this.prisma.taskNote.findMany({
@@ -33,9 +31,7 @@ export class NotesService {
       where: { id: taskInstanceId },
     });
     if (!task) {
-      throw new NotFoundException(
-        `Task instance ${taskInstanceId} not found`,
-      );
+      throw new NotFoundException(`Task instance ${taskInstanceId} not found`);
     }
 
     return this.prisma.taskNote.create({

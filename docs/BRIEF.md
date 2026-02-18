@@ -39,8 +39,10 @@ Pathwise is a visual program state engine for human services case management. It
 - Task detail drawer
 - Required stage handoff summary
 - Program metadata (start date + length)
+- Roadmap overview summary (editable “current focus”)
 - Client archiving
 - Task scheduling (due date + appointment)
+- Task‑scoped notes + client activity feed (notes rail)
 
 ## Out of Scope (MVP)
 
@@ -58,4 +60,4 @@ Pathwise is a visual program state engine for human services case management. It
 - Phase 4: roadmap-first UI overhaul + tokens + progress arcs
 - Phase 5: canonical housing template + benefits template
 - Phase 6: client metadata edit + add roadmap + client gauges + scheduling
-- Phase 7: task-scoped notes + client-only activity feed + notes rail
+- Phase 7: task-scoped notes + client-only activity feed + notes rail + overview summary

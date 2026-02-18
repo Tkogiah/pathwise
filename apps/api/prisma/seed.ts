@@ -1,4 +1,9 @@
-import { PrismaClient, TaskStatus, BlockerType, NoteLabel } from '@prisma/client';
+import {
+  PrismaClient,
+  TaskStatus,
+  BlockerType,
+  NoteLabel,
+} from '@prisma/client';
 
 const prisma = new PrismaClient();
 

@@ -34,12 +34,16 @@
 - GET /clients
 - GET /clients/:id
 - GET /clients/archived
+- GET /clients/:id/notes?since=24h|7d
 - GET /roadmaps/:id (returns stages, tasks, derived status)
 - PATCH /task-instances/:id (status, blocker, due date, assigned, is_na)
 - PATCH /stage-instances/:id/handoff
+- GET /task-instances/:id/notes
+- POST /task-instances/:id/notes
+- PATCH /notes/:id
 - GET /templates
 - POST /clients/:id/roadmaps
-- PATCH /roadmaps/:id (start date + program length)
+- PATCH /roadmaps/:id (start date + program length + overview summary)
 - PATCH /clients/:id/archive + /unarchive
 
 ## Repo Structure (Monorepo)
@@ -114,5 +118,7 @@
 
 ### Phase 7 — Notes + Activity Feed (Planned)
 
-1. Notes rail layout
+1. Notes rail layout (collapsible, client-only)
 2. Task-scoped notes + client-only activity feed
+3. Appointment auto-notes
+4. Overview summary per roadmap

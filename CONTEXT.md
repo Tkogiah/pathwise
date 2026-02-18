@@ -5,13 +5,14 @@
 1. `CONTEXT.md` (this file)
 2. `docs/PROJECT_INTENT.md`
 3. `docs/BRIEF.md`
-4. `docs/ENGINE_RULES.md`
-5. `docs/UI_CLEANUP.md`
-6. `docs/DESIGN_TOKENS_BRIEF.md`
-7. `docs/templates/Housing_Canonical.md`
-8. `docs/templates/Benefits_Canonical.md`
-9. `docs/task_briefs/` (latest plan request + plan)
-10. Phase 7 notes plans (TASK_7_0+ in `docs/task_briefs/`)
+4. `docs/ARCHITECTURE.md`
+5. `docs/ENGINE_RULES.md`
+6. `docs/UI_CLEANUP.md`
+7. `docs/DESIGN_TOKENS_BRIEF.md`
+8. `docs/templates/Housing_Canonical.md`
+9. `docs/templates/Benefits_Canonical.md`
+10. `docs/task_briefs/` (latest plan request + plan)
+11. `docs/TODO.md`
 
 ## Purpose
 
@@ -63,13 +64,16 @@ Pathwise is a visual program state engine for case managers. It reduces friction
 - client_program_instances
 - stage_instances
 - task_instances
+- task_notes
 
 ### Key Field Extensions
 
 - client_program_instances: `programLengthDays`
+- client_program_instances: `overviewSummary`
 - template_stages: `timelineLabel`, `recommendedDurationDays`
 - clients: `isArchived`
 - task_instances: `appointmentAt`, `appointmentNote`, `dueNote`
+- task_notes: `label`, `summary`, `body`, `authorId`
 
 ## Engine Rules (Critical)
 
@@ -85,19 +89,19 @@ Pathwise is a visual program state engine for case managers. It reduces friction
 
 ## UI Structure (Current)
 
-- Client page: name + controls, roadmap tabs always visible, horizontal stage roadmap bar.
-- Overview state: no stage selected; shows overall progress arc + prompt.
+- Client page: name + controls, roadmap tabs shown when 1+ roadmaps, horizontal stage roadmap bar.
+- Overview state: no stage selected; shows overall roadmap card (progress arc + program summary + timeline + editable current focus).
 - Zoom-in state: stage header with progress arc + timeline label + “behind schedule” badge, task list below.
 - Stage detail: vertical task list, filters (All/My Tasks), handoff summary.
-- Task drawer: right panel for status, due date, blocker, appointment scheduling; assignee removed.
-- Notes rail planned (client‑only activity feed, collapsible muted sidebar).
+- Task drawer: right panel for status, due date, blocker, appointment scheduling; assignee removed; notes expanded by default.
+- Notes rail: client‑only activity feed, collapsible muted sidebar, click-to-navigate.
 
 ## Canonical Templates
 
 - Housing template is canonical source of truth for production (6 stages; “Ongoing Case Management” removed from roadmap).
   - docs/templates/Housing_Canonical.md
   - docs/templates/Housing_Canonical.json
-- Benefits template (Oregon SNAP‑focused) is available as second roadmap.
+- Benefits template (Oregon SNAP‑focused) is available as second roadmap (5 stages).
   - docs/templates/Benefits_Canonical.md
 
 ## Theme / Visual Direction (Implemented)
@@ -130,11 +134,14 @@ Pathwise is a visual program state engine for case managers. It reduces friction
 
 - Client archiving (archive/unarchive, archived list view).
 - Program metadata edit (start date + program length) with API PATCH /roadmaps/:id.
+- Roadmap overview summary (editable "current focus") stored on ClientProgramInstance.
 - Behind‑schedule logic surfaced in roadmap bar + stage header.
 - Add Roadmap flow (GET /templates, POST /clients/:id/roadmaps).
 - Client list gauges showing days in program + progress per active roadmap.
 - Appointments and due date editing in task drawer; appointment indicators in roadmap overview.
-- Phase 7 plan requests created (TASK_7_0+).
+- Task‑scoped notes (TaskNotes) + NotesRail client activity feed.
+- Notes API: GET/POST /task-instances/:id/notes, PATCH /notes/:id, GET /clients/:id/notes?since=.
+- Appointment auto‑notes (appointment changes create APPOINTMENT notes).
 
 ## Collaboration Roles
 

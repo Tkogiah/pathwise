@@ -41,7 +41,7 @@ Reduce visual noise and enable rapid client status assessment using clear struct
 ## Current Product Direction
 
 - Two canonical templates: Housing (6 stages) + Benefits (5 stages).
-- Task scheduling (due dates + appointments) with visual indicators.
-- Program metadata (start date + program length) editable.
+- Task scheduling (due dates + appointments) with visual indicators and auto‑notes for appointment changes.
+- Program metadata (start date + program length) editable; overview “current focus” summary per roadmap.
 - Client archiving and multi‑roadmap activation.
-- Phase 7 in progress: task‑scoped notes and a client‑only activity feed in a muted notes rail.
+- Phase 7 active: task‑scoped notes and a client‑only activity feed in a muted notes rail.
