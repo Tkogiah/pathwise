@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "build": "tsc -b",
-    "build:web": "npm run build -w @pathwise/types && npm run build -w @pathwise/engine && cd apps/web && npx next build",
+    "build:web": "tsc -b packages/types packages/engine && npx next build apps/web",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --check .",

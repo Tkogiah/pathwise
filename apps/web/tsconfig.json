@@ -11,6 +11,7 @@
     "composite": false,
     "incremental": true,
     "isolatedModules": true,
+    "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
     "plugins": [{ "name": "next" }],
     "baseUrl": ".",
     "paths": {
