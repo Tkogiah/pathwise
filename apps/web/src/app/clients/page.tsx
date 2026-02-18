@@ -8,6 +8,7 @@ interface ClientSummary {
   firstName: string;
   lastName: string;
   roadmaps: {
+    id: string;
     templateName: string;
     daysInProgram: number;
     programLengthDays: number | null;
