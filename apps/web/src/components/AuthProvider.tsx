@@ -98,7 +98,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const data = (await res.json().catch(() => null)) as unknown;
         const message =
           data && typeof data === 'object' && 'message' in data
-            ? String((data as { message?: unknown }).message ?? '')
+            ? typeof (data as { message?: unknown }).message === 'string'
+              ? (data as { message?: string }).message
+              : ''
             : '';
         throw new Error(message || 'Login failed');
       }
@@ -121,7 +123,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const data = (await res.json().catch(() => null)) as unknown;
         const message =
           data && typeof data === 'object' && 'message' in data
-            ? String((data as { message?: unknown }).message ?? '')
+            ? typeof (data as { message?: unknown }).message === 'string'
+              ? (data as { message?: string }).message
+              : ''
             : '';
         throw new Error(message || 'Registration failed');
       }
