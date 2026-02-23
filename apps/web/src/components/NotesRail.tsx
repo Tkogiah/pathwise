@@ -24,11 +24,11 @@ function getSnippet(note: ClientNoteEntry) {
 
 export function NotesRail({
   clientId,
-  currentDemoUserId,
+  currentUserId,
   onNavigateToTask,
 }: {
   clientId: string;
-  currentDemoUserId: string | null;
+  currentUserId: string | null;
   onNavigateToTask: (
     roadmapId: string,
     stageId: string,
@@ -42,7 +42,7 @@ export function NotesRail({
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const key = getStorageKey(currentDemoUserId);
+    const key = getStorageKey(currentUserId);
     if (key) {
       const stored = localStorage.getItem(key);
       if (stored === 'collapsed') {
@@ -50,12 +50,12 @@ export function NotesRail({
       }
     }
     setMounted(true);
-  }, [currentDemoUserId]);
+  }, [currentUserId]);
 
   const toggle = () => {
     const next = !collapsed;
     setCollapsed(next);
-    const key = getStorageKey(currentDemoUserId);
+    const key = getStorageKey(currentUserId);
     if (key) {
       localStorage.setItem(key, next ? 'collapsed' : 'expanded');
     }
@@ -167,7 +167,8 @@ export function NotesRail({
                     {NOTE_LABELS[note.label]}
                   </span>
                   <span className="text-xs text-content-muted">
-                    {getAuthorName(note.authorId)} · {timeAgo(note.createdAt)}
+                    {getAuthorName(note.authorId, note.authorName)} ·{' '}
+                    {timeAgo(note.createdAt)}
                   </span>
                 </div>
                 <p className="mt-1 text-sm text-content-primary">

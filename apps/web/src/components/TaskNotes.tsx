@@ -15,12 +15,12 @@ const SUMMARY_THRESHOLD = 200;
 
 function NoteComposer({
   taskId,
-  currentDemoUserId,
+  currentUserId,
   onCreated,
   onCancel,
 }: {
   taskId: string;
-  currentDemoUserId: string;
+  currentUserId: string;
   onCreated: (note: TaskNoteVM) => void;
   onCancel: () => void;
 }) {
@@ -39,7 +39,7 @@ function NoteComposer({
       const note = await apiPost<TaskNoteVM>(
         `/task-instances/${taskId}/notes`,
         {
-          authorId: currentDemoUserId,
+          authorId: currentUserId,
           label,
           body: body.trim(),
           ...(summaryVisible && summary.trim()
@@ -123,12 +123,12 @@ function NoteComposer({
 
 function NoteEditor({
   note,
-  currentDemoUserId,
+  currentUserId,
   onUpdated,
   onCancel,
 }: {
   note: TaskNoteVM;
-  currentDemoUserId: string;
+  currentUserId: string;
   onUpdated: (updated: TaskNoteVM) => void;
   onCancel: () => void;
 }) {
@@ -145,7 +145,7 @@ function NoteEditor({
     setSaving(true);
     try {
       const updated = await apiPatch<TaskNoteVM>(`/notes/${note.id}`, {
-        authorId: currentDemoUserId,
+        authorId: currentUserId,
         label,
         body: body.trim(),
         summary: summaryVisible && summary.trim() ? summary.trim() : null,
@@ -220,20 +220,20 @@ function NoteEditor({
 
 function NoteCard({
   note,
-  currentDemoUserId,
+  currentUserId,
   readOnly,
   onEdit,
 }: {
   note: TaskNoteVM;
-  currentDemoUserId: string | null;
+  currentUserId: string | null;
   readOnly: boolean;
   onEdit: () => void;
 }) {
   const icon = getLabelIcon(note.label);
   const canEdit =
     !readOnly &&
-    currentDemoUserId != null &&
-    note.authorId === currentDemoUserId;
+    currentUserId != null &&
+    note.authorId === currentUserId;
 
   return (
     <div className="space-y-1 rounded-md border border-edge px-3 py-2">
@@ -244,7 +244,8 @@ function NoteCard({
             {NOTE_LABELS[note.label]}
           </span>
           <span className="text-xs text-content-muted">
-            {getAuthorName(note.authorId)} · {timeAgo(note.createdAt)}
+            {getAuthorName(note.authorId, note.authorName)} ·{' '}
+            {timeAgo(note.createdAt)}
           </span>
         </div>
         {canEdit && (
@@ -269,11 +270,11 @@ function NoteCard({
 
 export function TaskNotes({
   taskId,
-  currentDemoUserId,
+  currentUserId,
   readOnly,
 }: {
   taskId: string;
-  currentDemoUserId: string | null;
+  currentUserId: string | null;
   readOnly: boolean;
 }) {
   const [notes, setNotes] = useState<TaskNoteVM[]>([]);
@@ -330,7 +331,7 @@ export function TaskNotes({
         </button>
         {expanded && !readOnly && (
           <>
-            {currentDemoUserId ? (
+            {currentUserId ? (
               <button
                 type="button"
                 onClick={() => {
@@ -344,7 +345,7 @@ export function TaskNotes({
               </button>
             ) : (
               <span className="text-xs text-content-muted">
-                Select a demo user to add notes
+                Log in to add notes
               </span>
             )}
           </>
@@ -353,10 +354,10 @@ export function TaskNotes({
 
       {expanded && (
         <div className="space-y-3">
-          {composerOpen && currentDemoUserId && (
+          {composerOpen && currentUserId && (
             <NoteComposer
               taskId={taskId}
-              currentDemoUserId={currentDemoUserId}
+              currentUserId={currentUserId}
               onCreated={handleCreated}
               onCancel={() => setComposerOpen(false)}
             />
@@ -371,11 +372,11 @@ export function TaskNotes({
           )}
 
           {notes.map((note) =>
-            editingNoteId === note.id && currentDemoUserId ? (
+            editingNoteId === note.id && currentUserId ? (
               <NoteEditor
                 key={note.id}
                 note={note}
-                currentDemoUserId={currentDemoUserId}
+                currentUserId={currentUserId}
                 onUpdated={handleUpdated}
                 onCancel={() => setEditingNoteId(null)}
               />
@@ -383,7 +384,7 @@ export function TaskNotes({
               <NoteCard
                 key={note.id}
                 note={note}
-                currentDemoUserId={currentDemoUserId}
+                currentUserId={currentUserId}
                 readOnly={readOnly}
                 onEdit={() => {
                   setEditingNoteId(note.id);

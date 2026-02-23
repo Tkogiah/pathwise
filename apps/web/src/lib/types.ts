@@ -68,6 +68,7 @@ export interface TaskNoteVM {
   id: string;
   taskInstanceId: string;
   authorId: string;
+  authorName: string | null;
   label: NoteLabel;
   summary: string | null;
   body: string;
@@ -79,6 +80,7 @@ export interface ClientNoteEntry {
   id: string;
   taskInstanceId: string;
   authorId: string;
+  authorName: string | null;
   label: NoteLabel;
   summary: string | null;
   body: string;
