@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import { IBM_Plex_Sans } from 'next/font/google';
 import './globals.css';
-import { DemoUserProvider } from '@/components/DemoUserProvider';
+import { AuthProvider } from '@/components/AuthProvider';
+import { AuthGuard } from '@/components/AuthGuard';
 import { HeaderControls } from '@/components/HeaderControls';
 
 const plex = IBM_Plex_Sans({
@@ -24,14 +25,14 @@ export default function RootLayout({
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){var u=localStorage.getItem('pathwise-demo-user-id');var k=u?('pathwise-theme:'+u):'theme';var t=localStorage.getItem(k);if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.classList.add('theme-dark')}})();`,
+            __html: `(function(){try{var t=localStorage.getItem('pathwise-auth-token');if(t){var p=JSON.parse(atob(t.split('.')[1]));var k='pathwise-theme:'+p.sub;var v=localStorage.getItem(k);if(v==='dark'){document.documentElement.classList.add('theme-dark');return}}if(matchMedia('(prefers-color-scheme: dark)').matches){document.documentElement.classList.add('theme-dark')}}catch(e){}})();`,
           }}
         />
       </head>
       <body
         className={`${plex.className} bg-surface-primary text-content-primary antialiased`}
       >
-        <DemoUserProvider>
+        <AuthProvider>
           <header className="border-b border-edge bg-surface-elevated">
             <div className="mx-auto flex items-center max-w-3xl px-4 py-3 lg:max-w-6xl">
               <span className="text-base font-semibold tracking-wide text-content-secondary uppercase">
@@ -43,9 +44,9 @@ export default function RootLayout({
             </div>
           </header>
           <main className="mx-auto max-w-3xl px-4 py-6 lg:max-w-6xl">
-            {children}
+            <AuthGuard>{children}</AuthGuard>
           </main>
-        </DemoUserProvider>
+        </AuthProvider>
       </body>
     </html>
   );

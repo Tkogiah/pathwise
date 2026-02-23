@@ -6,7 +6,7 @@ import { apiFetch } from '@/lib/api';
 import { RoadmapTabs } from './RoadmapTabs';
 import { RoadmapView } from './RoadmapView';
 import { NotesRail } from './NotesRail';
-import { useDemoUser } from './DemoUserProvider';
+import { useAuth } from './AuthProvider';
 
 interface RoadmapSummary {
   roadmapId: string;
@@ -31,7 +31,8 @@ export function ClientRoadmapShell({
     stageId: string;
     taskId: string;
   } | null>(null);
-  const { currentDemoUserId } = useDemoUser();
+  const { user } = useAuth();
+  const currentUserId = user?.id ?? null;
 
   const handleSelectRoadmap = async (roadmapId: string) => {
     if (roadmapId === selectedRoadmapId) return;
@@ -82,7 +83,7 @@ export function ClientRoadmapShell({
             <RoadmapView
               key={selectedRoadmapId}
               initialRoadmap={roadmapData}
-              currentDemoUserId={currentDemoUserId}
+              currentUserId={currentUserId}
               isArchived={isArchived}
               pendingNav={pendingNav}
               onPendingNavHandled={() => setPendingNav(null)}
@@ -93,7 +94,7 @@ export function ClientRoadmapShell({
 
       <NotesRail
         clientId={clientId}
-        currentDemoUserId={currentDemoUserId}
+        currentUserId={currentUserId}
         onNavigateToTask={(roadmapId, stageId, taskId) =>
           void handleNavigateToTask(roadmapId, stageId, taskId)
         }

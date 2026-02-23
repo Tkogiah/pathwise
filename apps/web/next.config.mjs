@@ -1,4 +1,4 @@
-import { dirname } from 'path';
+import { dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -7,7 +7,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const nextConfig = {
   transpilePackages: ['@pathwise/engine', '@pathwise/types'],
   turbopack: {
-    root: __dirname,
+    root: resolve(__dirname, '../..'),
   },
 };
 

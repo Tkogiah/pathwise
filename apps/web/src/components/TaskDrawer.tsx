@@ -66,13 +66,13 @@ export function TaskDrawer({
   onClose,
   onTaskUpdated,
   readOnly = false,
-  currentDemoUserId = null,
+  currentUserId = null,
 }: {
   task: TaskVM | null;
   onClose: () => void;
   onTaskUpdated: () => Promise<void>;
   readOnly?: boolean;
-  currentDemoUserId?: string | null;
+  currentUserId?: string | null;
 }) {
   const titleId = useId();
   const [updating, setUpdating] = useState(false);
@@ -165,7 +165,7 @@ export function TaskDrawer({
       const appointmentIso = new Date(rawAppointment).toISOString();
 
       await apiPatch(`/task-instances/${task.id}`, {
-        authorId: currentDemoUserId ?? undefined,
+        authorId: currentUserId ?? undefined,
         appointmentAt: appointmentIso,
         appointmentNote: appointmentNoteValue.trim()
           ? appointmentNoteValue.trim()
@@ -421,7 +421,7 @@ export function TaskDrawer({
 
             <TaskNotes
               taskId={task.id}
-              currentDemoUserId={currentDemoUserId}
+              currentUserId={currentUserId}
               readOnly={readOnly}
             />
           </div>

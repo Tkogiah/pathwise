@@ -1,20 +1,23 @@
 'use client';
 
-import { DemoUserSelector } from './DemoUserSelector';
 import { ThemeToggle } from './ThemeToggle';
-import { DEMO_USERS } from '@/lib/demo-users';
-import { useDemoUser } from './DemoUserProvider';
+import { useAuth } from './AuthProvider';
 
 export function HeaderControls() {
-  const { currentDemoUserId, setCurrentDemoUserId } = useDemoUser();
+  const { user, logout } = useAuth();
+
+  if (!user) return null;
 
   return (
     <div className="flex items-center gap-2">
-      <DemoUserSelector
-        users={DEMO_USERS}
-        currentUserId={currentDemoUserId}
-        onSelectUser={setCurrentDemoUserId}
-      />
+      <span className="text-sm text-content-secondary">{user.name}</span>
+      <button
+        type="button"
+        onClick={logout}
+        className="rounded-full bg-surface-card px-3 py-1 text-sm text-content-muted hover:text-content-secondary"
+      >
+        Log out
+      </button>
       <ThemeToggle />
     </div>
   );
