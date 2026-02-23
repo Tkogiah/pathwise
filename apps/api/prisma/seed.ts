@@ -4,8 +4,12 @@ import {
   BlockerType,
   NoteLabel,
 } from '@prisma/client';
+import { hashSync } from 'bcryptjs';
 
 const prisma = new PrismaClient();
+
+// Demo password for all seed users (documented in docs/DEPLOYMENT.md)
+const DEMO_PASSWORD_HASH = hashSync('password123', 10);
 
 function daysAgo(n: number): Date {
   const d = new Date();
@@ -33,13 +37,25 @@ async function main() {
 
   // --- Users (3) ---
   const maria = await prisma.user.create({
-    data: { name: 'Maria Santos', email: 'maria@pathwise.dev' },
+    data: {
+      name: 'Maria Santos',
+      email: 'maria@pathwise.dev',
+      passwordHash: DEMO_PASSWORD_HASH,
+    },
   });
   const james = await prisma.user.create({
-    data: { name: 'James Chen', email: 'james@pathwise.dev' },
+    data: {
+      name: 'James Chen',
+      email: 'james@pathwise.dev',
+      passwordHash: DEMO_PASSWORD_HASH,
+    },
   });
   const aisha = await prisma.user.create({
-    data: { name: 'Aisha Johnson', email: 'aisha@pathwise.dev' },
+    data: {
+      name: 'Aisha Johnson',
+      email: 'aisha@pathwise.dev',
+      passwordHash: DEMO_PASSWORD_HASH,
+    },
   });
 
   // --- Clients (3) ---
@@ -1139,7 +1155,7 @@ async function main() {
   await prisma.taskNote.create({
     data: {
       taskInstanceId: marcus1.taskInstanceMap[s1t1.id],
-      authorId: 'user-1',
+      authorId: maria.id,
       label: NoteLabel.TASK_UPDATE,
       summary: 'Referral packet received',
       body: 'Packet arrived via email from referring agency. All pages present. Ready for review.',
@@ -1148,7 +1164,7 @@ async function main() {
   await prisma.taskNote.create({
     data: {
       taskInstanceId: marcus1.taskInstanceMap[s1t2.id],
-      authorId: 'user-2',
+      authorId: james.id,
       label: NoteLabel.OUTREACH,
       body: 'Called Marcus to schedule orientation. Left voicemail — will try again tomorrow.',
     },
@@ -1156,7 +1172,7 @@ async function main() {
   await prisma.taskNote.create({
     data: {
       taskInstanceId: david1.taskInstanceMap[s1t1.id],
-      authorId: 'user-1',
+      authorId: maria.id,
       label: NoteLabel.DOCUMENTS,
       summary: 'All intake docs verified',
       body: 'ID, proof of income, and referral letter all on file. Cleared for assessment stage.',
@@ -1165,7 +1181,7 @@ async function main() {
   await prisma.taskNote.create({
     data: {
       taskInstanceId: david1.taskInstanceMap[s2t1.id],
-      authorId: 'user-3',
+      authorId: aisha.id,
       label: NoteLabel.HOUSING_SEARCH,
       body: 'Initial housing needs assessment complete. Client prefers studio or 1BR in the downtown area.',
     },
