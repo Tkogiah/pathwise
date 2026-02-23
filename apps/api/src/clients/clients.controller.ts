@@ -10,6 +10,7 @@ import {
 } from '@nestjs/common';
 import { z } from 'zod';
 import { ClientsService } from './clients.service';
+import { Public } from '../auth/public.decorator';
 
 const ActivateRoadmapSchema = z.object({
   templateId: z.string(),
@@ -19,6 +20,7 @@ const ActivateRoadmapSchema = z.object({
 export class ClientsController {
   constructor(private clientsService: ClientsService) {}
 
+  @Public()
   @Get()
   findAll() {
     return this.clientsService.findAll();
@@ -29,11 +31,13 @@ export class ClientsController {
     return this.clientsService.create(body);
   }
 
+  @Public()
   @Get('archived')
   findAllArchived() {
     return this.clientsService.findAllArchived();
   }
 
+  @Public()
   @Get(':id/notes')
   findNotes(@Param('id') id: string, @Query('since') since?: string) {
     if (since && since !== '24h' && since !== '7d') {
@@ -47,11 +51,13 @@ export class ClientsController {
     );
   }
 
+  @Public()
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.clientsService.findOne(id);
   }
 
+  @Public()
   @Get(':id/roadmaps')
   findRoadmaps(@Param('id') id: string) {
     return this.clientsService.findOne(id);
