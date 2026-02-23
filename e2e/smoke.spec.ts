@@ -1,5 +1,25 @@
 import { test, expect } from '@playwright/test';
 
+const AUTH_EMAIL = 'maria@pathwise.dev';
+const AUTH_PASSWORD = 'password123';
+const API_BASE =
+  process.env.API_BASE_URL ??
+  process.env.NEXT_PUBLIC_API_URL ??
+  'http://localhost:3001';
+
+async function login(page: import('@playwright/test').Page) {
+  const res = await page.request.post(`${API_BASE}/auth/login`, {
+    data: { email: AUTH_EMAIL, password: AUTH_PASSWORD },
+  });
+  if (!res.ok()) {
+    throw new Error(`Auth login failed: ${res.status()}`);
+  }
+  const data = (await res.json()) as { token: string };
+  await page.addInitScript((token) => {
+    localStorage.setItem('pathwise-auth-token', token);
+  }, data.token);
+}
+
 /**
  * E2E smoke tests for Pathwise.
  *
@@ -25,6 +45,10 @@ async function navigateToClient(
 }
 
 test.describe('Pathwise Smoke Tests', () => {
+  test.beforeEach(async ({ page }) => {
+    await login(page);
+  });
+
   test('Test 1: Client list navigation and roadmap view', async ({ page }) => {
     await page.goto('/clients');
 

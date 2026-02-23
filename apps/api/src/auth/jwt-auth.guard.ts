@@ -7,6 +7,7 @@ import {
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { IS_PUBLIC_KEY } from './public.decorator';
+import type { Request } from 'express';
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
@@ -22,7 +23,7 @@ export class JwtAuthGuard implements CanActivate {
     ]);
     if (isPublic) return true;
 
-    const request = context.switchToHttp().getRequest();
+    const request = context.switchToHttp().getRequest<Request>();
     const authHeader = request.headers.authorization;
     if (!authHeader?.startsWith('Bearer ')) {
       throw new UnauthorizedException('Missing or invalid token');
@@ -30,7 +31,11 @@ export class JwtAuthGuard implements CanActivate {
 
     const token = authHeader.slice(7);
     try {
-      const payload = this.jwtService.verify(token);
+      const payload = this.jwtService.verify<{
+        sub: string;
+        email?: string;
+        name?: string;
+      }>(token);
       request.user = payload;
       return true;
     } catch {

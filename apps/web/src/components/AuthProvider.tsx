@@ -28,6 +28,24 @@ const AuthContext = createContext<AuthContextValue | null>(null);
 const TOKEN_KEY = 'pathwise-auth-token';
 const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3001';
 
+function isAuthUser(value: unknown): value is AuthUser {
+  if (typeof value !== 'object' || value === null) return false;
+  const record = value as Record<string, unknown>;
+  return (
+    typeof record.id === 'string' &&
+    typeof record.name === 'string' &&
+    typeof record.email === 'string'
+  );
+}
+
+function isAuthResponse(
+  value: unknown,
+): value is { token: string; user: AuthUser } {
+  if (typeof value !== 'object' || value === null) return false;
+  const record = value as Record<string, unknown>;
+  return typeof record.token === 'string' && isAuthUser(record.user);
+}
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [token, setToken] = useState<string | null>(null);
@@ -50,17 +68,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setLoading(false);
       return;
     }
-    setToken(stored);
-    fetch(`${API_BASE}/auth/me`, {
-      headers: { Authorization: `Bearer ${stored}` },
-    })
-      .then((res) => {
+    const loadUser = async () => {
+      setToken(stored);
+      try {
+        const res = await fetch(`${API_BASE}/auth/me`, {
+          headers: { Authorization: `Bearer ${stored}` },
+        });
         if (!res.ok) throw new Error('Invalid token');
-        return res.json();
-      })
-      .then((data: AuthUser) => setUser(data))
-      .catch(() => clearAuth())
-      .finally(() => setLoading(false));
+        const data = (await res.json()) as unknown;
+        if (!isAuthUser(data)) throw new Error('Invalid user payload');
+        setUser(data);
+      } catch {
+        clearAuth();
+      } finally {
+        setLoading(false);
+      }
+    };
+    void loadUser();
   }, [clearAuth]);
 
   const login = useCallback(
@@ -71,12 +95,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         body: JSON.stringify({ email, password }),
       });
       if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        throw new Error(
-          (data as { message?: string }).message || 'Login failed',
-        );
+        const data = (await res.json().catch(() => null)) as unknown;
+        const message =
+          data && typeof data === 'object' && 'message' in data
+            ? String((data as { message?: unknown }).message ?? '')
+            : '';
+        throw new Error(message || 'Login failed');
       }
-      const data = (await res.json()) as { token: string; user: AuthUser };
+      const data = (await res.json()) as unknown;
+      if (!isAuthResponse(data)) throw new Error('Invalid login response');
       saveToken(data.token);
       setUser(data.user);
     },
@@ -91,12 +118,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         body: JSON.stringify({ name, email, password }),
       });
       if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        throw new Error(
-          (data as { message?: string }).message || 'Registration failed',
-        );
+        const data = (await res.json().catch(() => null)) as unknown;
+        const message =
+          data && typeof data === 'object' && 'message' in data
+            ? String((data as { message?: unknown }).message ?? '')
+            : '';
+        throw new Error(message || 'Registration failed');
       }
-      const data = (await res.json()) as { token: string; user: AuthUser };
+      const data = (await res.json()) as unknown;
+      if (!isAuthResponse(data)) throw new Error('Invalid register response');
       saveToken(data.token);
       setUser(data.user);
     },
