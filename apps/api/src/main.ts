@@ -8,8 +8,9 @@ async function bootstrap() {
     process.env.CORS_ORIGIN?.split(',').map((origin) => origin.trim()) ??
     'http://localhost:3000';
   app.enableCors({ origin: corsOrigin });
-  await app.listen(3001);
-  console.log('API running on http://localhost:3001');
+  const port = process.env.PORT || 3001;
+  await app.listen(port);
+  console.log(`API running on http://localhost:${port}`);
 }
 
 void bootstrap();
