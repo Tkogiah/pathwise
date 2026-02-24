@@ -163,9 +163,7 @@ export function RoadmapView({
 
   const filteredTasks =
     selectedStage && taskFilter === 'mine'
-      ? selectedStage.tasks.filter(
-          (t) => t.assignedUser?.id === currentUserId,
-        )
+      ? selectedStage.tasks.filter((t) => t.assignedUser?.id === currentUserId)
       : (selectedStage?.tasks ?? []);
 
   return (

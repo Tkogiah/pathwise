@@ -11,14 +11,14 @@ Platforms: **Vercel** (web) + **Railway** (API) + **Neon** (Postgres)
 ## 2. Railway (API)
 
 1. Connect the GitHub repo
-2. Set **root directory**: `apps/api`
+2. Set **root directory**: `.` (repo root — NOT `apps/api`, because workspace packages must be resolved)
 3. Set **build command**:
    ```
-   npm install && npx prisma generate --schema prisma/schema.prisma && npm run build
+   npm install --workspaces --include=dev && cd apps/api && npx prisma generate --schema prisma/schema.prisma && npm run build
    ```
 4. Set **start command**:
    ```
-   node dist/main.js
+   node apps/api/dist/main.js
    ```
 5. Set **environment variables**:
    | Variable | Value |
@@ -26,11 +26,12 @@ Platforms: **Vercel** (web) + **Railway** (API) + **Neon** (Postgres)
    | `DATABASE_URL` | Neon pooled connection string |
    | `JWT_SECRET` | Generate with `openssl rand -base64 32` |
    | `CORS_ORIGIN` | Your Vercel URL (e.g. `https://pathwise.vercel.app`) |
-   | `PORT` | Railway sets this automatically |
+
+   Note: `PORT` is set automatically by Railway — do not set it manually.
 
 6. After first deploy, run one-time setup via Railway CLI or shell:
    ```bash
-   npx prisma migrate deploy --schema prisma/schema.prisma
+   npx prisma db push --schema apps/api/prisma/schema.prisma
    npx prisma db seed
    ```
 

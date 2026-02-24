@@ -9,8 +9,8 @@ async function bootstrap() {
     'http://localhost:3000';
   app.enableCors({ origin: corsOrigin });
   const port = process.env.PORT || 3001;
-  await app.listen(port);
-  console.log(`API running on http://localhost:${port}`);
+  await app.listen(port, '0.0.0.0');
+  console.log(`API running on 0.0.0.0:${port}`);
 }
 
 void bootstrap();

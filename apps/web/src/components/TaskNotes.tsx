@@ -231,9 +231,7 @@ function NoteCard({
 }) {
   const icon = getLabelIcon(note.label);
   const canEdit =
-    !readOnly &&
-    currentUserId != null &&
-    note.authorId === currentUserId;
+    !readOnly && currentUserId != null && note.authorId === currentUserId;
 
   return (
     <div className="space-y-1 rounded-md border border-edge px-3 py-2">
