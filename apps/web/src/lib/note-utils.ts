@@ -1,5 +1,4 @@
 import { NoteLabel } from './types';
-import { DEMO_USERS } from './demo-users';
 
 export const NOTE_LABELS: Record<NoteLabel, string> = {
   APPOINTMENT: 'Appointment',
@@ -44,8 +43,11 @@ export function getLabelIcon(label: NoteLabel): string | null {
   }
 }
 
-export function getAuthorName(authorId: string): string {
-  return DEMO_USERS.find((u) => u.id === authorId)?.name ?? authorId;
+export function getAuthorName(
+  authorId: string,
+  authorName?: string | null,
+): string {
+  return authorName ?? authorId;
 }
 
 export function timeAgo(dateString: string): string {

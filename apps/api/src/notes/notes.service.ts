@@ -12,6 +12,22 @@ import { UpdateNoteDto } from './dto/update-note.dto';
 export class NotesService {
   constructor(private prisma: PrismaService) {}
 
+  private async attachAuthorNames(
+    notes: { authorId: string }[],
+  ): Promise<Record<string, string | null>> {
+    const authorIds = Array.from(new Set(notes.map((n) => n.authorId)));
+    if (authorIds.length === 0) return {};
+
+    const users = await this.prisma.user.findMany({
+      where: { id: { in: authorIds } },
+      select: { id: true, name: true },
+    });
+    return users.reduce<Record<string, string | null>>((acc, user) => {
+      acc[user.id] = user.name;
+      return acc;
+    }, {});
+  }
+
   async findByTask(taskInstanceId: string) {
     const task = await this.prisma.taskInstance.findUnique({
       where: { id: taskInstanceId },
@@ -20,10 +36,15 @@ export class NotesService {
       throw new NotFoundException(`Task instance ${taskInstanceId} not found`);
     }
 
-    return this.prisma.taskNote.findMany({
+    const notes = await this.prisma.taskNote.findMany({
       where: { taskInstanceId },
       orderBy: { createdAt: 'desc' },
     });
+    const authorMap = await this.attachAuthorNames(notes);
+    return notes.map((note) => ({
+      ...note,
+      authorName: authorMap[note.authorId] ?? null,
+    }));
   }
 
   async create(taskInstanceId: string, dto: CreateNoteDto) {
@@ -34,7 +55,7 @@ export class NotesService {
       throw new NotFoundException(`Task instance ${taskInstanceId} not found`);
     }
 
-    return this.prisma.taskNote.create({
+    const note = await this.prisma.taskNote.create({
       data: {
         taskInstanceId,
         authorId: dto.authorId,
@@ -43,6 +64,8 @@ export class NotesService {
         body: dto.body,
       },
     });
+    const authorMap = await this.attachAuthorNames([note]);
+    return { ...note, authorName: authorMap[note.authorId] ?? null };
   }
 
   async update(noteId: string, dto: UpdateNoteDto) {
@@ -62,9 +85,11 @@ export class NotesService {
     if (dto.summary !== undefined) updateData.summary = dto.summary;
     if (dto.body !== undefined) updateData.body = dto.body;
 
-    return this.prisma.taskNote.update({
+    const updated = await this.prisma.taskNote.update({
       where: { id: noteId },
       data: updateData,
     });
+    const authorMap = await this.attachAuthorNames([updated]);
+    return { ...updated, authorName: authorMap[updated.authorId] ?? null };
   }
 }

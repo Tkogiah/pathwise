@@ -8,11 +8,13 @@ import {
 } from '@nestjs/common';
 import { RoadmapsService } from './roadmaps.service';
 import { UpdateRoadmapSchema } from './dto/update-roadmap.dto';
+import { Public } from '../auth/public.decorator';
 
 @Controller('roadmaps')
 export class RoadmapsController {
   constructor(private roadmapsService: RoadmapsService) {}
 
+  @Public()
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.roadmapsService.findOne(id);

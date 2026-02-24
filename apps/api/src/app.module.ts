@@ -1,16 +1,20 @@
 import { Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { PrismaModule } from './prisma/prisma.module';
+import { AuthModule } from './auth/auth.module';
 import { ClientsModule } from './clients/clients.module';
 import { RoadmapsModule } from './roadmaps/roadmaps.module';
 import { TaskInstancesModule } from './task-instances/task-instances.module';
 import { StageInstancesModule } from './stage-instances/stage-instances.module';
 import { TemplatesModule } from './templates/templates.module';
 import { NotesModule } from './notes/notes.module';
+import { JwtAuthGuard } from './auth/jwt-auth.guard';
 
 @Module({
   imports: [
     PrismaModule,
+    AuthModule,
     ClientsModule,
     RoadmapsModule,
     TaskInstancesModule,
@@ -19,5 +23,11 @@ import { NotesModule } from './notes/notes.module';
     NotesModule,
   ],
   controllers: [AppController],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+  ],
 })
 export class AppModule {}

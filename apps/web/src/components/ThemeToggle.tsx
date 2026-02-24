@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useDemoUser } from './DemoUserProvider';
+import { useAuth } from './AuthProvider';
 
 type Theme = 'light' | 'dark';
 
@@ -15,10 +15,8 @@ function getInitialTheme(storageKey: string): Theme {
 }
 
 export function ThemeToggle() {
-  const { currentDemoUserId } = useDemoUser();
-  const storageKey = currentDemoUserId
-    ? `pathwise-theme:${currentDemoUserId}`
-    : 'theme';
+  const { user } = useAuth();
+  const storageKey = user ? `pathwise-theme:${user.id}` : 'theme';
   const [theme, setTheme] = useState<Theme>('light');
   const [mounted, setMounted] = useState(false);
 

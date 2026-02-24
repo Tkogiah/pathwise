@@ -98,10 +98,24 @@ export class ClientsService {
       },
     });
 
+    const authorIds = Array.from(new Set(notes.map((note) => note.authorId)));
+    const authors = await this.prisma.user.findMany({
+      where: { id: { in: authorIds } },
+      select: { id: true, name: true },
+    });
+    const authorMap = authors.reduce<Record<string, string | null>>(
+      (acc, user) => {
+        acc[user.id] = user.name;
+        return acc;
+      },
+      {},
+    );
+
     return notes.map((note) => ({
       id: note.id,
       taskInstanceId: note.taskInstanceId,
       authorId: note.authorId,
+      authorName: authorMap[note.authorId] ?? null,
       label: note.label,
       summary: note.summary,
       body: note.body,

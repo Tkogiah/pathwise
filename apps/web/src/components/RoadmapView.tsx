@@ -14,13 +14,13 @@ import { OverviewSummary } from './OverviewSummary';
 
 export function RoadmapView({
   initialRoadmap,
-  currentDemoUserId,
+  currentUserId,
   isArchived = false,
   pendingNav,
   onPendingNavHandled,
 }: {
   initialRoadmap: RoadmapVM;
-  currentDemoUserId: string | null;
+  currentUserId: string | null;
   isArchived?: boolean;
   pendingNav?: { stageId: string; taskId: string } | null;
   onPendingNavHandled?: () => void;
@@ -164,7 +164,7 @@ export function RoadmapView({
   const filteredTasks =
     selectedStage && taskFilter === 'mine'
       ? selectedStage.tasks.filter(
-          (t) => t.assignedUser?.id === currentDemoUserId,
+          (t) => t.assignedUser?.id === currentUserId,
         )
       : (selectedStage?.tasks ?? []);
 
@@ -307,7 +307,7 @@ export function RoadmapView({
         onClose={handleCloseDrawer}
         onTaskUpdated={refreshRoadmap}
         readOnly={isArchived}
-        currentDemoUserId={currentDemoUserId}
+        currentUserId={currentUserId}
       />
     </>
   );
