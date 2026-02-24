@@ -38,8 +38,8 @@ Pathwise is a visual program state engine for case managers. It reduces friction
 
 ## MVP Scope Decisions
 
-- Demo‑only MVP: seeded data, no auth.
-- Phase 2: magic‑link auth.
+- Demo MVP now includes email/password auth (JWT) and public sign‑up.
+- Magic‑link auth is deferred.
 - Single org use case for the company, but keep architecture ready for multi‑org scaling later.
 - General naming conventions (ProgramTemplate, Stage, Task, etc.).
 
@@ -53,7 +53,7 @@ Pathwise is a visual program state engine for case managers. It reduces friction
 - Testing: Vitest, Supertest, Playwright
 - CI/CD: GitHub Actions (lint, typecheck, test, e2e)
 - Local dev: Docker Compose or Postgres.app
-- Hosting: Vercel (web), Render/Fly.io (api), Neon (db)
+- Hosting: Vercel (web), Railway (api), Neon (db)
 
 ## Core Data Model (MVP)
 
@@ -136,6 +136,7 @@ Pathwise is a visual program state engine for case managers. It reduces friction
 - Phase 5: replace template with canonical housing plan + add benefits template
 - Phase 6: client metadata edit, add roadmap activation, client gauges, scheduling/appointments
 - Phase 7: task‑scoped notes + client‑only activity feed + notes rail layout
+- Phase 8: JWT auth + deployment hardening + plan backfills
 
 ## Recent Additions (Current State)
 
@@ -149,6 +150,15 @@ Pathwise is a visual program state engine for case managers. It reduces friction
 - Task‑scoped notes (TaskNotes) + NotesRail client activity feed.
 - Notes API: GET/POST /task-instances/:id/notes, PATCH /notes/:id, GET /clients/:id/notes?since=.
 - Appointment auto‑notes (appointment changes create APPOINTMENT notes).
+- Auth: passwordHash on User, JWT auth endpoints, AuthProvider UI, login/register pages.
+- Deployment docs: `docs/DEPLOYMENT.md` + `docs/LOCAL_ENV.md` updated.
+- Task status colors: NOT_STARTED now gray; IN_PROGRESS yellow; BLOCKED/overdue red; COMPLETE/NA green.
+
+## Planned (Queued)
+
+- Phase 8.7: appointment digest pipeline (DB + scheduled job).
+- Phase 8.8: digest UI surface.
+- Phase 8.9: email delivery for digests (provider + feature flag).
 
 ## Collaboration Roles
 
