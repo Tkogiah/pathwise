@@ -33,6 +33,7 @@ async function main() {
   await prisma.templateStage.deleteMany();
   await prisma.programTemplate.deleteMany();
   await prisma.client.deleteMany();
+  await prisma.userDigest.deleteMany();
   await prisma.user.deleteMany();
 
   // --- Users (3) ---

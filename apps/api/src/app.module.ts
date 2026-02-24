@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
+import { ScheduleModule } from '@nestjs/schedule';
 import { AppController } from './app.controller';
 import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './auth/auth.module';
@@ -9,10 +10,12 @@ import { TaskInstancesModule } from './task-instances/task-instances.module';
 import { StageInstancesModule } from './stage-instances/stage-instances.module';
 import { TemplatesModule } from './templates/templates.module';
 import { NotesModule } from './notes/notes.module';
+import { DigestModule } from './digest/digest.module';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     PrismaModule,
     AuthModule,
     ClientsModule,
@@ -21,6 +24,7 @@ import { JwtAuthGuard } from './auth/jwt-auth.guard';
     StageInstancesModule,
     TemplatesModule,
     NotesModule,
+    DigestModule,
   ],
   controllers: [AppController],
   providers: [

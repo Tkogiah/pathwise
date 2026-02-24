@@ -16,6 +16,7 @@ export default tseslint.config(
             'apps/web/next.config.mjs',
             'apps/web/postcss.config.mjs',
             'apps/api/prisma/seed.ts',
+            'apps/api/src/digest/digest.service.spec.ts',
             'packages/engine/vitest.config.ts',
             'apps/api/prisma.config.ts',
             'packages/engine/src/__tests__/*.test.ts',
@@ -38,6 +39,10 @@ export default tseslint.config(
   },
   {
     files: ['apps/api/prisma/seed.ts'],
+    ...tseslint.configs.disableTypeChecked,
+  },
+  {
+    files: ['apps/api/src/digest/digest.service.spec.ts'],
     ...tseslint.configs.disableTypeChecked,
   },
   {

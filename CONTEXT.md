@@ -153,10 +153,10 @@ Pathwise is a visual program state engine for case managers. It reduces friction
 - Auth: passwordHash on User, JWT auth endpoints, AuthProvider UI, login/register pages.
 - Deployment docs: `docs/DEPLOYMENT.md` + `docs/LOCAL_ENV.md` updated.
 - Task status colors: NOT_STARTED now gray; IN_PROGRESS yellow; BLOCKED/overdue red; COMPLETE/NA green.
+- Appointment digest pipeline (daily UTC digest + manual trigger endpoints).
 
 ## Planned (Queued)
 
-- Phase 8.7: appointment digest pipeline (DB + scheduled job).
 - Phase 8.8: digest UI surface.
 - Phase 8.9: email delivery for digests (provider + feature flag).
 
