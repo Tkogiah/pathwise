@@ -64,7 +64,7 @@ export default async function ClientDetailPage({
 
       {!roadmap ? (
         <section className="mt-6">
-          <EmptyState message="This client has no roadmaps assigned to them." />
+          <EmptyState message="No roadmaps yet. Add one to get started." />
         </section>
       ) : (
         <section className="mt-4">
