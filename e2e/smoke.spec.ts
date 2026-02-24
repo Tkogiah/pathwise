@@ -75,9 +75,9 @@ test.describe('Pathwise Smoke Tests', () => {
     await navigateToClient(page, 'Rivera');
 
     // Click the first stage to enter zoom-in view (tasks not visible in overview)
-    await page
-      .locator('[data-testid="stage-node-intake-initial-engagement"]')
-      .click();
+    const stageNode = page.locator('[data-testid^="stage-node-"]').first();
+    await expect(stageNode).toBeVisible();
+    await stageNode.click();
 
     // Click the "Review referral packet" task row
     const taskRow = page.locator(
@@ -105,14 +105,14 @@ test.describe('Pathwise Smoke Tests', () => {
     await navigateToClient(page, 'Rivera');
 
     // Click the first stage to enter zoom-in view (tasks not visible in overview)
-    await page
-      .locator('[data-testid="stage-node-intake-initial-engagement"]')
-      .click();
+    const stageNode = page.locator('[data-testid^="stage-node-"]').first();
+    await expect(stageNode).toBeVisible();
+    await stageNode.click();
 
     // Capture initial stage progress for "Intake & Initial Engagement"
-    const stageProgress = page.locator(
-      '[data-testid="stage-progress-intake-initial-engagement"]',
-    );
+    const stageProgress = page
+      .locator('[data-testid^="stage-progress-"]')
+      .first();
     const initialProgress = await stageProgress.textContent();
 
     // Open "Complete participant orientation" (NOT_STARTED, not locked, not N/A)
@@ -161,9 +161,9 @@ test.describe('Pathwise Smoke Tests', () => {
     await navigateToClient(page, 'Rivera');
 
     // Click the first stage to enter zoom-in view
-    await page
-      .locator('[data-testid="stage-node-intake-initial-engagement"]')
-      .click();
+    const stageNode = page.locator('[data-testid^="stage-node-"]').first();
+    await expect(stageNode).toBeVisible();
+    await stageNode.click();
 
     // Open "Complete participant orientation" (NOT_STARTED)
     const taskRow = page.locator(
