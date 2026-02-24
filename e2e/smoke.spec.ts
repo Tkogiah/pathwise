@@ -87,7 +87,9 @@ test.describe('Pathwise Smoke Tests', () => {
     // Drawer opens with correct title
     const drawer = page.locator('[data-testid="task-drawer"]');
     await expect(drawer).toBeVisible();
-    await expect(page.locator('[data-testid="task-drawer-title"]')).toBeVisible();
+    await expect(
+      page.locator('[data-testid="task-drawer-title"]'),
+    ).toBeVisible();
 
     // Close drawer via Escape
     await page.keyboard.press('Escape');
