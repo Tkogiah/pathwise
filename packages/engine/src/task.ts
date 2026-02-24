@@ -37,5 +37,6 @@ export function getTaskColor(
   if (isTaskLocked(task, allTasks)) return 'gray';
   if (isTaskRed(task, now)) return 'red';
   if (task.status === TaskStatus.COMPLETE || task.isNa) return 'green';
-  return 'yellow';
+  if (task.status === TaskStatus.IN_PROGRESS) return 'yellow';
+  return 'gray';
 }
