@@ -180,9 +180,9 @@ describe('getTaskColor', () => {
     expect(getTaskColor(task, [task], now)).toBe('yellow');
   });
 
-  it('returns yellow when not started', () => {
+  it('returns gray when not started', () => {
     const task = makeTask({ status: TaskStatus.NOT_STARTED });
-    expect(getTaskColor(task, [task], now)).toBe('yellow');
+    expect(getTaskColor(task, [task], now)).toBe('gray');
   });
 
   it('locked takes priority over red', () => {
