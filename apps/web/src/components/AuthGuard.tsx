@@ -7,7 +7,7 @@ import { useAuth } from './AuthProvider';
 const PUBLIC_PATHS = ['/login', '/register'];
 
 export function AuthGuard({ children }: { children: React.ReactNode }) {
-  const { user, token, loading } = useAuth();
+  const { token, loading } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
 

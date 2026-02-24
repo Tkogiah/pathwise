@@ -15,7 +15,8 @@ async function login(page: import('@playwright/test').Page) {
     throw new Error(`Auth login failed: ${res.status()}`);
   }
   const data = (await res.json()) as { token: string };
-  await page.addInitScript((token) => {
+  await page.goto('/');
+  await page.evaluate((token) => {
     localStorage.setItem('pathwise-auth-token', token);
   }, data.token);
 }
