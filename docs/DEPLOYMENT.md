@@ -59,10 +59,10 @@ Platforms: **Vercel** (web) + **Railway** (API) + **Neon** (Postgres)
 
 All seed users share the same demo password: `password123`
 
-| Name | Email |
-|---|---|
-| Maria Santos | maria@pathwise.dev |
-| James Chen | james@pathwise.dev |
+| Name          | Email              |
+| ------------- | ------------------ |
+| Maria Santos  | maria@pathwise.dev |
+| James Chen    | james@pathwise.dev |
 | Aisha Johnson | aisha@pathwise.dev |
 
 ## Free-Tier Caveats

@@ -8,18 +8,18 @@ Phase 8 adds demo-only JWT auth with public signup, single role (case manager), 
 
 ## Current State Summary
 
-| Area | Status |
-|---|---|
-| `User` model | Exists — `id`, `name`, `email` (unique), `role` (CASE_MANAGER). **No `passwordHash`.** |
-| Auth packages | **None installed** — no `@nestjs/jwt`, `bcryptjs`, `passport`, `@nestjs/config` |
-| Auth endpoints | **None** — no `/auth/*` routes |
-| API guards | **None** — no global or route-level guards |
-| Auth UI | **None** — no `/login`, `/register` pages; no `middleware.ts` |
-| Token in requests | **None** — `apiFetch`/`apiPatch`/`apiPost` send no `Authorization` header |
-| Env vars | Only `DATABASE_URL` (API) and `NEXT_PUBLIC_API_URL` (web). No `JWT_SECRET`. |
-| CORS | Enabled globally via `process.env.CORS_ORIGIN`, default `http://localhost:3000` |
-| Seed users | 3 users (`maria`, `james`, `aisha`) — no passwords, hardcoded IDs (`user-1` etc.) |
-| DemoUserProvider | localStorage-based user switcher — will be replaced by auth context |
+| Area              | Status                                                                                 |
+| ----------------- | -------------------------------------------------------------------------------------- |
+| `User` model      | Exists — `id`, `name`, `email` (unique), `role` (CASE_MANAGER). **No `passwordHash`.** |
+| Auth packages     | **None installed** — no `@nestjs/jwt`, `bcryptjs`, `passport`, `@nestjs/config`        |
+| Auth endpoints    | **None** — no `/auth/*` routes                                                         |
+| API guards        | **None** — no global or route-level guards                                             |
+| Auth UI           | **None** — no `/login`, `/register` pages; no `middleware.ts`                          |
+| Token in requests | **None** — `apiFetch`/`apiPatch`/`apiPost` send no `Authorization` header              |
+| Env vars          | Only `DATABASE_URL` (API) and `NEXT_PUBLIC_API_URL` (web). No `JWT_SECRET`.            |
+| CORS              | Enabled globally via `process.env.CORS_ORIGIN`, default `http://localhost:3000`        |
+| Seed users        | 3 users (`maria`, `james`, `aisha`) — no passwords, hardcoded IDs (`user-1` etc.)      |
+| DemoUserProvider  | localStorage-based user switcher — will be replaced by auth context                    |
 
 ## Sub-Task Breakdown
 
@@ -196,17 +196,17 @@ Each task builds on the previous. 8.5 and 8.6 (from the plan requests) are indep
 
 ## Key Decisions
 
-| Decision | Choice | Rationale |
-|---|---|---|
-| Hashing library | `bcryptjs` (pure JS) | No native compilation — works on Railway, Vercel, and all CI without `node-gyp` |
-| JWT library | `@nestjs/jwt` | Follows NestJS patterns, wraps `jsonwebtoken`, provides `JwtService` injectable |
-| Token storage | `localStorage` | Demo-only. Cookie-based auth would be more secure but adds complexity (CSRF, HttpOnly) |
-| Token expiry | 7 days | Long enough for demo use without refresh token complexity |
-| Read route protection | `@Public()` — unprotected | Avoids needing to pass JWT through Next.js server components for initial page loads |
-| Write route protection | JWT guard required | `POST /clients`, `PATCH /task-instances/:id`, notes endpoints, etc. |
-| DemoUserProvider fate | Replaced by `AuthProvider` | JWT `sub` claim provides real user identity |
-| `@nestjs/config` | Skip — use `process.env` directly | Consistent with existing pattern in `main.ts`. No need to add ConfigModule for 2 env vars |
-| Password for seed users | `"password123"` | Documented in seed file and deployment guide for demo access |
+| Decision                | Choice                            | Rationale                                                                                 |
+| ----------------------- | --------------------------------- | ----------------------------------------------------------------------------------------- |
+| Hashing library         | `bcryptjs` (pure JS)              | No native compilation — works on Railway, Vercel, and all CI without `node-gyp`           |
+| JWT library             | `@nestjs/jwt`                     | Follows NestJS patterns, wraps `jsonwebtoken`, provides `JwtService` injectable           |
+| Token storage           | `localStorage`                    | Demo-only. Cookie-based auth would be more secure but adds complexity (CSRF, HttpOnly)    |
+| Token expiry            | 7 days                            | Long enough for demo use without refresh token complexity                                 |
+| Read route protection   | `@Public()` — unprotected         | Avoids needing to pass JWT through Next.js server components for initial page loads       |
+| Write route protection  | JWT guard required                | `POST /clients`, `PATCH /task-instances/:id`, notes endpoints, etc.                       |
+| DemoUserProvider fate   | Replaced by `AuthProvider`        | JWT `sub` claim provides real user identity                                               |
+| `@nestjs/config`        | Skip — use `process.env` directly | Consistent with existing pattern in `main.ts`. No need to add ConfigModule for 2 env vars |
+| Password for seed users | `"password123"`                   | Documented in seed file and deployment guide for demo access                              |
 
 ## Verification
 
