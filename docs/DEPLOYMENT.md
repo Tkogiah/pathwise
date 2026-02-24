@@ -55,6 +55,34 @@ Platforms: **Vercel** (web) + **Railway** (API) + **Neon** (Postgres)
 4. Log in with seed credentials: `maria@pathwise.dev` / `password123`
 5. Verify roadmap data loads
 
+## 4A. 502 Triage (API Not Responding)
+
+If `/health` returns 502 or times out:
+
+1. Check Railway **runtime logs** (not build logs). You should see:
+   - `Nest application successfully started`
+   - `API running on 0.0.0.0:<PORT>`
+2. If there are no runtime logs, the container is not starting. Recheck:
+   - Root directory = `.`
+   - Build command and start command are correct
+   - `DATABASE_URL` and `JWT_SECRET` exist
+3. If logs show the app started but `/health` still 502:
+   - Confirm Railway is injecting `PORT`
+   - Ensure `main.ts` listens on `process.env.PORT || 3001` and `0.0.0.0`
+
+## 4B. 500 on Register/Login (Schema Mismatch)
+
+If `/auth/register` returns 500 and logs mention missing columns:
+
+1. Run database schema update once:
+   ```
+   npx prisma db push --schema apps/api/prisma/schema.prisma
+   ```
+2. Then reseed (optional):
+   ```
+   npx prisma db seed
+   ```
+
 ## 5. Seed User Credentials
 
 All seed users share the same demo password: `password123`
