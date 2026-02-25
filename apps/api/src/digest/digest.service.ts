@@ -12,8 +12,8 @@ export class DigestService {
     private readonly emailService: EmailService,
   ) {}
 
-  /** Runs every 3 minutes (temporary for testing) */
-  @Cron('*/3 * * * *')
+  /** Runs daily at 07:00 UTC */
+  @Cron('0 7 * * *')
   async handleCron() {
     this.logger.log('Running daily appointment digest…');
     const count = await this.generateAll();
