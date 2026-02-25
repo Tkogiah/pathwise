@@ -55,11 +55,12 @@ model User {
 }
 
 model UserDigest {
-  id        String   @id @default(cuid())
+  id        String    @id @default(cuid())
   userId    String
   dateKey   String
   summary   String
-  createdAt DateTime @default(now())
+  emailedAt DateTime?
+  createdAt DateTime  @default(now())
 
   user User @relation(fields: [userId], references: [id])
 
