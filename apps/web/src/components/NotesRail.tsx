@@ -9,6 +9,7 @@ import {
   getAuthorName,
   timeAgo,
 } from '@/lib/note-utils';
+import { DigestCard } from './DigestCard';
 
 type NotesFilter = '24h' | '7d';
 
@@ -98,6 +99,7 @@ export function NotesRail({
 
   return (
     <aside className="hidden rounded-lg border border-edge bg-surface-card md:block">
+      <DigestCard loggedIn={currentUserId !== null} />
       <div className="flex items-center justify-between border-b border-edge px-3 py-2">
         <h3 className="text-sm font-semibold text-content-secondary">Notes</h3>
         <div className="flex items-center gap-2">

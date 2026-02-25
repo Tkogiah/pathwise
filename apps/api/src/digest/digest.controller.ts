@@ -1,5 +1,9 @@
-import { Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Controller, Get, Post, Query, Req } from '@nestjs/common';
 import { DigestService } from './digest.service';
+
+interface AuthRequest {
+  user: { sub: string };
+}
 
 @Controller('digest')
 export class DigestController {
@@ -12,12 +16,10 @@ export class DigestController {
     return { generated: count };
   }
 
-  /** Fetch digests for a specific user. Protected (requires JWT). */
-  @Get(':userId')
-  async findByUser(
-    @Param('userId') userId: string,
-    @Query('date') dateKey?: string,
-  ) {
+  /** Fetch the logged-in user's digests. Protected (requires JWT). */
+  @Get('me')
+  async findMine(@Query('date') dateKey?: string, @Req() req?: AuthRequest) {
+    const userId = req!.user.sub;
     return this.digestService.findByUser(userId, dateKey);
   }
 }
