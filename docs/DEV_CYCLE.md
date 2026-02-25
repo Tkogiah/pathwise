@@ -46,6 +46,7 @@ Why now: Avoids big-bang failure and keeps progress visible.
 
 - Tests for engine logic, API integration, core UI flows.
 - Accessibility checks (color + icon).
+- See `docs/CI_CHECKLIST.md` for the standard test suite and targeted runs.
 
 Why now: Predictability and fewer regressions.
 
