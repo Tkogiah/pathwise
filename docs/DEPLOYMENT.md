@@ -14,7 +14,10 @@ Platforms: **Vercel** (web) + **Railway** (API) + **Neon** (Postgres)
 2. Set **root directory**: `.` (repo root — NOT `apps/api`, because workspace packages must be resolved)
 3. Set **build command**:
    ```
-   npm install --workspaces --include=dev && cd apps/api && npx prisma generate --schema prisma/schema.prisma && npm run build
+   npm install --workspaces --include=dev &&
+   npx prisma generate --schema apps/api/prisma/schema.prisma &&
+   npm run build -w @pathwise/engine &&
+   npm run build -w @pathwise/api
    ```
 4. Set **start command**:
    ```
@@ -26,6 +29,9 @@ Platforms: **Vercel** (web) + **Railway** (API) + **Neon** (Postgres)
    | `DATABASE_URL` | Neon pooled connection string |
    | `JWT_SECRET` | Generate with `openssl rand -base64 32` |
    | `CORS_ORIGIN` | Your Vercel URL (e.g. `https://pathwise.vercel.app`) |
+   | `DIGEST_EMAIL_ENABLED` | `true` to send daily digest emails (default: disabled) |
+   | `RESEND_API_KEY` | Resend API key (required if email enabled) |
+   | `DIGEST_FROM_EMAIL` | Sender address (must be verified in Resend) |
 
    Note: `PORT` is set automatically by Railway — do not set it manually.
 
