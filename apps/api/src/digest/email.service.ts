@@ -15,8 +15,7 @@ export class EmailService {
       this.resend = null;
       this.logger.warn('RESEND_API_KEY not set — email sending disabled.');
     }
-    this.fromEmail =
-      process.env.DIGEST_FROM_EMAIL ?? 'onboarding@resend.dev';
+    this.fromEmail = process.env.DIGEST_FROM_EMAIL ?? 'onboarding@resend.dev';
   }
 
   async sendDigestEmail(
