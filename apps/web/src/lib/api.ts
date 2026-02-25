@@ -18,6 +18,20 @@ export async function apiFetch<T>(path: string): Promise<T> {
   return res.json() as Promise<T>;
 }
 
+/** Client-side authenticated GET (sends JWT). Use for protected read endpoints. */
+export async function apiFetchAuth<T>(path: string): Promise<T> {
+  const res = await fetch(
+    `${API_BASE}${path}`,
+    { headers: { ...getAuthHeaders() }, cache: 'no-store' },
+  );
+
+  if (!res.ok) {
+    throw new Error(`API error ${res.status}: ${path}`);
+  }
+
+  return res.json() as Promise<T>;
+}
+
 export async function apiPatch<T>(
   path: string,
   body: Record<string, unknown>,
