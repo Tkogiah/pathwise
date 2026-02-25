@@ -28,17 +28,17 @@ Most case management tools bury context in long notes. Pathwise makes state visi
 
 ## Tech Stack (Current)
 
-- **Frontend:** Next.js (App Router), TypeScript, TailwindCSS  
+- **Frontend:** Next.js (App Router), TypeScript, TailwindCSS
   - Fast iteration, server‑rendered UX, componentized UI
-- **Backend:** NestJS (TypeScript)  
+- **Backend:** NestJS (TypeScript)
   - Strong module boundaries, DI, clean controller/service separation
-- **Database:** PostgreSQL (Neon)  
+- **Database:** PostgreSQL (Neon)
   - Durable, relational model for program/state tracking
-- **ORM:** Prisma  
+- **ORM:** Prisma
   - Type‑safe queries, migrations, clear schema ownership
-- **Validation:** Zod  
+- **Validation:** Zod
   - Shared DTO validation and safe request handling
-- **Testing:** Vitest + Playwright  
+- **Testing:** Vitest + Playwright
   - Engine logic tests + E2E smoke coverage
 - **Hosting:** Vercel (web) + Railway (API) + Neon (DB)
 
@@ -56,6 +56,7 @@ Most case management tools bury context in long notes. Pathwise makes state visi
 ## Testing / CI
 
 Standard suite:
+
 ```bash
 npm run typecheck
 npm run lint
@@ -65,6 +66,7 @@ npx playwright test
 ```
 
 Targeted:
+
 ```bash
 npm run test
 npx vitest run apps/api/src/digest/digest.service.spec.ts
@@ -77,11 +79,13 @@ npx vitest run apps/api/src/digest/digest.service.spec.ts
 If this were adopted beyond demo use, the core stack can remain — but key infrastructure would harden:
 
 **Would stay:**
+
 - Next.js + NestJS + Postgres
 - Prisma + Zod
 - Current data model (client → program → stage → task)
 
 **Would add/upgrade:**
+
 - **Redis cache** for read‑heavy endpoints (clients list, roadmap view)
 - **Queue + worker** (BullMQ or similar) for digest emails, exports, audit jobs
 - **Structured logging** with request IDs and user IDs
@@ -110,21 +114,25 @@ See `docs/MVP_CHECKLIST.md` for the full completion checklist.
 ## Next Phase (Business‑Ready / HMIS‑Adjacent)
 
 ### Legal / Compliance
+
 - Define data classification (PHI/PII)
 - Implement audit logging + access history
 - Add retention policies + deletion workflows
 
 ### HMIS / Credentialing
+
 - Obtain HMIS vendor access + API credentials
 - Implement strict data mapping (HMIS ↔ Pathwise)
 - Build opt‑in integration (no PHI in Pathwise unless approved)
 
 ### Document Handling
+
 - Secure document upload (S3 + encryption at rest)
 - Document metadata + access controls
 - Optional OCR and document tagging
 
 ### Operational Maturity
+
 - Redis cache + background workers
 - Backups + restore playbook
 - Monitoring + alerting
@@ -135,6 +143,7 @@ See `docs/MVP_CHECKLIST.md` for the full completion checklist.
 ## Development Notes
 
 See:
+
 - `docs/DEPLOYMENT.md`
 - `docs/LOCAL_ENV.md`
 - `docs/CI_CHECKLIST.md`
