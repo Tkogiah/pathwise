@@ -154,11 +154,13 @@ Pathwise is a visual program state engine for case managers. It reduces friction
 - Deployment docs: `docs/DEPLOYMENT.md` + `docs/LOCAL_ENV.md` updated.
 - Task status colors: NOT_STARTED now gray; IN_PROGRESS yellow; BLOCKED/overdue red; COMPLETE/NA green.
 - Appointment digest pipeline (daily UTC digest + manual trigger endpoints).
+- Digest UI: Today’s digest shown above NotesRail with empty state.
+- Digest email delivery (Resend) gated by env vars; emails tracked via `emailedAt`.
+- Portfolio README added at repo root.
 
 ## Planned (Queued)
 
-- Phase 8.8: digest UI surface.
-- Phase 8.9: email delivery for digests (provider + feature flag).
+- Phase 9: HMIS integration planning + compliance hardening (PII/PHI).
 
 ## Collaboration Roles
 
