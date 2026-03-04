@@ -8,7 +8,7 @@ echo "Using API key: $API_KEY"
 
 CREATE_PAYLOAD='{
   "program_id": "housing",
-  "client_ref": "frank_santos",
+  "client_ref": "david_thompson",
   "stage": "Housing Search & Applications",
   "task": "Assist with housing applications",
   "status": "in_progress",

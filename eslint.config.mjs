@@ -17,6 +17,9 @@ export default tseslint.config(
             'apps/web/postcss.config.mjs',
             'apps/api/prisma/seed.ts',
             'apps/api/src/digest/digest.service.spec.ts',
+            'apps/api/src/lib/redaction.spec.ts',
+            'apps/api/test/integrations/slack.spec.ts',
+            'apps/api/vitest.config.ts',
             'packages/engine/vitest.config.ts',
             'apps/api/prisma.config.ts',
             'packages/engine/src/__tests__/*.test.ts',
@@ -42,7 +45,12 @@ export default tseslint.config(
     ...tseslint.configs.disableTypeChecked,
   },
   {
-    files: ['apps/api/src/digest/digest.service.spec.ts'],
+    files: [
+      'apps/api/src/digest/digest.service.spec.ts',
+      'apps/api/src/lib/redaction.spec.ts',
+      'apps/api/test/integrations/slack.spec.ts',
+      'apps/api/vitest.config.ts',
+    ],
     ...tseslint.configs.disableTypeChecked,
   },
   {

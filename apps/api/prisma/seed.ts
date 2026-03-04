@@ -77,6 +77,7 @@ async function main() {
   const housing = await prisma.programTemplate.create({
     data: {
       name: 'Housing Program',
+      slug: 'housing',
       description: 'Canonical 6-stage housing workflow',
     },
   });
@@ -545,6 +546,7 @@ async function main() {
   const benefits = await prisma.programTemplate.create({
     data: {
       name: 'Benefits Access',
+      slug: 'benefits',
       description: 'Canonical 5-stage benefits access workflow (SNAP-focused)',
     },
   });

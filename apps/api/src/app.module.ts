@@ -11,6 +11,7 @@ import { StageInstancesModule } from './stage-instances/stage-instances.module';
 import { TemplatesModule } from './templates/templates.module';
 import { NotesModule } from './notes/notes.module';
 import { DigestModule } from './digest/digest.module';
+import { SlackModule } from './integrations/slack/slack.module';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 
 @Module({
@@ -25,6 +26,7 @@ import { JwtAuthGuard } from './auth/jwt-auth.guard';
     TemplatesModule,
     NotesModule,
     DigestModule,
+    SlackModule,
   ],
   controllers: [AppController],
   providers: [

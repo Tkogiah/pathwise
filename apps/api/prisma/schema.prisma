@@ -39,6 +39,16 @@ enum NoteLabel {
   OTHER
 }
 
+enum ExtractionStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum EvidenceSource {
+  SLACK
+}
+
 // --- Users & Clients ---
 
 model User {
@@ -77,6 +87,8 @@ model Client {
   updatedAt  DateTime @updatedAt
 
   programInstances ClientProgramInstance[]
+  extractions      Extraction[]
+  facts            Fact[]
 }
 
 // --- Templates (immutable blueprints) ---
@@ -84,6 +96,7 @@ model Client {
 model ProgramTemplate {
   id          String  @id @default(cuid())
   name        String
+  slug        String  @unique
   description String?
   isActive    Boolean @default(true)
   createdAt   DateTime @default(now())
@@ -91,6 +104,7 @@ model ProgramTemplate {
 
   stages           TemplateStage[]
   programInstances ClientProgramInstance[]
+  extractions      Extraction[]
 }
 
 model TemplateStage {
@@ -105,6 +119,7 @@ model TemplateStage {
   template       ProgramTemplate @relation(fields: [templateId], references: [id])
   tasks          TemplateTask[]
   stageInstances StageInstance[]
+  facts          Fact[]
 }
 
 model TemplateTask {
@@ -120,6 +135,7 @@ model TemplateTask {
   dependsOnTask TemplateTask?  @relation("TaskDependency", fields: [dependsOnTaskId], references: [id])
   dependentTasks TemplateTask[] @relation("TaskDependency")
   taskInstances TaskInstance[]
+  facts         Fact[]
 }
 
 // --- Instances (per-client runtime data) ---
@@ -186,4 +202,55 @@ model TaskNote {
   updatedAt      DateTime  @updatedAt
 
   taskInstance TaskInstance @relation(fields: [taskInstanceId], references: [id])
+}
+
+// --- AI Ingestion ---
+
+model Extraction {
+  id                String           @id @default(cuid())
+  programId         String
+  clientId          String?
+  clientRef         String
+  rawText           String
+  structuredPayload Json
+  confidence        Float
+  status            ExtractionStatus @default(PENDING)
+  requiresReview    Boolean          @default(true)
+  createdAt         DateTime         @default(now())
+  approvedAt        DateTime?
+  rejectedAt        DateTime?
+
+  program  ProgramTemplate @relation(fields: [programId], references: [id])
+  client   Client?         @relation(fields: [clientId], references: [id])
+  evidence Evidence[]
+  facts    Fact[]
+}
+
+model Evidence {
+  id           String         @id @default(cuid())
+  extractionId String
+  source       EvidenceSource @default(SLACK)
+  permalink    String
+  author       String
+  timestamp    DateTime
+  createdAt    DateTime       @default(now())
+
+  extraction Extraction @relation(fields: [extractionId], references: [id])
+}
+
+model Fact {
+  id           String    @id @default(cuid())
+  extractionId String
+  clientId     String
+  stageId      String?
+  taskId       String?
+  statusValue  String?
+  notes        String?
+  source       String    @default("slack")
+  createdAt    DateTime  @default(now())
+
+  extraction    Extraction     @relation(fields: [extractionId], references: [id])
+  client        Client         @relation(fields: [clientId], references: [id])
+  templateStage TemplateStage? @relation(fields: [stageId], references: [id])
+  templateTask  TemplateTask?  @relation(fields: [taskId], references: [id])
 }
