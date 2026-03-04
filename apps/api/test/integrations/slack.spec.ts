@@ -1,5 +1,10 @@
 import { PrismaClient } from '@prisma/client';
-import { NotFoundException, ConflictException, UnprocessableEntityException, BadRequestException } from '@nestjs/common';
+import {
+  NotFoundException,
+  ConflictException,
+  UnprocessableEntityException,
+  BadRequestException,
+} from '@nestjs/common';
 import { SlackService } from '../../src/integrations/slack/slack.service';
 import { PrismaService } from '../../src/prisma/prisma.service';
 import fixture from '../fixtures/slack_event.json';
@@ -55,7 +60,9 @@ afterAll(async () => {
 
 describe('SlackService.createDraft', () => {
   it('creates PENDING extraction + evidence with valid payload', async () => {
-    const result = await service.createDraft(fixture as Parameters<typeof service.createDraft>[0]);
+    const result = await service.createDraft(
+      fixture as Parameters<typeof service.createDraft>[0],
+    );
 
     expect(result).toHaveProperty('id');
 
@@ -88,7 +95,9 @@ describe('SlackService.createDraft', () => {
 
 describe('SlackService.approve', () => {
   it('approves extraction: creates fact, resolves clientId', async () => {
-    const { id } = await service.createDraft(fixture as Parameters<typeof service.createDraft>[0]);
+    const { id } = await service.createDraft(
+      fixture as Parameters<typeof service.createDraft>[0],
+    );
     const approveResult = await service.approve(id);
 
     expect(approveResult).toHaveProperty('factId');
@@ -98,12 +107,16 @@ describe('SlackService.approve', () => {
     expect(extraction?.approvedAt).not.toBeNull();
     expect(extraction?.clientId).toBe(clientId);
 
-    const fact = await prisma.fact.findUnique({ where: { id: approveResult.factId } });
+    const fact = await prisma.fact.findUnique({
+      where: { id: approveResult.factId },
+    });
     expect(fact?.clientId).toBe(clientId);
   });
 
   it('throws 409 when approving an already-approved extraction', async () => {
-    const { id } = await service.createDraft(fixture as Parameters<typeof service.createDraft>[0]);
+    const { id } = await service.createDraft(
+      fixture as Parameters<typeof service.createDraft>[0],
+    );
     await service.approve(id);
 
     await expect(service.approve(id)).rejects.toBeInstanceOf(ConflictException);
@@ -115,17 +128,23 @@ describe('SlackService.approve', () => {
       client_ref: 'unknown_person',
     });
 
-    await expect(service.approve(id)).rejects.toBeInstanceOf(UnprocessableEntityException);
+    await expect(service.approve(id)).rejects.toBeInstanceOf(
+      UnprocessableEntityException,
+    );
   });
 
   it('throws 404 for unknown extraction id', async () => {
-    await expect(service.approve('nonexistent-id')).rejects.toBeInstanceOf(NotFoundException);
+    await expect(service.approve('nonexistent-id')).rejects.toBeInstanceOf(
+      NotFoundException,
+    );
   });
 });
 
 describe('SlackService.reject', () => {
   it('rejects extraction: status REJECTED, no fact created', async () => {
-    const { id } = await service.createDraft(fixture as Parameters<typeof service.createDraft>[0]);
+    const { id } = await service.createDraft(
+      fixture as Parameters<typeof service.createDraft>[0],
+    );
     await service.reject(id);
 
     const extraction = await prisma.extraction.findUnique({ where: { id } });
@@ -137,13 +156,17 @@ describe('SlackService.reject', () => {
   });
 
   it('throws 409 when rejecting an already-rejected extraction', async () => {
-    const { id } = await service.createDraft(fixture as Parameters<typeof service.createDraft>[0]);
+    const { id } = await service.createDraft(
+      fixture as Parameters<typeof service.createDraft>[0],
+    );
     await service.reject(id);
 
     await expect(service.reject(id)).rejects.toBeInstanceOf(ConflictException);
   });
 
   it('throws 404 for unknown extraction id', async () => {
-    await expect(service.reject('nonexistent-id')).rejects.toBeInstanceOf(NotFoundException);
+    await expect(service.reject('nonexistent-id')).rejects.toBeInstanceOf(
+      NotFoundException,
+    );
   });
 });

@@ -66,9 +66,7 @@ export class SlackService {
     });
     if (!extraction) throw new NotFoundException('Extraction not found');
     if (extraction.status !== ExtractionStatus.PENDING) {
-      throw new ConflictException(
-        `Extraction is already ${extraction.status}`,
-      );
+      throw new ConflictException(`Extraction is already ${extraction.status}`);
     }
 
     const payload = extraction.structuredPayload as Record<string, unknown>;
@@ -124,7 +122,8 @@ export class SlackService {
           clientId: client.id,
           stageId,
           taskId,
-          statusValue: typeof payload.status === 'string' ? payload.status : null,
+          statusValue:
+            typeof payload.status === 'string' ? payload.status : null,
           notes: typeof payload.notes === 'string' ? payload.notes : null,
         },
       });
@@ -150,9 +149,7 @@ export class SlackService {
     });
     if (!extraction) throw new NotFoundException('Extraction not found');
     if (extraction.status !== ExtractionStatus.PENDING) {
-      throw new ConflictException(
-        `Extraction is already ${extraction.status}`,
-      );
+      throw new ConflictException(`Extraction is already ${extraction.status}`);
     }
 
     await this.prisma.extraction.update({
