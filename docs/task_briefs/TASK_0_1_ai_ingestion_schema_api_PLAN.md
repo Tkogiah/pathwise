@@ -96,6 +96,7 @@ The draft DTO's `program_id` field resolves via `ProgramTemplate.slug`, not `.id
 ### Existing model relation additions
 
 Add back-relations on:
+
 - `ProgramTemplate` → `extractions Extraction[]` (already covered above)
 - `Client` → `extractions Extraction[]`, `facts Fact[]`
 - `TemplateStage` → `facts Fact[]`
@@ -116,6 +117,7 @@ export function detectPii(text: string): string[] { ... }
 ```
 
 Patterns to detect (regex):
+
 - SSN: `\d{3}-\d{2}-\d{4}`
 - Phone: `\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}`
 - Email: standard email regex
@@ -150,20 +152,20 @@ Validated with `class-validator` (matching existing API patterns):
 ```ts
 class EvidenceDto {
   source: 'slack';
-  permalink: string;   // must be a URL
+  permalink: string; // must be a URL
   author: string;
-  timestamp: string;   // ISO 8601
+  timestamp: string; // ISO 8601
 }
 
 class CreateExtractionDto {
-  program_id: string;      // ProgramTemplate.slug (e.g. "mthp")
-  client_ref: string;      // fuzzy name ref; stored as-is
-  stage?: string;          // stage title; used at approval for resolution
-  task?: string;           // task title; used at approval for resolution
-  status?: string;         // task status string from AI
-  notes?: string;          // must pass redaction check
+  program_id: string; // ProgramTemplate.slug (e.g. "mthp")
+  client_ref: string; // fuzzy name ref; stored as-is
+  stage?: string; // stage title; used at approval for resolution
+  task?: string; // task title; used at approval for resolution
+  status?: string; // task status string from AI
+  notes?: string; // must pass redaction check
   evidence: EvidenceDto[];
-  confidence: number;      // 0–1
+  confidence: number; // 0–1
   requires_review: boolean;
 }
 ```
@@ -198,12 +200,14 @@ globally — it is scoped to the `SlackController` only.
 ### Service (`slack.service.ts`)
 
 **`createDraft(dto)`**
+
 1. Validate `dto.notes` through `detectPii` → throw 400 if PII found.
 2. Resolve `ProgramTemplate` by `slug = dto.program_id` → throw 404 if not found.
 3. Create `Extraction` (status: PENDING) + `Evidence[]` records in a transaction.
 4. Return extraction id.
 
 **`approve(id)`**
+
 1. Load extraction; throw 404 if not found, 409 if already APPROVED/REJECTED.
 2. Resolve `clientId`:
    - Query `Client` where programInstance matches programId and name fuzzy-matches `clientRef`.
@@ -219,6 +223,7 @@ globally — it is scoped to the `SlackController` only.
 6. Return fact id.
 
 **`reject(id)`**
+
 1. Load extraction; throw 404 if not found, 409 if already APPROVED/REJECTED.
 2. Update `Extraction` → status: REJECTED, rejectedAt: now().
 3. Return extraction id.
@@ -266,51 +271,51 @@ integration test setup should seed a matching client with firstName/lastName mat
 
 Use existing Supertest + NestJS test app pattern.
 
-| Test | Expected |
-|------|----------|
+| Test                                                    | Expected                                                            |
+| ------------------------------------------------------- | ------------------------------------------------------------------- |
 | POST /integrations/slack/extractions with valid payload | 201, extraction in DB with PENDING status, Evidence records created |
-| POST with PII in notes (`"SSN: 123-45-6789"`) | 400 with PII category in response |
-| POST with unknown program_id | 404 |
-| POST then PATCH approve | 200, extraction APPROVED, Fact created, clientId resolved |
-| PATCH approve on already-approved extraction | 409 |
-| PATCH approve with unresolvable clientRef | 422 |
-| POST then PATCH reject | 200, extraction REJECTED, no Fact created |
-| PATCH reject on already-rejected extraction | 409 |
+| POST with PII in notes (`"SSN: 123-45-6789"`)           | 400 with PII category in response                                   |
+| POST with unknown program_id                            | 404                                                                 |
+| POST then PATCH approve                                 | 200, extraction APPROVED, Fact created, clientId resolved           |
+| PATCH approve on already-approved extraction            | 409                                                                 |
+| PATCH approve with unresolvable clientRef               | 422                                                                 |
+| POST then PATCH reject                                  | 200, extraction REJECTED, no Fact created                           |
+| PATCH reject on already-rejected extraction             | 409                                                                 |
 
 ### Unit tests (`apps/api/src/lib/redaction.spec.ts`)
 
-| Test | Expected |
-|------|----------|
-| SSN pattern in text | detects "SSN" category |
-| Phone number in text | detects "PHONE" category |
-| Email address in text | detects "EMAIL" category |
-| DOB pattern in text | detects "DOB" category |
+| Test                           | Expected                         |
+| ------------------------------ | -------------------------------- |
+| SSN pattern in text            | detects "SSN" category           |
+| Phone number in text           | detects "PHONE" category         |
+| Email address in text          | detects "EMAIL" category         |
+| DOB pattern in text            | detects "DOB" category           |
 | Income amount (`$1,200/month`) | detects "INCOME_AMOUNT" category |
-| Clean clinical note | returns empty array |
+| Clean clinical note            | returns empty array              |
 
 ---
 
 ## 7. Files Summary
 
-| File | Action |
-|------|--------|
-| `apps/api/prisma/schema.prisma` | Add enums + 3 models + slug on ProgramTemplate + back-relations |
-| `apps/api/prisma/migrations/...` | Generated by `prisma migrate dev` |
-| `apps/api/src/integrations/slack/slack.module.ts` | New |
-| `apps/api/src/integrations/slack/slack.controller.ts` | New |
-| `apps/api/src/integrations/slack/slack.service.ts` | New |
-| `apps/api/src/integrations/slack/dto/create-extraction.dto.ts` | New |
-| `apps/api/src/integrations/guards/api-key.guard.ts` | New |
-| `apps/api/src/lib/redaction.ts` | New |
-| `apps/api/src/lib/redaction.spec.ts` | New |
-| `apps/api/src/app.module.ts` | Import SlackModule |
-| `apps/api/src/db/seed.ts` (or equivalent) | Add `slug` to Housing + Benefits template seed rows |
-| `apps/api/test/integrations/slack.e2e-spec.ts` | New |
-| `apps/api/test/fixtures/slack_event.json` | New |
-| `apps/api/package.json` | Add `"test": "vitest run"` script + vitest devDependency |
-| `package.json` (root) | Add `"test:api": "npm exec -w @pathwise/api -- vitest run"` |
-| `apps/api/.env.example` | Add `INTEGRATION_API_KEY` |
-| `docs/DEPLOYMENT.md` | Document `INTEGRATION_API_KEY` |
+| File                                                           | Action                                                          |
+| -------------------------------------------------------------- | --------------------------------------------------------------- |
+| `apps/api/prisma/schema.prisma`                                | Add enums + 3 models + slug on ProgramTemplate + back-relations |
+| `apps/api/prisma/migrations/...`                               | Generated by `prisma migrate dev`                               |
+| `apps/api/src/integrations/slack/slack.module.ts`              | New                                                             |
+| `apps/api/src/integrations/slack/slack.controller.ts`          | New                                                             |
+| `apps/api/src/integrations/slack/slack.service.ts`             | New                                                             |
+| `apps/api/src/integrations/slack/dto/create-extraction.dto.ts` | New                                                             |
+| `apps/api/src/integrations/guards/api-key.guard.ts`            | New                                                             |
+| `apps/api/src/lib/redaction.ts`                                | New                                                             |
+| `apps/api/src/lib/redaction.spec.ts`                           | New                                                             |
+| `apps/api/src/app.module.ts`                                   | Import SlackModule                                              |
+| `apps/api/src/db/seed.ts` (or equivalent)                      | Add `slug` to Housing + Benefits template seed rows             |
+| `apps/api/test/integrations/slack.e2e-spec.ts`                 | New                                                             |
+| `apps/api/test/fixtures/slack_event.json`                      | New                                                             |
+| `apps/api/package.json`                                        | Add `"test": "vitest run"` script + vitest devDependency        |
+| `package.json` (root)                                          | Add `"test:api": "npm exec -w @pathwise/api -- vitest run"`     |
+| `apps/api/.env.example`                                        | Add `INTEGRATION_API_KEY`                                       |
+| `docs/DEPLOYMENT.md`                                           | Document `INTEGRATION_API_KEY`                                  |
 
 ---
 

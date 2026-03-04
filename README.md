@@ -145,12 +145,14 @@ See `docs/MVP_CHECKLIST.md` for the full completion checklist.
 Pathwise is expanding into a **Slack‑first ingestion workflow** so case managers don’t need to change their daily habits. The AI system extracts structured facts from Slack threads, captures evidence links, and feeds Pathwise snapshots for management visibility and reporting.
 
 **Current direction**
+
 - Manual trigger in Slack (emoji or `/case extract`) with human approval
 - Evidence‑per‑field and confidence scoring
 - No PHI/PII storage; strict redaction rules
 - Exports for reporting (CSV/JSON)
 
 **Spec**
+
 - `docs/AI_INGESTION_SPEC.md`
 
 ---
