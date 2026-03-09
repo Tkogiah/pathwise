@@ -1,0 +1,24 @@
+{
+  "channel": "C000HOUSING",
+  "program_slug": "housing",
+  "messages": [
+    {
+      "user": "U001",
+      "text": "Frank Santos came in today and we worked on his housing application at the County office.",
+      "ts": "1740000000.000000",
+      "permalink": "https://example.slack.com/archives/C000HOUSING/p1740000000000000"
+    },
+    {
+      "user": "U002",
+      "text": "Great, did he submit everything? What's the next step?",
+      "ts": "1740000060.000000",
+      "permalink": "https://example.slack.com/archives/C000HOUSING/p1740000060000000"
+    },
+    {
+      "user": "U001",
+      "text": "Yes submitted the full packet. He's in progress on the Housing Search stage. Next is waiting for the callback.",
+      "ts": "1740000120.000000",
+      "permalink": "https://example.slack.com/archives/C000HOUSING/p1740000120000000"
+    }
+  ]
+}

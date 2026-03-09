@@ -33,6 +33,18 @@ beforeAll(async () => {
   });
   programId = program.id;
 
+  // Pre-cleanup: remove stale data from any prior failed test runs
+  await prisma.fact.deleteMany({ where: { extraction: { programId } } });
+  await prisma.evidence.deleteMany({ where: { extraction: { programId } } });
+  await prisma.extraction.deleteMany({ where: { programId } });
+  const staleClients = await prisma.client.findMany({
+    where: { firstName: 'Frank', lastName: 'Santos' },
+  });
+  for (const c of staleClients) {
+    await prisma.clientProgramInstance.deleteMany({ where: { clientId: c.id } });
+    await prisma.client.delete({ where: { id: c.id } });
+  }
+
   const client = await prisma.client.create({
     data: { firstName: 'Frank', lastName: 'Santos' },
   });
@@ -45,7 +57,8 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await prisma.fact.deleteMany({ where: { clientId } });
+  // Delete facts via the extraction relation to catch any leftover data from prior runs
+  await prisma.fact.deleteMany({ where: { extraction: { programId } } });
   await prisma.evidence.deleteMany({
     where: { extraction: { programId } },
   });

@@ -26,6 +26,8 @@ export default tseslint.config(
             'playwright.config.ts',
             'vitest.config.ts',
             'e2e/*.spec.ts',
+            'apps/slack-bot/vitest.config.ts',
+            'apps/slack-bot/test/*.spec.ts',
           ],
         },
         tsconfigRootDir: import.meta.dirname,
@@ -55,6 +57,10 @@ export default tseslint.config(
   },
   {
     files: ['e2e/**/*.spec.ts', 'playwright.config.ts', 'vitest.config.ts'],
+    ...tseslint.configs.disableTypeChecked,
+  },
+  {
+    files: ['apps/slack-bot/test/*.spec.ts', 'apps/slack-bot/vitest.config.ts'],
     ...tseslint.configs.disableTypeChecked,
   },
 );

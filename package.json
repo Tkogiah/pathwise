@@ -22,6 +22,8 @@
     "db:down": "docker compose -f infra/compose/docker-compose.yml down",
     "dev:api": "npm run dev -w @pathwise/api",
     "dev:web": "npm run dev -w @pathwise/web",
+    "dev:bot": "npm run dev -w @pathwise/slack-bot",
+    "test:bot": "npm exec -w @pathwise/slack-bot -- vitest run",
     "db:seed": "npm --workspace @pathwise/api run seed",
     "pretest:e2e": "node scripts/check-db.js"
   },
