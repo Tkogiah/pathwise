@@ -50,6 +50,12 @@ Semantic — Locked/Inactive
 - semantic-inactive-bg: #F1EEE9
 - semantic-inactive-border: #D4CFC6
 
+Semantic — Not Applicable
+
+- semantic-na: #3B72A4
+- semantic-na-bg: #DEEAF4
+- semantic-na-border: #9FC4DE
+
 ## Dark Mode Tokens
 
 Base
@@ -71,6 +77,11 @@ Semantic (dark)
 - dark-success: #3AA981
 - dark-warning: #E0A400
 - dark-error: #D35B5B
+- dark-na: #5B8DB8
+- dark-na-bg: #1A2D3E
+- dark-na-border: #2D4D6A
+- dark-na-bg: #1A2D3E
+- dark-na-border: #2D4D6A
 
 ## Component Mapping Guidance
 
