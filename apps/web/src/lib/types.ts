@@ -26,6 +26,7 @@ export interface StageVM {
   orderIndex: number;
   iconName: string;
   status: 'GREEN' | 'YELLOW' | 'RED' | 'GRAY';
+  isBehind: boolean;
   progress: { completed: number; total: number };
   redTaskCount: number;
   activatedAt: string | null;

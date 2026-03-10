@@ -8,6 +8,7 @@ import {
   getTaskColor,
   isTaskLocked,
   isTaskOverdue,
+  isStageBehind,
   getRoadmapProgress,
 } from '@pathwise/engine';
 
@@ -88,6 +89,14 @@ export class RoadmapsService {
       si.taskInstances.map((ti) => this.toTaskInput(ti)),
     );
 
+    // Build all StageInputs up front for isStageBehind
+    const allStageInputs: StageInput[] = instance.stageInstances.map((si) => ({
+      id: si.id,
+      orderIndex: si.templateStage.orderIndex,
+      activatedAt: si.activatedAt,
+      tasks: si.taskInstances.map((ti) => this.toTaskInput(ti)),
+    }));
+
     const stages = instance.stageInstances.map((si) => {
       const stageTaskInputs = si.taskInstances.map((ti) =>
         this.toTaskInput(ti),
@@ -130,6 +139,7 @@ export class RoadmapsService {
         orderIndex: si.templateStage.orderIndex,
         iconName: si.templateStage.iconName,
         status: getStageStatus(stageInput, now),
+        isBehind: isStageBehind(stageInput, allStageInputs, now),
         progress: getStageProgress(stageInput),
         redTaskCount: getRedTaskCount(stageInput, now),
         activatedAt: si.activatedAt,

@@ -6,6 +6,7 @@ export {
   shouldActivateStage,
   getStageProgress,
   getRedTaskCount,
+  isStageBehind,
 } from './stage';
 
 export { getRoadmapProgress } from './roadmap';
