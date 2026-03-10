@@ -17,4 +17,5 @@ export {
 
 export { getRoadmapProgress } from './roadmap';
 
-export { daysInProgram } from './program';
+export { daysInProgram, getProgramSnapshot } from './program';
+export type { ProgramSnapshot } from './program';
