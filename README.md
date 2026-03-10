@@ -47,9 +47,27 @@ Most case management tools bury context in long notes. Pathwise makes state visi
 ## Architecture Highlights
 
 - **Engine rules are pure functions** (task/stage status computed, not stored)
-- **Derived state** (progress, red/behind flags) is calculated server‑side
+- **Derived state** (progress, red/behind flags, days in program, upcoming appointments) is calculated server‑side
 - **Notes + digest pipeline** are additive and non‑destructive
 - **Read endpoints are public**; writes are JWT‑protected
+
+---
+
+## Case Study: Moving Workflow Logic from the UI into the Engine
+
+**Problem**  
+Early iterations handled workflow logic too close to the UI layer. As views expanded (manager, worker, trainee), it became harder to reason about behavior and test changes without UI coupling.
+
+**Decision**  
+Refactor business rules into a dedicated engine of pure functions, and compute derived state in the API. The UI renders only what the engine produces.
+
+**Outcome**
+
+- UI components became simpler and more presentation‑focused
+- Core workflow behavior became testable in isolation (Vitest)
+- Derived state stayed consistent across views
+
+This refactor created a reliable foundation for future reporting, digests, and AI‑assisted ingestion.
 
 ---
 
@@ -60,9 +78,8 @@ Standard suite:
 ```bash
 npm run typecheck
 npm run lint
-npm run format:check
-npm run db:seed
-npx playwright test
+npm run format
+npm run test:all
 ```
 
 Targeted:
@@ -70,6 +87,12 @@ Targeted:
 ```bash
 npm run test
 npx vitest run apps/api/src/digest/digest.service.spec.ts
+```
+
+Data setup (only when seed changes are involved):
+
+```bash
+npm run db:seed
 ```
 
 ---
