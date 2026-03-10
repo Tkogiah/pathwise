@@ -6,14 +6,14 @@ Ensure **all Housing template tasks** have `dueOffsetDays` set so every new Hous
 
 ## Rule A Mapping (Stage timeline end day)
 
-| Stage | Timeline | Default offset |
-|---|---|---|
-| 1 — Intake & Initial Engagement | Day 0–3 | 3 |
-| 2 — Housing Assessment & Planning | Day 4–14 | 14 |
-| 3 — Documentation & Housing Readiness | Day 7–30 | 30 |
-| 4 — Housing Search & Applications | Day 14–75 | 75 |
-| 5 — Housing Match & Move‑In Preparation | Day 45–90 | 90 |
-| 6 — Exit Planning & Transition | Day 60–90 | 90 |
+| Stage                                   | Timeline  | Default offset |
+| --------------------------------------- | --------- | -------------- |
+| 1 — Intake & Initial Engagement         | Day 0–3   | 3              |
+| 2 — Housing Assessment & Planning       | Day 4–14  | 14             |
+| 3 — Documentation & Housing Readiness   | Day 7–30  | 30             |
+| 4 — Housing Search & Applications       | Day 14–75 | 75             |
+| 5 — Housing Match & Move‑In Preparation | Day 45–90 | 90             |
+| 6 — Exit Planning & Transition          | Day 60–90 | 90             |
 
 ## Existing offsets (from Task 0.6)
 
