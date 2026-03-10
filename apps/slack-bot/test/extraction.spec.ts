@@ -20,14 +20,18 @@ const threadMessages: ThreadMessage[] = fixture.messages;
 
 describe('redactText', () => {
   it('masks SSN', () => {
-    const { redacted, categories } = redactText('Patient SSN: 123-45-6789 on file.');
+    const { redacted, categories } = redactText(
+      'Patient SSN: 123-45-6789 on file.',
+    );
     expect(categories).toContain('SSN');
     expect(redacted).not.toContain('123-45-6789');
     expect(redacted).toContain('[SSN REDACTED]');
   });
 
   it('masks phone number', () => {
-    const { redacted, categories } = redactText('Call 555-867-5309 for follow-up.');
+    const { redacted, categories } = redactText(
+      'Call 555-867-5309 for follow-up.',
+    );
     expect(categories).toContain('PHONE');
     expect(redacted).not.toContain('867-5309');
   });
@@ -58,7 +62,9 @@ describe('redactText', () => {
   });
 
   it('masks multiple PII categories in same text', () => {
-    const { categories } = redactText('SSN 123-45-6789 and DOB 04/15/1990 provided.');
+    const { categories } = redactText(
+      'SSN 123-45-6789 and DOB 04/15/1990 provided.',
+    );
     expect(categories).toContain('SSN');
     expect(categories).toContain('DOB');
   });
@@ -116,7 +122,9 @@ describe('extractFromThread', () => {
 
   it('falls back gracefully on JSON parse failure', async () => {
     mockCreate.mockResolvedValue({
-      content: [{ type: 'text', text: 'Here is the extraction: not valid json' }],
+      content: [
+        { type: 'text', text: 'Here is the extraction: not valid json' },
+      ],
     });
 
     const result = await extractFromThread(threadMessages, 'housing');

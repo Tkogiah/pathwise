@@ -94,13 +94,27 @@ export function registerActionHandlers(app: App): void {
       const metadata = JSON.parse(action.value) as EditMetadata;
 
       const statusOptions = [
-        { text: { type: 'plain_text' as const, text: 'Not Started' }, value: 'not_started' },
-        { text: { type: 'plain_text' as const, text: 'In Progress' }, value: 'in_progress' },
-        { text: { type: 'plain_text' as const, text: 'Blocked' }, value: 'blocked' },
-        { text: { type: 'plain_text' as const, text: 'Complete' }, value: 'complete' },
+        {
+          text: { type: 'plain_text' as const, text: 'Not Started' },
+          value: 'not_started',
+        },
+        {
+          text: { type: 'plain_text' as const, text: 'In Progress' },
+          value: 'in_progress',
+        },
+        {
+          text: { type: 'plain_text' as const, text: 'Blocked' },
+          value: 'blocked',
+        },
+        {
+          text: { type: 'plain_text' as const, text: 'Complete' },
+          value: 'complete',
+        },
       ];
 
-      const initialOption = statusOptions.find((o) => o.value === metadata.status);
+      const initialOption = statusOptions.find(
+        (o) => o.value === metadata.status,
+      );
 
       await client.views.open({
         trigger_id: body.trigger_id,
@@ -152,9 +166,14 @@ export function registerActionHandlers(app: App): void {
 
     try {
       await pathwiseClient.approve(extractionId);
-      console.log(`[edit] extraction ${extractionId} approved by ${userId} after edit`);
+      console.log(
+        `[edit] extraction ${extractionId} approved by ${userId} after edit`,
+      );
     } catch (err) {
-      console.error(`[edit] failed to approve extraction ${extractionId}:`, err);
+      console.error(
+        `[edit] failed to approve extraction ${extractionId}:`,
+        err,
+      );
     }
   });
 }

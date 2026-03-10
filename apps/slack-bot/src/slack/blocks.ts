@@ -11,7 +11,11 @@ export function buildDraftBlocks(
   const blocks: object[] = [
     {
       type: 'header',
-      text: { type: 'plain_text', text: 'Draft Extraction — Review Required', emoji: true },
+      text: {
+        type: 'plain_text',
+        text: 'Draft Extraction — Review Required',
+        emoji: true,
+      },
     },
     {
       type: 'section',
@@ -29,7 +33,10 @@ export function buildDraftBlocks(
   if (extraction.task)
     detailFields.push({ type: 'mrkdwn', text: `*Task:* ${extraction.task}` });
   if (extraction.status)
-    detailFields.push({ type: 'mrkdwn', text: `*Status:* ${extraction.status}` });
+    detailFields.push({
+      type: 'mrkdwn',
+      text: `*Status:* ${extraction.status}`,
+    });
   if (extraction.notes)
     detailFields.push({ type: 'mrkdwn', text: `*Notes:* ${extraction.notes}` });
 

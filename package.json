@@ -16,6 +16,7 @@
     "typecheck": "tsc -b",
     "test": "npm exec -w @pathwise/engine -- vitest run",
     "test:api": "npm exec -w @pathwise/api -- vitest run",
+    "test:all": "npm run test && npm run test:api && npm run test:bot",
     "test:e2e": "playwright test",
     "ci:prisma:generate": "npm --workspace @pathwise/api run prisma:generate",
     "db:up": "docker compose -f infra/compose/docker-compose.yml up -d",
