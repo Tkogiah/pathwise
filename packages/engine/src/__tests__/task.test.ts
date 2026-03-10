@@ -167,9 +167,9 @@ describe('getTaskColor', () => {
     expect(getTaskColor(task, [task], now)).toBe('green');
   });
 
-  it('returns green when N/A', () => {
+  it('returns blue when N/A', () => {
     const task = makeTask({ isNa: true });
-    expect(getTaskColor(task, [task], now)).toBe('green');
+    expect(getTaskColor(task, [task], now)).toBe('blue');
   });
 
   it('returns yellow when in progress and not overdue', () => {

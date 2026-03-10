@@ -1,6 +1,6 @@
 import { TaskInput, TaskStatus } from '@pathwise/types';
 
-export type TaskColor = 'green' | 'yellow' | 'red' | 'gray';
+export type TaskColor = 'green' | 'yellow' | 'red' | 'gray' | 'blue';
 
 export function isTaskOverdue(
   task: TaskInput,
@@ -36,7 +36,8 @@ export function getTaskColor(
 ): TaskColor {
   if (isTaskLocked(task, allTasks)) return 'gray';
   if (isTaskRed(task, now)) return 'red';
-  if (task.status === TaskStatus.COMPLETE || task.isNa) return 'green';
+  if (task.isNa) return 'blue';
+  if (task.status === TaskStatus.COMPLETE) return 'green';
   if (task.status === TaskStatus.IN_PROGRESS) return 'yellow';
   return 'gray';
 }

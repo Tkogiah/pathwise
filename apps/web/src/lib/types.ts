@@ -4,7 +4,7 @@ export interface TaskVM {
   description: string | null;
   orderIndex: number;
   status: string;
-  color: 'green' | 'yellow' | 'red' | 'gray';
+  color: 'green' | 'yellow' | 'red' | 'gray' | 'blue';
   isLocked: boolean;
   isOverdue: boolean;
   isNa: boolean;

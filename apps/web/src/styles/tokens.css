@@ -41,6 +41,11 @@
   --semantic-inactive-bg: #f1eee9;
   --semantic-inactive-border: #d4cfc6;
 
+  /* Semantic — Not Applicable */
+  --semantic-na: #3b72a4;
+  --semantic-na-bg: #deeaf4;
+  --semantic-na-border: #9fc4de;
+
   /* Overlay */
   --overlay: #2c2a27;
 }
@@ -81,6 +86,11 @@
   --semantic-inactive: #8c879f;
   --semantic-inactive-bg: #2e3340;
   --semantic-inactive-border: #3e4558;
+
+  /* Semantic — Not Applicable */
+  --semantic-na: #5b8db8;
+  --semantic-na-bg: #1a2d3e;
+  --semantic-na-border: #2d4d6a;
 
   /* Overlay */
   --overlay: #0a0c14;

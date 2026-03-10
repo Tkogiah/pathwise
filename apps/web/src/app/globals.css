@@ -43,6 +43,11 @@ html {
   --color-status-inactive-bg: var(--semantic-inactive-bg);
   --color-status-inactive-border: var(--semantic-inactive-border);
 
+  /* Status — not applicable */
+  --color-status-na: var(--semantic-na);
+  --color-status-na-bg: var(--semantic-na-bg);
+  --color-status-na-border: var(--semantic-na-border);
+
   /* Overlay */
   --color-overlay: var(--overlay);
 }

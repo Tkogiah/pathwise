@@ -6,6 +6,7 @@ const statusStyles = {
   green: 'bg-status-success',
   yellow: 'bg-status-warning',
   red: 'bg-status-error',
+  blue: 'bg-status-na',
 };
 
 function getTaskStatusLabel(task: TaskVM): string {
