@@ -18,7 +18,10 @@ export interface CreateExtractionPayload {
 }
 
 function baseUrl(): string {
-  return (process.env.PATHWISE_API_URL ?? 'http://localhost:3001').replace(/\/$/, '');
+  return (process.env.PATHWISE_API_URL ?? 'http://localhost:3001').replace(
+    /\/$/,
+    '',
+  );
 }
 
 function headers(): Record<string, string> {
@@ -27,7 +30,11 @@ function headers(): Record<string, string> {
   return { 'Content-Type': 'application/json', 'x-api-key': apiKey };
 }
 
-async function request<T>(method: string, path: string, body?: unknown): Promise<T> {
+async function request<T>(
+  method: string,
+  path: string,
+  body?: unknown,
+): Promise<T> {
   const res = await fetch(`${baseUrl()}${path}`, {
     method,
     headers: headers(),
@@ -47,8 +54,14 @@ export const pathwiseClient = {
     request<{ id: string }>('POST', '/integrations/slack/extractions', payload),
 
   approve: (id: string) =>
-    request<{ factId: string }>('PATCH', `/integrations/slack/extractions/${id}/approve`),
+    request<{ factId: string }>(
+      'PATCH',
+      `/integrations/slack/extractions/${id}/approve`,
+    ),
 
   reject: (id: string) =>
-    request<{ id: string }>('PATCH', `/integrations/slack/extractions/${id}/reject`),
+    request<{ id: string }>(
+      'PATCH',
+      `/integrations/slack/extractions/${id}/reject`,
+    ),
 };

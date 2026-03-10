@@ -40,7 +40,10 @@ export function redactText(text: string): RedactResult {
     const pattern = new RegExp(source, 'gi');
     if (pattern.test(redacted)) {
       categories.push(category);
-      redacted = redacted.replace(new RegExp(source, 'gi'), `[${category} REDACTED]`);
+      redacted = redacted.replace(
+        new RegExp(source, 'gi'),
+        `[${category} REDACTED]`,
+      );
     }
   }
 

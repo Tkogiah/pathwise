@@ -62,11 +62,15 @@ export async function extractFromThread(
     const response = await client.messages.create({
       model,
       max_tokens: 512,
-      messages: [{ role: 'user', content: EXTRACTION_PROMPT(programSlug, threadText) }],
+      messages: [
+        { role: 'user', content: EXTRACTION_PROMPT(programSlug, threadText) },
+      ],
     });
 
     const rawText =
-      response.content[0]?.type === 'text' ? response.content[0].text.trim() : '';
+      response.content[0]?.type === 'text'
+        ? response.content[0].text.trim()
+        : '';
 
     const parsed = JSON.parse(rawText) as unknown;
     const validated = ExtractionOutputSchema.parse(parsed);

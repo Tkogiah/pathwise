@@ -26,7 +26,10 @@ export function registerReactionHandlers(app: App): void {
     const ts = event.item.ts;
 
     try {
-      const result = await client.conversations.replies({ channel: channelId, ts });
+      const result = await client.conversations.replies({
+        channel: channelId,
+        ts,
+      });
       const rawMessages = (result.messages ?? []).filter((m) => m.text && m.ts);
 
       if (rawMessages.length === 0) return;

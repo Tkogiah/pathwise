@@ -45,7 +45,7 @@ export interface RoadmapVM {
   overviewSummary: string | null;
   isActive: boolean;
   stages: StageVM[];
-  progress: {completed: number; total: number};
+  progress: { completed: number; total: number };
 }
 
 export interface DemoUser {
