@@ -1,7 +1,7 @@
 'use client';
 
 import { StageVM } from '@/lib/types';
-import { slugify, isStageBehind } from '@/lib/utils';
+import { slugify } from '@/lib/utils';
 
 const STATUS_DOT: Record<StageVM['status'], string> = {
   GREEN: 'bg-status-success',
@@ -50,7 +50,7 @@ export function StageNode({
   const statusLabel = STATUS_LABEL[stage.status];
   const slug = slugify(stage.title);
   const nodeBg = STATUS_BG[stage.status];
-  const behind = isStageBehind(stage);
+  const behind = stage.isBehind;
   const appointmentCount = stage.tasks.filter(
     (task) =>
       task.appointmentAt && new Date(task.appointmentAt).getTime() > Date.now(),

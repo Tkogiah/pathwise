@@ -3,7 +3,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { RoadmapVM, TaskVM } from '@/lib/types';
 import { apiFetch } from '@/lib/api';
-import { isStageBehind } from '@/lib/utils';
 import { RoadmapBar } from './RoadmapBar';
 import { StageDetailList } from './StageDetailList';
 import { TaskDrawer } from './TaskDrawer';
@@ -259,7 +258,7 @@ export function RoadmapView({
                     <h2 className="text-base font-semibold text-content-primary">
                       {selectedStage.title}
                     </h2>
-                    {isStageBehind(selectedStage) && (
+                    {selectedStage.isBehind && (
                       <span className="rounded-full border border-status-error-border bg-status-error-bg px-2 py-0.5 text-[11px] font-medium text-status-error">
                         Behind schedule
                       </span>

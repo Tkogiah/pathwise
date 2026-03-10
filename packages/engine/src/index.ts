@@ -6,4 +6,5 @@ export {
   shouldActivateStage,
   getStageProgress,
   getRedTaskCount,
+  isStageBehind,
 } from './stage';

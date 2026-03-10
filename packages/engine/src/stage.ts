@@ -57,3 +57,15 @@ export function getRedTaskCount(
     (t) => isTaskOverdue(t, now) || t.status === TaskStatus.BLOCKED,
   ).length;
 }
+
+export function isStageBehind(
+  stage: StageInput,
+  allStages: StageInput[],
+  now: Date = new Date(),
+): boolean {
+  if (stage.activatedAt === null) return false;
+  if (getStageStatus(stage, now) === StageStatus.GREEN) return false;
+  return allStages.some(
+    (s) => s.orderIndex > stage.orderIndex && s.activatedAt !== null,
+  );
+}
