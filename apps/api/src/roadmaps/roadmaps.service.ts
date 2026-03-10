@@ -152,6 +152,19 @@ export class RoadmapsService {
       };
     });
     const progress = getRoadmapProgress(stages);
+
+    const upcomingAppointments = instance.stageInstances
+      .flatMap((si) =>
+        si.taskInstances
+          .filter((ti) => ti.appointmentAt !== null && ti.appointmentAt > now)
+          .map((ti) => ({
+            stageId: si.id,
+            taskId: ti.id,
+            appointmentAt: ti.appointmentAt!.toISOString(),
+          })),
+      )
+      .sort((a, b) => a.appointmentAt.localeCompare(b.appointmentAt));
+
     return {
       id: instance.id,
       templateName: instance.template.name,
@@ -165,6 +178,7 @@ export class RoadmapsService {
       daysInProgram: instance.startDate
         ? daysInProgram(instance.startDate, now)
         : null,
+      upcomingAppointments,
     };
   }
 

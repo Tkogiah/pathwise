@@ -39,11 +39,13 @@ export function StageNode({
   selected,
   onSelect,
   onOpenFirstAppointment,
+  appointmentCount,
 }: {
   stage: StageVM;
   selected: boolean;
   onSelect: () => void;
   onOpenFirstAppointment: () => void;
+  appointmentCount: number;
 }) {
   const { completed, total } = stage.progress;
   const icon = ICON_MAP[stage.iconName] ?? '\u{1F4CC}';
@@ -51,10 +53,6 @@ export function StageNode({
   const slug = slugify(stage.title);
   const nodeBg = STATUS_BG[stage.status];
   const behind = stage.isBehind;
-  const appointmentCount = stage.tasks.filter(
-    (task) =>
-      task.appointmentAt && new Date(task.appointmentAt).getTime() > Date.now(),
-  ).length;
 
   return (
     <button

@@ -37,6 +37,12 @@ export interface StageVM {
   tasks: TaskVM[];
 }
 
+export interface AppointmentVM {
+  stageId: string;
+  taskId: string;
+  appointmentAt: string;
+}
+
 export interface RoadmapVM {
   id: string;
   templateName: string;
@@ -48,6 +54,7 @@ export interface RoadmapVM {
   stages: StageVM[];
   progress: { completed: number; total: number };
   daysInProgram: number | null;
+  upcomingAppointments: AppointmentVM[];
 }
 
 export interface DemoUser {
