@@ -9,6 +9,7 @@ import {
   isTaskLocked,
   isTaskOverdue,
   isStageBehind,
+  getRoadmapProgress,
 } from '@pathwise/engine';
 
 @Injectable()
