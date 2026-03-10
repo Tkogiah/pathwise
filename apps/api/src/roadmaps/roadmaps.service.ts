@@ -8,6 +8,7 @@ import {
   getTaskColor,
   isTaskLocked,
   isTaskOverdue,
+  getRoadmapProgress
 } from '@pathwise/engine';
 
 @Injectable()
@@ -139,7 +140,7 @@ export class RoadmapsService {
         tasks,
       };
     });
-
+    const progress = getRoadmapProgress(stages)
     return {
       id: instance.id,
       templateName: instance.template.name,
@@ -149,6 +150,7 @@ export class RoadmapsService {
       overviewSummary: instance.overviewSummary,
       isActive: instance.isActive,
       stages,
+      progress,
     };
   }
 
