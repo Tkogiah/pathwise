@@ -31,3 +31,12 @@ export interface StageInput {
   activatedAt: Date | null;
   tasks: TaskInput[];
 }
+
+export interface StageProgress {
+  completed: number;
+  total: number;
+}
+
+export interface StageProgressInput {
+  progress: StageProgress;
+}
