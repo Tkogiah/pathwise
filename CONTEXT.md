@@ -146,17 +146,23 @@ Pathwise is a visual program state engine for case managers. It reduces friction
 - Behind‑schedule logic surfaced in roadmap bar + stage header.
 - Add Roadmap flow (GET /templates, POST /clients/:id/roadmaps).
 - Client list gauges showing days in program + progress per active roadmap.
-- Appointments and due date editing in task drawer; appointment indicators in roadmap overview.
+- Appointments and due date editing in task drawer; upcoming appointments derived server‑side.
 - Task‑scoped notes (TaskNotes) + NotesRail client activity feed.
 - Notes API: GET/POST /task-instances/:id/notes, PATCH /notes/:id, GET /clients/:id/notes?since=.
 - Appointment auto‑notes (appointment changes create APPOINTMENT notes).
 - Auth: passwordHash on User, JWT auth endpoints, AuthProvider UI, login/register pages.
 - Deployment docs: `docs/DEPLOYMENT.md` + `docs/LOCAL_ENV.md` updated.
-- Task status colors: NOT_STARTED now gray; IN_PROGRESS yellow; BLOCKED/overdue red; COMPLETE/NA green.
+- Task status colors: NOT_STARTED gray; IN_PROGRESS yellow; BLOCKED/overdue red; COMPLETE green; N/A blue.
 - Appointment digest pipeline (daily UTC digest + manual trigger endpoints).
 - Digest UI: Today’s digest shown above NotesRail with empty state.
 - Digest email delivery (Resend) gated by env vars; emails tracked via `emailedAt`.
 - Portfolio README added at repo root.
+- Roadmap progress derived in engine/API; UI no longer sums stage progress.
+- RoadmapVM includes `daysInProgram` and `upcomingAppointments` from API.
+- Template task due offsets (`dueOffsetDays`) auto‑populate task due dates on roadmap creation.
+- Housing template due offsets fully backfilled; production backfill script documented.
+- Program snapshot helper added in engine (composition‑only, future reporting).
+- Derived state audit report added (`docs/DERIVED_STATE_AUDIT.md`).
 
 ## Planned (Queued)
 
