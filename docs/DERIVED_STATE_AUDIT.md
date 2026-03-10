@@ -15,8 +15,14 @@ Scan UI components and API service layer for business-logic derivations that bel
 ```ts
 const upcomingAppointments = currentRoadmap.stages
   .flatMap((s) => s.tasks)
-  .filter((t) => t.appointmentAt && new Date(t.appointmentAt).getTime() > Date.now())
-  .sort((a, b) => new Date(a.appointmentAt!).getTime() - new Date(b.appointmentAt!).getTime());
+  .filter(
+    (t) => t.appointmentAt && new Date(t.appointmentAt).getTime() > Date.now(),
+  )
+  .sort(
+    (a, b) =>
+      new Date(a.appointmentAt!).getTime() -
+      new Date(b.appointmentAt!).getTime(),
+  );
 ```
 
 **Also duplicated in:** `apps/web/src/components/StageNode.tsx:54–57` (per-stage count of upcoming appointments using the same predicate).
@@ -33,7 +39,9 @@ const upcomingAppointments = currentRoadmap.stages
 
 ```ts
 const programDay = roadmap.startDate
-  ? Math.floor((Date.now() - new Date(roadmap.startDate).getTime()) / 86_400_000) + 1
+  ? Math.floor(
+      (Date.now() - new Date(roadmap.startDate).getTime()) / 86_400_000,
+    ) + 1
   : null;
 ```
 
@@ -47,12 +55,12 @@ const programDay = roadmap.startDate
 
 ## Derivations Acceptable in UI
 
-| Location | Derivation | Reason acceptable |
-|---|---|---|
-| `RoadmapView.tsx` | `stageArcColor` mapping (status → CSS color) | Pure presentation mapping, no business logic |
-| `RoadmapView.tsx` | `filteredTasks` (by search/filter input) | Interaction state, not business state |
-| `RoadmapView.tsx` | Date formatting (`toLocaleDateString`) | Display formatting only |
-| `ClientGauges.tsx` | `shortLabel` for note labels | Display-only label truncation |
+| Location           | Derivation                                   | Reason acceptable                            |
+| ------------------ | -------------------------------------------- | -------------------------------------------- |
+| `RoadmapView.tsx`  | `stageArcColor` mapping (status → CSS color) | Pure presentation mapping, no business logic |
+| `RoadmapView.tsx`  | `filteredTasks` (by search/filter input)     | Interaction state, not business state        |
+| `RoadmapView.tsx`  | Date formatting (`toLocaleDateString`)       | Display formatting only                      |
+| `ClientGauges.tsx` | `shortLabel` for note labels                 | Display-only label truncation                |
 
 ---
 
