@@ -1,6 +1,12 @@
 import { describe, it, expect } from 'vitest';
 import { TaskInput, TaskStatus } from '@pathwise/types';
-import { isTaskOverdue, isTaskLocked, isTaskRed, getTaskColor } from '../task';
+import {
+  isTaskOverdue,
+  isTaskLocked,
+  isTaskRed,
+  getTaskColor,
+  computeDueDate,
+} from '../task';
 
 const now = new Date('2025-06-15T12:00:00Z');
 const pastDate = new Date('2025-06-10T12:00:00Z');
@@ -17,6 +23,35 @@ function makeTask(overrides: Partial<TaskInput> = {}): TaskInput {
     ...overrides,
   };
 }
+
+// --- computeDueDate ---
+
+describe('computeDueDate', () => {
+  it('adds offset days to start date', () => {
+    const start = new Date('2025-01-01T00:00:00Z');
+    const result = computeDueDate(start, 7);
+    expect(result.toISOString().slice(0, 10)).toBe('2025-01-08');
+  });
+
+  it('returns same day when offset is 0', () => {
+    const start = new Date('2025-06-15T00:00:00Z');
+    const result = computeDueDate(start, 0);
+    expect(result.toISOString().slice(0, 10)).toBe('2025-06-15');
+  });
+
+  it('handles month boundary correctly', () => {
+    const start = new Date('2025-01-28T00:00:00Z');
+    const result = computeDueDate(start, 7);
+    expect(result.toISOString().slice(0, 10)).toBe('2025-02-04');
+  });
+
+  it('does not mutate the input date', () => {
+    const start = new Date('2025-03-01T00:00:00Z');
+    const original = start.toISOString();
+    computeDueDate(start, 14);
+    expect(start.toISOString()).toBe(original);
+  });
+});
 
 // --- isTaskOverdue ---
 

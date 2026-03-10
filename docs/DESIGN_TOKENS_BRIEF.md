@@ -80,8 +80,6 @@ Semantic (dark)
 - dark-na: #5B8DB8
 - dark-na-bg: #1A2D3E
 - dark-na-border: #2D4D6A
-- dark-na-bg: #1A2D3E
-- dark-na-border: #2D4D6A
 
 ## Component Mapping Guidance
 

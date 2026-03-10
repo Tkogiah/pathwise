@@ -29,6 +29,12 @@ export function isTaskRed(task: TaskInput, now: Date = new Date()): boolean {
   return isTaskOverdue(task, now) || task.status === TaskStatus.BLOCKED;
 }
 
+export function computeDueDate(startDate: Date, dueOffsetDays: number): Date {
+  const d = new Date(startDate);
+  d.setDate(d.getDate() + dueOffsetDays);
+  return d;
+}
+
 export function getTaskColor(
   task: TaskInput,
   allTasks: TaskInput[],

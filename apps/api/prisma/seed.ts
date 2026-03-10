@@ -94,6 +94,7 @@ async function main() {
     },
   });
 
+  // dueOffsetDays = days from program startDate when this task is due
   const s1t1 = await prisma.templateTask.create({
     data: {
       stageId: stage1.id,
@@ -101,6 +102,7 @@ async function main() {
       description:
         'Review referral packet and eligibility documentation (Day 0–1)',
       orderIndex: 0,
+      dueOffsetDays: 1,
     },
   });
   const s1t2 = await prisma.templateTask.create({
@@ -110,6 +112,7 @@ async function main() {
       description:
         'Complete participant orientation to CSC housing services (Day 0–1)',
       orderIndex: 1,
+      dueOffsetDays: 1,
     },
   });
   const s1t3 = await prisma.templateTask.create({
@@ -119,6 +122,7 @@ async function main() {
       description:
         'Explain program expectations, timelines, and housing goals, including 90-day maximum stay (Day 0–1)',
       orderIndex: 2,
+      dueOffsetDays: 1,
     },
   });
   const s1t4 = await prisma.templateTask.create({
@@ -128,6 +132,7 @@ async function main() {
       description:
         'Obtain signed releases of information (ROI) as needed (Day 0–3)',
       orderIndex: 3,
+      dueOffsetDays: 3,
     },
   });
   const s1t5 = await prisma.templateTask.create({
@@ -137,6 +142,7 @@ async function main() {
       description:
         'Verify identification status (ID, SSN card, birth certificate) (Day 0–3)',
       orderIndex: 4,
+      dueOffsetDays: 3,
     },
   });
   const s1t6 = await prisma.templateTask.create({
@@ -146,6 +152,7 @@ async function main() {
       description:
         'Assess housing barriers (criminal history, eviction history, credit, income) (Day 0–3)',
       orderIndex: 5,
+      dueOffsetDays: 3,
     },
   });
   const s1t7 = await prisma.templateTask.create({
@@ -155,6 +162,7 @@ async function main() {
       description:
         'Assess immediate needs impacting housing (medical, behavioral health, mobility) (Day 0–3)',
       orderIndex: 6,
+      dueOffsetDays: 3,
     },
   });
   const s1t8 = await prisma.templateTask.create({
@@ -164,6 +172,7 @@ async function main() {
       description:
         'Enter participant into HMIS and/or required tracking systems (Day 0–3)',
       orderIndex: 7,
+      dueOffsetDays: 3,
     },
   });
   const s1t9 = await prisma.templateTask.create({
@@ -172,6 +181,7 @@ async function main() {
       title: 'Schedule housing planning meeting',
       description: 'Schedule initial housing planning meeting (By Day 3)',
       orderIndex: 8,
+      dueOffsetDays: 3,
     },
   });
 
@@ -229,6 +239,7 @@ async function main() {
       title: 'Develop Housing Action Plan',
       description: 'Develop individualized Housing Action Plan (By Day 10)',
       orderIndex: 4,
+      dueOffsetDays: 10,
     },
   });
   const s2t6 = await prisma.templateTask.create({
@@ -238,6 +249,7 @@ async function main() {
       description:
         'Set realistic housing timeline and milestones aligned with 90-day limit (By Day 10)',
       orderIndex: 5,
+      dueOffsetDays: 10,
     },
   });
   const s2t7 = await prisma.templateTask.create({
@@ -246,6 +258,7 @@ async function main() {
       title: 'Review income & benefits',
       description: 'Review income sources and benefits status (By Day 14)',
       orderIndex: 6,
+      dueOffsetDays: 14,
     },
   });
   const s2t8 = await prisma.templateTask.create({
@@ -255,6 +268,7 @@ async function main() {
       description:
         'Refer to benefits support if needed (SSI/SSDI, SNAP, GA, VA) (By Day 14)',
       orderIndex: 7,
+      dueOffsetDays: 14,
     },
   });
 
