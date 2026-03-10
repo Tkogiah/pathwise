@@ -16,3 +16,5 @@ export {
 } from './stage';
 
 export { getRoadmapProgress } from './roadmap';
+
+export { daysInProgram } from './program';
