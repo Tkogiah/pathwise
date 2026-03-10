@@ -89,6 +89,30 @@ If `/auth/register` returns 500 and logs mention missing columns:
    npx prisma db seed
    ```
 
+## 4C. Housing Task Due Dates Missing (Data Backfill Needed)
+
+If Housing roadmaps created before Task 0.10 show no due dates on tasks, run the one-off backfill to populate `dueOffsetDays` on existing template rows:
+
+```bash
+DATABASE_URL="YOUR_RAILWAY_DB_URL" npx prisma db execute \
+  --schema apps/api/prisma/schema.prisma \
+  --stdin < docs/backfills/HOUSING_DUE_OFFSETS.sql
+```
+
+This only updates rows where `dueOffsetDays IS NULL` — safe to run multiple times.
+
+## 4E. 500 on Add Roadmap (Data Backfill Needed)
+
+If `/clients/:id/roadmaps` returns 500 and logs mention `ProgramTemplate.slug` being `null`:
+
+1. Backfill slugs for existing templates (production DB):
+   ```
+   DATABASE_URL="YOUR_RAILWAY_DB_URL" npx prisma db execute \
+     --schema apps/api/prisma/schema.prisma \
+     --stdin <<< $'UPDATE "ProgramTemplate" SET slug = \'housing\' WHERE slug IS NULL AND name ILIKE \'%housing%\';\nUPDATE "ProgramTemplate" SET slug = \'benefits\' WHERE slug IS NULL AND name ILIKE \'%benefit%\';'
+   ```
+2. Retry “Add Roadmap”.
+
 ## 5. Seed User Credentials
 
 All seed users share the same demo password: `password123`
