@@ -1,4 +1,10 @@
-export { isTaskOverdue, isTaskLocked, isTaskRed, getTaskColor } from './task';
+export {
+  isTaskOverdue,
+  isTaskLocked,
+  isTaskRed,
+  getTaskColor,
+  computeDueDate,
+} from './task';
 export type { TaskColor } from './task';
 
 export {

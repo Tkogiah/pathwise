@@ -130,6 +130,7 @@ model TemplateTask {
   isRequired      Boolean @default(true)
   dependsOnTaskId String?
   orderIndex      Int
+  dueOffsetDays   Int?
 
   stage         TemplateStage  @relation(fields: [stageId], references: [id])
   dependsOnTask TemplateTask?  @relation("TaskDependency", fields: [dependsOnTaskId], references: [id])

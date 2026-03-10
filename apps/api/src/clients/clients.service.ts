@@ -4,6 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { computeDueDate } from '@pathwise/engine';
 
 @Injectable()
 export class ClientsService {
@@ -233,10 +234,15 @@ export class ClientsService {
         });
 
         for (const task of stage.tasks) {
+          const dueDate =
+            instance.startDate && task.dueOffsetDays !== null
+              ? computeDueDate(instance.startDate, task.dueOffsetDays)
+              : null;
           await tx.taskInstance.create({
             data: {
               stageInstanceId: si.id,
               templateTaskId: task.id,
+              ...(dueDate !== null && { dueDate }),
             },
           });
         }
