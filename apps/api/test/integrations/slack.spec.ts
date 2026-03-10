@@ -41,7 +41,9 @@ beforeAll(async () => {
     where: { firstName: 'Frank', lastName: 'Santos' },
   });
   for (const c of staleClients) {
-    await prisma.clientProgramInstance.deleteMany({ where: { clientId: c.id } });
+    await prisma.clientProgramInstance.deleteMany({
+      where: { clientId: c.id },
+    });
     await prisma.client.delete({ where: { id: c.id } });
   }
 

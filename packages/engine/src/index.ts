@@ -7,3 +7,5 @@ export {
   getStageProgress,
   getRedTaskCount,
 } from './stage';
+
+export { getRoadmapProgress } from './roadmap';

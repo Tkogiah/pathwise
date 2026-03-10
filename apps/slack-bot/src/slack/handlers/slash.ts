@@ -17,7 +17,9 @@ export function registerSlashHandlers(app: App): void {
   app.command('/case', async ({ command, ack, client, respond }) => {
     if (command.text.trim() !== 'extract') {
       await ack();
-      await respond({ text: 'Unknown subcommand. Try `/case extract` in a channel.' });
+      await respond({
+        text: 'Unknown subcommand. Try `/case extract` in a channel.',
+      });
       return;
     }
 
@@ -37,7 +39,9 @@ export function registerSlashHandlers(app: App): void {
     try {
       // Slack includes thread_ts when the command is run inside a thread (undocumented but
       // reliable in practice). Prefer thread replies; fall back to channel history.
-      const threadTs = (command as Record<string, unknown>).thread_ts as string | undefined;
+      const threadTs = (command as Record<string, unknown>).thread_ts as
+        | string
+        | undefined;
 
       let rawMessages: Array<{ user?: string; text?: string; ts?: string }>;
       if (threadTs) {
@@ -47,7 +51,10 @@ export function registerSlashHandlers(app: App): void {
         });
         rawMessages = (replies.messages ?? []).filter((m) => m.text && m.ts);
       } else {
-        const history = await client.conversations.history({ channel: channelId, limit: 20 });
+        const history = await client.conversations.history({
+          channel: channelId,
+          limit: 20,
+        });
         rawMessages = (history.messages ?? []).filter((m) => m.text && m.ts);
       }
 

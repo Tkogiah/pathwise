@@ -95,15 +95,8 @@ export function RoadmapView({
   const selectedStage = currentRoadmap.stages.find(
     (s) => s.id === selectedStageId,
   );
-
-  const overallCompleted = currentRoadmap.stages.reduce(
-    (sum, s) => sum + s.progress.completed,
-    0,
-  );
-  const overallTotal = currentRoadmap.stages.reduce(
-    (sum, s) => sum + s.progress.total,
-    0,
-  );
+  const overallCompleted = currentRoadmap.progress?.completed ?? 0;
+  const overallTotal = currentRoadmap.progress?.total ?? 0;
   const upcomingAppointments = currentRoadmap.stages
     .flatMap((stage) =>
       stage.tasks
