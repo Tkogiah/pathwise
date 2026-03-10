@@ -53,6 +53,7 @@ export interface RoadmapVM {
   isActive: boolean;
   stages: StageVM[];
   progress: { completed: number; total: number };
+  daysInProgram: number | null;
   upcomingAppointments: AppointmentVM[];
 }
 

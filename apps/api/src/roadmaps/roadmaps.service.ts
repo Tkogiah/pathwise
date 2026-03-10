@@ -10,6 +10,7 @@ import {
   isTaskOverdue,
   isStageBehind,
   getRoadmapProgress,
+  daysInProgram,
 } from '@pathwise/engine';
 
 @Injectable()
@@ -174,6 +175,9 @@ export class RoadmapsService {
       isActive: instance.isActive,
       stages,
       progress,
+      daysInProgram: instance.startDate
+        ? daysInProgram(instance.startDate, now)
+        : null,
       upcomingAppointments,
     };
   }

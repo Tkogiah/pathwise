@@ -275,3 +275,69 @@ describe('activateRoadmap — dueOffsetDays', () => {
     );
   });
 });
+
+describe('RoadmapsService — daysInProgram', () => {
+  let daysClientId: string;
+  let daysRoadmapId: string;
+
+  beforeAll(async () => {
+    await prisma.taskInstance.deleteMany({
+      where: {
+        stageInstance: {
+          programInstance: { client: { lastName: 'DaysTest' } },
+        },
+      },
+    });
+    await prisma.stageInstance.deleteMany({
+      where: { programInstance: { client: { lastName: 'DaysTest' } } },
+    });
+    await prisma.clientProgramInstance.deleteMany({
+      where: { client: { lastName: 'DaysTest' } },
+    });
+    await prisma.client.deleteMany({ where: { lastName: 'DaysTest' } });
+
+    const client = await prisma.client.create({
+      data: { firstName: 'Days', lastName: 'DaysTest' },
+    });
+    daysClientId = client.id;
+
+    const { id } = await service.activateRoadmap(daysClientId, templateId);
+    daysRoadmapId = id;
+  });
+
+  afterAll(async () => {
+    await prisma.taskInstance.deleteMany({
+      where: {
+        stageInstance: {
+          programInstance: { client: { lastName: 'DaysTest' } },
+        },
+      },
+    });
+    await prisma.stageInstance.deleteMany({
+      where: { programInstance: { client: { lastName: 'DaysTest' } } },
+    });
+    await prisma.clientProgramInstance.deleteMany({
+      where: { client: { lastName: 'DaysTest' } },
+    });
+    await prisma.client.deleteMany({ where: { lastName: 'DaysTest' } });
+  });
+
+  it('returns daysInProgram = 0 when roadmap was just activated today', async () => {
+    const vm = await roadmapsService.findOne(daysRoadmapId);
+    expect(vm.daysInProgram).toBe(0);
+  });
+
+  it('returns daysInProgram = 7 when startDate is 7 days ago', async () => {
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+    sevenDaysAgo.setHours(0, 0, 0, 0);
+
+    await prisma.clientProgramInstance.update({
+      where: { id: daysRoadmapId },
+      data: { startDate: sevenDaysAgo },
+    });
+
+    const vm = await roadmapsService.findOne(daysRoadmapId);
+    expect(vm.daysInProgram).toBe(7);
+  });
+});

@@ -171,14 +171,8 @@ export function RoadmapView({
                 <p className="mt-0.5 text-sm text-content-muted">
                   {overallCompleted} of {overallTotal} tasks complete
                   {currentRoadmap.programLengthDays != null &&
-                    ` · Day ${Math.max(
-                      0,
-                      Math.floor(
-                        (Date.now() -
-                          new Date(currentRoadmap.startDate).getTime()) /
-                          86_400_000,
-                      ),
-                    )} / ${currentRoadmap.programLengthDays}`}
+                    currentRoadmap.daysInProgram != null &&
+                    ` · Day ${currentRoadmap.daysInProgram} / ${currentRoadmap.programLengthDays}`}
                   {` · Started ${new Date(
                     currentRoadmap.startDate,
                   ).toLocaleDateString('en-US', {
