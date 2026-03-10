@@ -29,12 +29,18 @@ beforeAll(async () => {
   await prisma.taskInstance.deleteMany({
     where: {
       stageInstance: {
-        programInstance: { client: { lastName: { in: ['RoadmapTest', 'ApptTest'] } } },
+        programInstance: {
+          client: { lastName: { in: ['RoadmapTest', 'ApptTest'] } },
+        },
       },
     },
   });
   await prisma.stageInstance.deleteMany({
-    where: { programInstance: { client: { lastName: { in: ['RoadmapTest', 'ApptTest'] } } } },
+    where: {
+      programInstance: {
+        client: { lastName: { in: ['RoadmapTest', 'ApptTest'] } },
+      },
+    },
   });
   await prisma.clientProgramInstance.deleteMany({
     where: { client: { lastName: { in: ['RoadmapTest', 'ApptTest'] } } },
@@ -48,7 +54,9 @@ beforeAll(async () => {
   await prisma.templateStage.deleteMany({
     where: { template: { slug: 'due-offset-test' } },
   });
-  await prisma.programTemplate.deleteMany({ where: { slug: 'due-offset-test' } });
+  await prisma.programTemplate.deleteMany({
+    where: { slug: 'due-offset-test' },
+  });
 
   // Create shared template with two tasks
   const template = await prisma.programTemplate.create({
@@ -57,13 +65,28 @@ beforeAll(async () => {
   templateId = template.id;
 
   const stage = await prisma.templateStage.create({
-    data: { templateId, title: 'Test Stage', orderIndex: 0, iconName: 'clipboard' },
+    data: {
+      templateId,
+      title: 'Test Stage',
+      orderIndex: 0,
+      iconName: 'clipboard',
+    },
   });
   await prisma.templateTask.create({
-    data: { stageId: stage.id, title: 'Task with offset', orderIndex: 0, dueOffsetDays: 7 },
+    data: {
+      stageId: stage.id,
+      title: 'Task with offset',
+      orderIndex: 0,
+      dueOffsetDays: 7,
+    },
   });
   await prisma.templateTask.create({
-    data: { stageId: stage.id, title: 'Task without offset', orderIndex: 1, dueOffsetDays: null },
+    data: {
+      stageId: stage.id,
+      title: 'Task without offset',
+      orderIndex: 1,
+      dueOffsetDays: null,
+    },
   });
 });
 
@@ -71,12 +94,18 @@ afterAll(async () => {
   await prisma.taskInstance.deleteMany({
     where: {
       stageInstance: {
-        programInstance: { client: { lastName: { in: ['RoadmapTest', 'ApptTest'] } } },
+        programInstance: {
+          client: { lastName: { in: ['RoadmapTest', 'ApptTest'] } },
+        },
       },
     },
   });
   await prisma.stageInstance.deleteMany({
-    where: { programInstance: { client: { lastName: { in: ['RoadmapTest', 'ApptTest'] } } } },
+    where: {
+      programInstance: {
+        client: { lastName: { in: ['RoadmapTest', 'ApptTest'] } },
+      },
+    },
   });
   await prisma.clientProgramInstance.deleteMany({
     where: { client: { lastName: { in: ['RoadmapTest', 'ApptTest'] } } },
@@ -87,8 +116,12 @@ afterAll(async () => {
   await prisma.templateTask.deleteMany({
     where: { stage: { template: { slug: 'due-offset-test' } } },
   });
-  await prisma.templateStage.deleteMany({ where: { template: { slug: 'due-offset-test' } } });
-  await prisma.programTemplate.deleteMany({ where: { slug: 'due-offset-test' } });
+  await prisma.templateStage.deleteMany({
+    where: { template: { slug: 'due-offset-test' } },
+  });
+  await prisma.programTemplate.deleteMany({
+    where: { slug: 'due-offset-test' },
+  });
   await prisma.$disconnect();
 });
 
@@ -154,7 +187,9 @@ describe('upcomingAppointments — RoadmapVM', () => {
     const vm = await roadmapsService.findOne(apptRoadmapId);
 
     expect(vm.upcomingAppointments).toHaveLength(2);
-    expect(new Date(vm.upcomingAppointments[0].appointmentAt).getTime()).toBeLessThan(
+    expect(
+      new Date(vm.upcomingAppointments[0].appointmentAt).getTime(),
+    ).toBeLessThan(
       new Date(vm.upcomingAppointments[1].appointmentAt).getTime(),
     );
   });
@@ -197,7 +232,9 @@ describe('activateRoadmap — dueOffsetDays', () => {
       where: { stageInstance: { programInstanceId: roadmapId } },
       include: { templateTask: true },
     });
-    const withOffset = instances.find((ti) => ti.templateTask.title === 'Task with offset');
+    const withOffset = instances.find(
+      (ti) => ti.templateTask.title === 'Task with offset',
+    );
     expect(withOffset).toBeDefined();
     expect(withOffset!.dueDate).not.toBeNull();
   });
@@ -207,7 +244,9 @@ describe('activateRoadmap — dueOffsetDays', () => {
       where: { stageInstance: { programInstanceId: roadmapId } },
       include: { templateTask: true },
     });
-    const withoutOffset = instances.find((ti) => ti.templateTask.title === 'Task without offset');
+    const withoutOffset = instances.find(
+      (ti) => ti.templateTask.title === 'Task without offset',
+    );
     expect(withoutOffset).toBeDefined();
     expect(withoutOffset!.dueDate).toBeNull();
   });
@@ -228,7 +267,11 @@ describe('activateRoadmap — dueOffsetDays', () => {
     expect(taskInstance?.dueDate).not.toBeNull();
 
     const expectedDate = new Date(instance!.startDate);
-    expectedDate.setDate(expectedDate.getDate() + taskInstance!.templateTask.dueOffsetDays!);
-    expect(taskInstance!.dueDate!.toDateString()).toBe(expectedDate.toDateString());
+    expectedDate.setDate(
+      expectedDate.getDate() + taskInstance!.templateTask.dueOffsetDays!,
+    );
+    expect(taskInstance!.dueDate!.toDateString()).toBe(
+      expectedDate.toDateString(),
+    );
   });
 });

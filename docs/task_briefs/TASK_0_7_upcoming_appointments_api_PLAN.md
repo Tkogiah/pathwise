@@ -31,10 +31,12 @@ Move upcoming appointments derivation from UI to API so derived state is central
              stageId: si.id,
              taskId: ti.id,
              appointmentAt: ti.appointmentAt!.toISOString(),
-           }))
+           })),
        )
-       .sort((a, b) =>
-         new Date(a.appointmentAt).getTime() - new Date(b.appointmentAt).getTime(),
+       .sort(
+         (a, b) =>
+           new Date(a.appointmentAt).getTime() -
+           new Date(b.appointmentAt).getTime(),
        );
      ```
    - Add `upcomingAppointments` to the returned view model.
@@ -47,7 +49,7 @@ Move upcoming appointments derivation from UI to API so derived state is central
    - Remove inline appointment count logic.
    - Add `appointmentCount` prop from parent:
      ```ts
-     upcomingAppointments.filter((a) => a.stageId === stage.id).length
+     upcomingAppointments.filter((a) => a.stageId === stage.id).length;
      ```
 
 5. **Integration Test** — `apps/api/test/integrations/roadmaps.spec.ts`
