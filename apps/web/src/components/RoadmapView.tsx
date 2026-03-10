@@ -96,25 +96,7 @@ export function RoadmapView({
   );
   const overallCompleted = currentRoadmap.progress?.completed ?? 0;
   const overallTotal = currentRoadmap.progress?.total ?? 0;
-  const upcomingAppointments = currentRoadmap.stages
-    .flatMap((stage) =>
-      stage.tasks
-        .filter(
-          (task) =>
-            task.appointmentAt &&
-            new Date(task.appointmentAt).getTime() > Date.now(),
-        )
-        .map((task) => ({
-          stageId: stage.id,
-          task,
-          appointmentAt: task.appointmentAt as string,
-        })),
-    )
-    .sort(
-      (a, b) =>
-        new Date(a.appointmentAt).getTime() -
-        new Date(b.appointmentAt).getTime(),
-    );
+  const upcomingAppointments = currentRoadmap.upcomingAppointments ?? [];
 
   const openAppointmentTask = (stageId: string, taskId: string) => {
     setSelectedStageId(stageId);
@@ -127,22 +109,26 @@ export function RoadmapView({
   };
 
   const handleOpenFirstAppointment = (stageId?: string) => {
-    const stages = stageId
-      ? currentRoadmap.stages.filter((stage) => stage.id === stageId)
-      : currentRoadmap.stages;
-
-    for (const stage of stages) {
-      const nextTask = stage.tasks.find(
-        (task) =>
-          task.appointmentAt &&
-          new Date(task.appointmentAt).getTime() > Date.now(),
-      );
-      if (nextTask) {
-        openAppointmentTask(stage.id, nextTask.id);
-        return;
-      }
+    const next = stageId
+      ? upcomingAppointments.find((a) => a.stageId === stageId)
+      : upcomingAppointments[0];
+    if (next) {
+      openAppointmentTask(next.stageId, next.taskId);
     }
   };
+
+  const appointmentCountByStage: Record<string, number> = {};
+  for (const a of upcomingAppointments) {
+    appointmentCountByStage[a.stageId] =
+      (appointmentCountByStage[a.stageId] ?? 0) + 1;
+  }
+
+  const taskById = new Map(
+    currentRoadmap.stages.flatMap((s) => s.tasks).map((t) => [t.id, t]),
+  );
+  const upcomingTasks = upcomingAppointments
+    .map((a) => taskById.get(a.taskId))
+    .filter(Boolean) as TaskVM[];
 
   const stageArcColor = selectedStage
     ? {
@@ -166,6 +152,7 @@ export function RoadmapView({
           selectedStageId={selectedStageId}
           onSelectStage={handleSelectStage}
           onOpenFirstAppointment={handleOpenFirstAppointment}
+          appointmentCounts={appointmentCountByStage}
         />
 
         {!selectedStage && (
@@ -221,7 +208,7 @@ export function RoadmapView({
               Upcoming appointments
             </h3>
             <StageDetailList
-              tasks={upcomingAppointments.map((appt) => appt.task)}
+              tasks={upcomingTasks}
               onSelectTask={handleSelectTask}
             />
           </div>
