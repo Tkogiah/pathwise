@@ -96,7 +96,7 @@ export function RoadmapView({
   );
   const overallCompleted = currentRoadmap.progress?.completed ?? 0;
   const overallTotal = currentRoadmap.progress?.total ?? 0;
-  const upcomingAppointments = currentRoadmap.upcomingAppointments;
+  const upcomingAppointments = currentRoadmap.upcomingAppointments ?? [];
 
   const openAppointmentTask = (stageId: string, taskId: string) => {
     setSelectedStageId(stageId);
