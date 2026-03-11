@@ -11,9 +11,10 @@
 7. `docs/DESIGN_TOKENS_BRIEF.md`
 8. `docs/templates/Housing_Canonical.md`
 9. `docs/templates/Benefits_Canonical.md`
-10. `docs/task_briefs/` (latest plan request + plan)
-11. `docs/TODO.md`
-12. `docs/LOCAL_ENV.md`
+10. `docs/POST_MVP_STRATEGY_CONTEXT.md`
+11. `docs/task_briefs/` (latest plan request + plan)
+12. `docs/TODO.md`
+13. `docs/LOCAL_ENV.md`
 
 ## Purpose
 
